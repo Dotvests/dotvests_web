@@ -337,7 +337,7 @@ function Nav({page,go}){
         <DotVestsLogo height={42}/>
       </div>
       <div style={{position:"relative"}}>
-        <button onClick={()=>setOpen(o=>!o)} style={{
+        <button onClick={(e)=>{e.stopPropagation();setOpen(o=>!o);}} style={{
           background:open?C.goldDim:"none",
           border:`0.5px solid ${open?C.gold:C.brd}`,
           color:open?C.goldLt:C.white,
@@ -771,6 +771,236 @@ function Home({go,prices}){
   </div>;
 }
 
+
+// ── ANIMATION: COINS ON BLOCKCHAIN (Tokenize page) ───────────────────────────
+function CoinsOnBlocks() {
+  const ref = useRef();
+  useEffect(() => {
+    const cv = ref.current; if(!cv) return;
+    const cx = cv.getContext('2d');
+    cv.width = cv.offsetWidth; cv.height = cv.offsetHeight;
+    const W = cv.width, H = cv.height;
+    const BW=52,BH=28,BD=16,COLS=8,ROWS=3;
+    const platX=W/2-(COLS*BW*0.52), platY=H*0.78;
+    function bPos(c,r){return{x:platX+c*BW+r*(BW*0.22),y:platY-r*BD};}
+    const blocks=[];
+    for(let r=0;r<ROWS;r++) for(let c=0;c<COLS-r;c++) blocks.push({c,r,lit:false,ltk:0,hash:(Math.random()*0xfffff|0).toString(16).padStart(5,'0')});
+    function drawBlock(b){
+      const{x,y}=bPos(b.c,b.r);const f=b.lit?Math.max(0,1-b.ltk/55):0;
+      cx.beginPath();cx.moveTo(x+BW/2,y-BD);cx.lineTo(x+BW,y);cx.lineTo(x+BW/2,y+BH/2);cx.lineTo(x,y);cx.closePath();
+      cx.fillStyle=b.lit?`rgba(232,177,33,${0.12+0.3*f})`:'rgba(201,150,12,0.1)';cx.fill();
+      cx.strokeStyle=`rgba(201,150,12,${0.3+0.45*f})`;cx.lineWidth=0.5;cx.stroke();
+      cx.fillStyle=`rgba(201,150,12,${0.18+0.28*f})`;cx.font='500 6px monospace';cx.textAlign='center';cx.fillText('0x'+b.hash,x+BW/2,y+3);
+      cx.beginPath();cx.moveTo(x,y);cx.lineTo(x+BW/2,y+BH/2);cx.lineTo(x+BW/2,y+BH/2+BD);cx.lineTo(x,y+BD);cx.closePath();
+      cx.fillStyle=b.lit?`rgba(90,60,0,${0.55+0.3*f})`:'rgba(25,16,0,0.75)';cx.fill();cx.strokeStyle=`rgba(201,150,12,${0.18+0.28*f})`;cx.stroke();
+      cx.beginPath();cx.moveTo(x+BW,y);cx.lineTo(x+BW/2,y+BH/2);cx.lineTo(x+BW/2,y+BH/2+BD);cx.lineTo(x+BW,y+BD);cx.closePath();
+      cx.fillStyle=b.lit?`rgba(60,40,0,${0.45+0.3*f})`:'rgba(15,10,0,0.75)';cx.fill();cx.strokeStyle=`rgba(201,150,12,${0.12+0.22*f})`;cx.stroke();
+    }
+    const SYMS=['₦','₦','₦','$','€'],TOTAL=22;
+    let coins=[],phase='wait',ptk=0;
+    function buildCoins(){
+      coins=[];blocks.forEach(b=>{b.lit=false;b.ltk=0;});
+      for(let i=0;i<TOTAL;i++){
+        const r=Math.floor(Math.random()*ROWS),col=Math.floor(Math.random()*(COLS-r));
+        const{x,y}=bPos(col,r);const lx=x+BW/2+(Math.random()-0.5)*18,ly=y-BD-6;
+        coins.push({x:lx+(Math.random()-0.5)*55,y:-15-Math.random()*120,lx,ly,vy:2.2+Math.random()*1.8,r:8+Math.random()*4,sym:SYMS[Math.floor(Math.random()*SYMS.length)],spin:Math.random()*Math.PI*2,landed:false,bounce:0,bv:0,op:1,delay:Math.random()*14|0,active:false,tb:blocks.find(b=>b.c===col&&b.r===r)||blocks[0]});
+      }
+    }
+    buildCoins();
+    const sparks=[],rings=[];
+    function spawnImpact(x,y){for(let i=0;i<7;i++){const a=Math.random()*Math.PI*2;sparks.push({x,y,vx:Math.cos(a)*(1.5+Math.random()*2),vy:Math.sin(a)*(1.5+Math.random()*2)-0.5,life:1});}rings.push({x,y,r:4,op:0.9});}
+    function update(){
+      ptk++;
+      if(phase==='wait'&&ptk>50){phase='fall';ptk=0;coins.forEach(c=>c.active=true);}
+      if(phase==='fall'){let all=true;coins.forEach(c=>{if(!c.active||c.delay-->0)return;if(c.landed){c.bounce+=c.bv;c.bv*=0.68;if(Math.abs(c.bv)<0.08)c.bv=0;return;}all=false;c.y+=c.vy;c.vy+=0.11;c.spin+=0.045;if(c.y>=c.ly){c.y=c.ly;c.landed=true;c.bv=-(c.vy*0.25);if(c.tb){c.tb.lit=true;c.tb.ltk=0;}spawnImpact(c.lx,c.ly);}});if(all&&ptk>70){phase='settle';ptk=0;}}
+      if(phase==='settle'){coins.forEach(c=>{c.op-=0.022;});if(coins[0]&&coins[0].op<=0){phase='wait';ptk=0;buildCoins();}}
+      blocks.forEach(b=>{if(b.lit){b.ltk++;if(b.ltk>65){b.lit=false;b.ltk=0;}}});
+      for(let i=sparks.length-1;i>=0;i--){const s=sparks[i];s.x+=s.vx;s.y+=s.vy;s.vy+=0.07;s.life-=0.05;if(s.life<=0)sparks.splice(i,1);}
+      for(let i=rings.length-1;i>=0;i--){const r=rings[i];r.r+=1.4;r.op-=0.028;if(r.op<=0)rings.splice(i,1);}
+    }
+    function drawCoin(c){
+      if(!c.active)return;cx.save();cx.globalAlpha=Math.max(0,c.op);cx.translate(c.x,c.y+c.bounce);cx.rotate(c.spin);
+      cx.beginPath();cx.arc(0,0,c.r,0,Math.PI*2);
+      const g=cx.createRadialGradient(-c.r*.3,-c.r*.3,0,0,0,c.r);g.addColorStop(0,'#F5D060');g.addColorStop(.5,'#C9960C');g.addColorStop(1,'#6B4800');
+      cx.fillStyle=g;cx.fill();cx.strokeStyle='#E8B121';cx.lineWidth=0.8;cx.stroke();
+      cx.fillStyle='rgba(0,0,0,0.45)';cx.font=`bold ${Math.round(c.r*.9)}px sans-serif`;cx.textAlign='center';cx.textBaseline='middle';cx.fillText(c.sym,0,0);cx.restore();
+    }
+    function render(){
+      cx.clearRect(0,0,W,H);
+      cx.strokeStyle='rgba(201,150,12,0.03)';cx.lineWidth=0.5;
+      for(let x=0;x<W;x+=52){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,H);cx.stroke();}
+      for(let y=0;y<H;y+=52){cx.beginPath();cx.moveTo(0,y);cx.lineTo(W,y);cx.stroke();}
+      const tg=cx.createRadialGradient(W/2,0,0,W/2,0,W*0.5);tg.addColorStop(0,'rgba(201,150,12,0.06)');tg.addColorStop(1,'rgba(0,0,0,0)');cx.fillStyle=tg;cx.fillRect(0,0,W,H);
+      for(let r=ROWS-1;r>=0;r--) for(let col=0;col<COLS-r;col++){const b=blocks.find(b=>b.c===col&&b.r===r);if(b)drawBlock(b);}
+      rings.forEach(r=>{cx.beginPath();cx.arc(r.x,r.y,r.r,0,Math.PI*2);cx.strokeStyle=`rgba(232,177,33,${r.op})`;cx.lineWidth=0.8;cx.stroke();});
+      sparks.forEach(s=>{cx.beginPath();cx.arc(s.x,s.y,1.8,0,Math.PI*2);cx.fillStyle=`rgba(232,177,33,${s.life})`;cx.fill();});
+      coins.filter(c=>c.landed).forEach(drawCoin);coins.filter(c=>!c.landed).forEach(drawCoin);
+      cx.fillStyle='rgba(201,150,12,0.25)';cx.font='400 10px sans-serif';cx.textAlign='center';cx.fillText('Polymesh Blockchain · Compliance-Native Tokenization',W/2,H-10);
+    }
+    let raf;function loop(){update();render();raf=requestAnimationFrame(loop);}loop();
+    return()=>cancelAnimationFrame(raf);
+  },[]);
+  return <canvas ref={ref} style={{width:"100%",height:260,display:"block",borderRadius:6,background:"#070707",marginBottom:48}}/>;
+}
+
+// ── ANIMATION: REGULATORY PIPELINE (Compliance page) ─────────────────────────
+function RegulatoryPipeline() {
+  const ref = useRef();
+  useEffect(() => {
+    const cv = ref.current; if(!cv) return;
+    const cx = cv.getContext('2d');
+    cv.width = cv.offsetWidth; cv.height = cv.offsetHeight;
+    const W=cv.width,H=cv.height;
+    const STAGES=[{label:'Stage 1',sub:'SEC ARIP'},{label:'Stage 2',sub:'NASD DSP'},{label:'Stage 3',sub:'NGX Blue-Chip'},{label:'Stage 4',sub:'Pan-African'}];
+    const PAD=60,spacing=(W-PAD*2)/(STAGES.length-1),lineY=H*0.42,boxW=92,boxH=52;
+    let dotT=0,dotSpeed=0.004,litStage=-1,litTick=0;
+    function stageX(i){return PAD+i*spacing;}
+    function update(){
+      dotT+=dotSpeed;
+      const idx=Math.floor(dotT),frac=dotT-idx;
+      if(frac<0.08&&idx!==litStage&&idx<STAGES.length){litStage=idx;litTick=0;}
+      if(litTick<60)litTick++;
+      if(dotT>=STAGES.length-1+0.15){dotSpeed=0;setTimeout(()=>{dotT=0;dotSpeed=0.004;litStage=-1;},1200);}
+    }
+    function render(){
+      cx.clearRect(0,0,W,H);
+      cx.strokeStyle='rgba(201,150,12,0.03)';cx.lineWidth=0.5;
+      for(let x=0;x<W;x+=52){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,H);cx.stroke();}
+      for(let y=0;y<H;y+=52){cx.beginPath();cx.moveTo(0,y);cx.lineTo(W,y);cx.stroke();}
+      cx.beginPath();cx.moveTo(PAD,lineY);cx.lineTo(W-PAD,lineY);cx.strokeStyle='rgba(201,150,12,0.15)';cx.lineWidth=1.5;cx.stroke();
+      const toX=PAD+dotT*spacing;
+      if(toX>PAD){const g=cx.createLinearGradient(PAD,0,toX,0);g.addColorStop(0,'rgba(201,150,12,0.08)');g.addColorStop(1,'rgba(232,177,33,0.55)');cx.beginPath();cx.moveTo(PAD,lineY);cx.lineTo(toX,lineY);cx.strokeStyle=g;cx.lineWidth=1.5;cx.stroke();}
+      STAGES.forEach((s,i)=>{
+        const x=stageX(i),isActive=i===0,isLit=i===litStage,litF=isLit?Math.max(0,1-litTick/45):0,isDone=dotT>i,nr=8;
+        if(isLit||isDone||isActive){const gg=cx.createRadialGradient(x,lineY,0,x,lineY,nr*3.5);gg.addColorStop(0,`rgba(232,177,33,${isActive?0.25:0.12+0.2*litF})`);gg.addColorStop(1,'rgba(0,0,0,0)');cx.beginPath();cx.arc(x,lineY,nr*3.5,0,Math.PI*2);cx.fillStyle=gg;cx.fill();}
+        cx.beginPath();cx.arc(x,lineY,nr,0,Math.PI*2);cx.fillStyle=(isDone||isActive||isLit)?`rgba(232,177,33,${0.5+0.5*(isLit?litF:1)})`:'rgba(201,150,12,0.15)';cx.fill();
+        cx.strokeStyle=(isDone||isActive||isLit)?`rgba(232,177,33,${0.7+0.3*litF})`:'rgba(201,150,12,0.25)';cx.lineWidth=0.8;cx.stroke();
+        const bx=x-boxW/2,by=lineY+22;
+        cx.beginPath();if(cx.roundRect)cx.roundRect(bx,by,boxW,boxH,4);else cx.rect(bx,by,boxW,boxH);
+        cx.fillStyle=isActive?'rgba(201,150,12,0.1)':isDone?'rgba(201,150,12,0.06)':'rgba(255,255,255,0.02)';cx.fill();
+        cx.strokeStyle=isActive?'rgba(201,150,12,0.45)':isDone?'rgba(201,150,12,0.2)':'rgba(255,255,255,0.06)';cx.lineWidth=0.5;cx.stroke();
+        cx.fillStyle=isActive?'#E8B121':isDone?'rgba(201,150,12,0.7)':'rgba(255,255,255,0.25)';cx.font='500 10px sans-serif';cx.textAlign='center';cx.fillText(s.label,x,by+18);
+        cx.fillStyle=isActive?'rgba(232,177,33,0.75)':isDone?'rgba(201,150,12,0.45)':'rgba(255,255,255,0.18)';cx.font='400 9.5px sans-serif';cx.fillText(s.sub,x,by+34);
+        if(isActive){cx.beginPath();if(cx.roundRect)cx.roundRect(x-19,by+42,38,14,2);else cx.rect(x-19,by+42,38,14);cx.fillStyle='#C9960C';cx.fill();cx.fillStyle='#000';cx.font='600 8px sans-serif';cx.textAlign='center';cx.fillText('ACTIVE',x,by+52);}
+        cx.beginPath();cx.moveTo(x,lineY+nr);cx.lineTo(x,by);cx.strokeStyle=isActive?'rgba(201,150,12,0.3)':isDone?'rgba(201,150,12,0.15)':'rgba(255,255,255,0.06)';cx.lineWidth=0.5;cx.setLineDash([2,3]);cx.stroke();cx.setLineDash([]);
+      });
+      const dx=PAD+dotT*spacing;
+      for(let i=0;i<8;i++){cx.beginPath();cx.arc(dx-i*5,lineY,3-i*0.25,0,Math.PI*2);cx.fillStyle=`rgba(232,177,33,${0.55-i*0.07})`;cx.fill();}
+      cx.beginPath();cx.arc(dx,lineY,4.5,0,Math.PI*2);cx.fillStyle='#E8B121';cx.fill();
+      cx.beginPath();cx.arc(dx,lineY,2,0,Math.PI*2);cx.fillStyle='#fff';cx.fill();
+      cx.fillStyle='rgba(201,150,12,0.22)';cx.font='400 10px sans-serif';cx.textAlign='center';cx.fillText('Four-Stage Regulatory Roadmap · DotVests Technologies',W/2,H-10);
+    }
+    let raf;function loop(){update();render();raf=requestAnimationFrame(loop);}loop();
+    return()=>cancelAnimationFrame(raf);
+  },[]);
+  return <canvas ref={ref} style={{width:"100%",height:180,display:"block",borderRadius:6,background:"#070707",marginBottom:48}}/>;
+}
+
+// ── ANIMATION: LIVE MARKET CHART (Markets page) ───────────────────────────────
+function LiveMarketChart() {
+  const ref = useRef();
+  useEffect(() => {
+    const cv = ref.current; if(!cv) return;
+    const cx = cv.getContext('2d');
+    cv.width = cv.offsetWidth; cv.height = cv.offsetHeight;
+    const W=cv.width,H=cv.height;
+    const AS=[{id:'PGV',color:'#22C55E'},{id:'CHW',color:'#EF4444'},{id:'ERF',color:'#60A5FA'},{id:'CBN',color:'#A78BFA'},{id:'GTB',color:'#E8B121'},{id:'MTN',color:'#F97316'}];
+    const POINTS=60,PAD={l:44,r:14,t:40,b:26};
+    const CW=W-PAD.l-PAD.r,CH=H-PAD.t-PAD.b;
+    const histories=AS.map(()=>{const arr=[];let v=0.5;for(let i=0;i<POINTS;i++){v+=(Math.random()-0.49)*0.06;v=Math.max(0.05,Math.min(0.95,v));arr.push(v);}return{arr,vel:(Math.random()-0.5)*0.04};});
+    let tick=0,hov=-1;
+    function toX(i){return PAD.l+(i/(POINTS-1))*CW;}
+    function toY(v){return PAD.t+CH-v*CH;}
+    function hr(hex){return parseInt(hex.slice(1,3),16);}
+    function hg(hex){return parseInt(hex.slice(3,5),16);}
+    function hb(hex){return parseInt(hex.slice(5,7),16);}
+    function update(){tick++;if(tick%6!==0)return;histories.forEach(h=>{h.vel+=(Math.random()-0.495)*0.025;h.vel*=0.88;h.vel=Math.max(-0.06,Math.min(0.06,h.vel));let v=h.arr[h.arr.length-1]+h.vel;v=Math.max(0.04,Math.min(0.96,v));if(v<0.12)h.vel+=0.03;if(v>0.88)h.vel-=0.03;h.arr.push(v);if(h.arr.length>POINTS)h.arr.shift();});}
+    function render(){
+      cx.clearRect(0,0,W,H);
+      cx.strokeStyle='rgba(201,150,12,0.025)';cx.lineWidth=0.5;
+      for(let x=0;x<W;x+=48){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,H);cx.stroke();}
+      for(let y=0;y<H;y+=48){cx.beginPath();cx.moveTo(0,y);cx.lineTo(W,y);cx.stroke();}
+      for(let i=0;i<=4;i++){const y=PAD.t+(i/4)*CH;cx.beginPath();cx.moveTo(PAD.l,y);cx.lineTo(W-PAD.r,y);cx.strokeStyle='rgba(255,255,255,0.04)';cx.lineWidth=0.5;cx.stroke();}
+      AS.forEach((a,i)=>{
+        if(i===hov)return;
+        const h=histories[i],pts=h.arr.map((v,j)=>({x:toX(j),y:toY(v)}));
+        const dim=hov!==-1,alpha=dim?0.12:1;
+        const r=hr(a.color),g=hg(a.color),b=hb(a.color);
+        cx.beginPath();cx.moveTo(pts[0].x,PAD.t+CH);pts.forEach(p=>cx.lineTo(p.x,p.y));cx.lineTo(pts[pts.length-1].x,PAD.t+CH);cx.closePath();
+        const grad=cx.createLinearGradient(0,PAD.t,0,PAD.t+CH);grad.addColorStop(0,`rgba(${r},${g},${b},${0.2*alpha})`);grad.addColorStop(1,`rgba(${r},${g},${b},0.01)`);cx.fillStyle=grad;cx.fill();
+        cx.beginPath();cx.moveTo(pts[0].x,pts[0].y);for(let j=1;j<pts.length-1;j++){const mx=(pts[j].x+pts[j+1].x)/2,my=(pts[j].y+pts[j+1].y)/2;cx.quadraticCurveTo(pts[j].x,pts[j].y,mx,my);}cx.lineTo(pts[pts.length-1].x,pts[pts.length-1].y);
+        cx.strokeStyle=`rgba(${r},${g},${b},${alpha})`;cx.lineWidth=1.3;cx.stroke();
+        const last=pts[pts.length-1];cx.beginPath();cx.arc(last.x,last.y,2.5,0,Math.PI*2);cx.fillStyle=`rgba(${r},${g},${b},${alpha})`;cx.fill();
+      });
+      if(hov!==-1){
+        const a=AS[hov],h=histories[hov],pts=h.arr.map((v,j)=>({x:toX(j),y:toY(v)}));
+        const r=hr(a.color),g=hg(a.color),b=hb(a.color);
+        cx.beginPath();cx.moveTo(pts[0].x,PAD.t+CH);pts.forEach(p=>cx.lineTo(p.x,p.y));cx.lineTo(pts[pts.length-1].x,PAD.t+CH);cx.closePath();
+        const grad=cx.createLinearGradient(0,PAD.t,0,PAD.t+CH);grad.addColorStop(0,`rgba(${r},${g},${b},0.25)`);grad.addColorStop(1,`rgba(${r},${g},${b},0.01)`);cx.fillStyle=grad;cx.fill();
+        cx.beginPath();cx.moveTo(pts[0].x,pts[0].y);for(let j=1;j<pts.length-1;j++){const mx=(pts[j].x+pts[j+1].x)/2,my=(pts[j].y+pts[j+1].y)/2;cx.quadraticCurveTo(pts[j].x,pts[j].y,mx,my);}cx.lineTo(pts[pts.length-1].x,pts[pts.length-1].y);
+        cx.strokeStyle=`rgba(${r},${g},${b},1)`;cx.lineWidth=2;cx.stroke();
+        const last=pts[pts.length-1];const pulse=0.5+0.5*Math.sin(tick*0.12);
+        cx.beginPath();cx.arc(last.x,last.y,5+pulse*3,0,Math.PI*2);cx.strokeStyle=`rgba(${r},${g},${b},0.3)`;cx.lineWidth=0.8;cx.stroke();
+        cx.beginPath();cx.arc(last.x,last.y,4,0,Math.PI*2);cx.fillStyle=`rgba(${r},${g},${b},1)`;cx.fill();
+      }
+      const colW=CW/AS.length;
+      AS.forEach((a,i)=>{
+        const x=PAD.l+i*colW,isH=hov===i,dim=hov!==-1&&!isH;
+        const r=hr(a.color),g=hg(a.color),b=hb(a.color);
+        const last=histories[i].arr[histories[i].arr.length-1],prev=histories[i].arr[histories[i].arr.length-5]||last;
+        const up=last>=prev,chg=((last-prev)/(prev||1)*100).toFixed(2);
+        cx.beginPath();cx.arc(x+8,16,4,0,Math.PI*2);cx.fillStyle=`rgba(${r},${g},${b},${dim?0.2:1})`;cx.fill();
+        cx.fillStyle=dim?'rgba(255,255,255,0.2)':'rgba(255,255,255,0.75)';cx.font=`${isH?'500':'400'} 10px sans-serif`;cx.textAlign='left';cx.fillText(a.id,x+16,20);
+        cx.fillStyle=dim?'rgba(255,255,255,0.12)':(up?'#22C55E':'#EF4444');cx.font='400 9px sans-serif';cx.fillText((up?'+':'')+chg+'%',x+16,32);
+      });
+      cx.fillStyle='rgba(201,150,12,0.2)';cx.font='400 9px sans-serif';cx.textAlign='center';cx.fillText('Simulated · Pre-launch · No investment services offered',W/2,H-8);
+    }
+    cv.addEventListener('mousemove',e=>{const rect=cv.getBoundingClientRect();const mx=(e.clientX-rect.left)*(W/rect.width);const colW=CW/AS.length;const idx=Math.floor((mx-PAD.l)/colW);hov=(idx>=0&&idx<AS.length)?idx:-1;});
+    cv.addEventListener('mouseleave',()=>{hov=-1;});
+    let raf;function loop(){update();render();raf=requestAnimationFrame(loop);}loop();
+    return()=>cancelAnimationFrame(raf);
+  },[]);
+  return <canvas ref={ref} style={{width:"100%",height:240,display:"block",borderRadius:6,background:"#0D0D0D",marginBottom:32}}/>;
+}
+
+// ── ANIMATION: ROTATING DIAMOND (Markets page) ────────────────────────────────
+function RotatingDiamond() {
+  const ref = useRef();
+  useEffect(() => {
+    const cv = ref.current; if(!cv) return;
+    const cx = cv.getContext('2d');
+    cv.width = cv.offsetWidth; cv.height = cv.offsetHeight;
+    const W=cv.width,H=cv.height,CX=W/2,CY=H/2;
+    const R=80,HC=46,HP=80,N=8;
+    function makeVerts(){const v=[];v.push([0,-HC-14,0]);for(let i=0;i<N;i++){const a=(i/N)*Math.PI*2-Math.PI/N;v.push([Math.cos(a)*R*0.44,-HC,Math.sin(a)*R*0.44]);}for(let i=0;i<N;i++){const a=(i/N)*Math.PI*2;v.push([Math.cos(a)*R,0,Math.sin(a)*R]);}for(let i=0;i<N;i++){const a=(i/N)*Math.PI*2+Math.PI/N;v.push([Math.cos(a)*R*0.9,-3,Math.sin(a)*R*0.9]);}v.push([0,HP,0]);return v;}
+    const BASE=makeVerts();
+    function makeFaces(){const f=[];for(let i=0;i<N;i++){const ni=(i+1)%N;f.push({v:[0,1+i,1+ni],t:'ct'});}for(let i=0;i<N;i++){const ni=(i+1)%N;f.push({v:[1+i,9+i,1+ni],t:'cm'});f.push({v:[9+i,9+ni,1+ni],t:'cl'});}for(let i=0;i<N;i++){const ni=(i+1)%N;f.push({v:[9+i,17+i,9+ni],t:'g'});f.push({v:[17+i,17+ni,9+ni],t:'g'});}for(let i=0;i<N;i++){const ni=(i+1)%N;f.push({v:[9+i,25,9+ni],t:'pm'});f.push({v:[17+i,25,17+ni],t:'pi'});}return f;}
+    const FACES=makeFaces();
+    let rX=0.1,rY=0,rZ=0,vX=0.006,vY=0.018,vZ=0.004,ct=0;
+    function rot(v,ax,ay,az){let[x,y,z]=v;let ny=y*Math.cos(ax)-z*Math.sin(ax),nz=y*Math.sin(ax)+z*Math.cos(ax);y=ny;z=nz;let nx2=x*Math.cos(ay)+z*Math.sin(ay),nz2=-x*Math.sin(ay)+z*Math.cos(ay);x=nx2;z=nz2;let nx3=x*Math.cos(az)-y*Math.sin(az),ny3=x*Math.sin(az)+y*Math.cos(az);return[nx3,ny3,z];}
+    const FOCAL=400;
+    function project(v){const[x,y,z]=v;const s=FOCAL/(FOCAL+z+160);return[CX+x*s,CY+y*s,z,s];}
+    function n2d(p,vi){const ax=p[vi[1]][0]-p[vi[0]][0],ay=p[vi[1]][1]-p[vi[0]][1],bx=p[vi[2]][0]-p[vi[0]][0],by=p[vi[2]][1]-p[vi[0]][1];return ax*by-ay*bx;}
+    function fc(t,nrm,cz){const lit=Math.max(0,Math.min(1,-cz/120+0.5)),face=nrm>0?1:0,rr=201,gg=150,bb=12,rl=232,gl=177,bl=33;if(t==='ct'){const br=0.55+0.45*lit;return`rgba(${rl*br|0},${gl*br|0},${bl*br|0},${face?0.95:0.25})`;}if(t==='cm'){const br=0.4+0.6*lit;return`rgba(${rr*br|0},${gg*br|0},${bb*br|0},${face?0.9:0.2})`;}if(t==='cl'){const br=0.3+0.55*lit;return`rgba(${rl*br|0},${gl*br|0},${bl*br|0},${face?0.85:0.18})`;}if(t==='g'){return`rgba(${rl},${gl},${bl},${0.55+0.3*lit})`;}if(t==='pm'){const br=0.2+0.7*(1-lit);return`rgba(${rr*br|0},${gg*br|0},${bb*br|0},${face?0.88:0.18})`;}if(t==='pi'){const br=0.12+0.6*(1-lit);return`rgba(${rl*br|0},${gl*br|0},${bl*br|0},${face?0.82:0.12})`;}return'rgba(201,150,12,0.5)';}
+    let tick=0;
+    function render(){
+      tick++;ct++;if(ct>150){vX+=(Math.random()-0.5)*0.005;vY+=(Math.random()-0.5)*0.004;vZ+=(Math.random()-0.5)*0.003;vX=Math.max(-0.032,Math.min(0.032,vX));vY=Math.max(-0.032,Math.min(0.032,vY));vZ=Math.max(-0.022,Math.min(0.022,vZ));ct=0;}
+      rX+=vX;rY+=vY;rZ+=vZ;
+      cx.clearRect(0,0,W,H);
+      cx.strokeStyle='rgba(201,150,12,0.03)';cx.lineWidth=0.5;
+      for(let x=0;x<W;x+=52){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,H);cx.stroke();}
+      for(let y=0;y<H;y+=52){cx.beginPath();cx.moveTo(0,y);cx.lineTo(W,y);cx.stroke();}
+      const ag=cx.createRadialGradient(CX,CY,0,CX,CY,120);ag.addColorStop(0,`rgba(201,150,12,${0.06+0.03*Math.sin(tick*0.02)})`);ag.addColorStop(1,'rgba(0,0,0,0)');cx.fillStyle=ag;cx.fillRect(0,0,W,H);
+      const tv=BASE.map(v=>rot(v,rX,rY,rZ)),pv=tv.map(v=>project(v));
+      const sorted=FACES.map(f=>{let cz=0;f.v.forEach(i=>cz+=pv[i][2]);cz/=f.v.length;return{...f,cz};}).sort((a,b)=>b.cz-a.cz);
+      sorted.forEach(f=>{const pts=f.v.map(i=>pv[i]),nrm=n2d(pv,f.v);let cz=0;f.v.forEach(i=>cz+=pv[i][2]);cz/=f.v.length;cx.beginPath();cx.moveTo(pts[0][0],pts[0][1]);pts.slice(1).forEach(p=>cx.lineTo(p[0],p[1]));cx.closePath();cx.fillStyle=fc(f.t,nrm,cz);cx.fill();cx.strokeStyle=`rgba(232,177,33,${nrm>0?0.4:0.08})`;cx.lineWidth=0.4;cx.stroke();});
+    }
+    let raf;function loop(){render();raf=requestAnimationFrame(loop);}loop();
+    return()=>cancelAnimationFrame(raf);
+  },[]);
+  return <canvas ref={ref} style={{width:"100%",height:280,display:"block",borderRadius:6,background:"#070707"}}/>;
+}
+
 // ── MARKETS ───────────────────────────────────────────────────────────────────
 function Markets({go,prices}){
   const [filter,setFilter]=useState("all");
@@ -785,11 +1015,15 @@ function Markets({go,prices}){
         {["all","Stage 1","Stage 3"].map(s=><FilterBtn key={s} label={s==="all"?"All Assets":s} active={filter===s} onClick={()=>setFilter(s)}/>)}
       </div>
     </div>
+    <LiveMarketChart/>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:1,background:C.brd,marginBottom:48}}>
       {filtered.map(a=><MarketCard key={a.id} asset={a} prices={prices}/>)}
     </div>
     <div style={{background:C.bg1,border:`0.5px solid ${C.brd}`,borderRadius:4,padding:"18px 24px",fontSize:12.5,color:C.muted,lineHeight:1.8,marginBottom:60}}>
       <strong style={{color:C.goldLt}}>Pre-Launch Notice: </strong>DotVests is pre-launch pending SEC Nigeria ARIP approval. All prices are simulated. No investment services offered. Stage 3 assets available only post full regulatory approval.
+    </div>
+    <div style={{display:"flex",justifyContent:"center",padding:"20px 0 40px"}}>
+      <div style={{width:"min(400px,100%)",aspectRatio:"4/3"}}><RotatingDiamond/></div>
     </div>
     <div style={{maxWidth:540,margin:"0 auto",textAlign:"center",marginBottom:80}}>
       <Tag>Early Access</Tag>
@@ -809,7 +1043,8 @@ function Tokenize({go}){
     <h1 style={{fontFamily:FS,fontSize:"clamp(40px,5vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
       Every Share,<br/><em style={{color:C.goldLt}}>On Polymesh.</em>
     </h1>
-    <p style={{fontSize:16,color:C.muted,fontWeight:300,maxWidth:500,lineHeight:1.85,marginBottom:72}}>Polymesh is purpose-built for regulated securities. Compliance isn't optional — it's enforced at the chain level before any token moves.</p>
+    <CoinsOnBlocks/>
+    <p style={{fontSize:16,color:C.muted,fontWeight:300,maxWidth:500,lineHeight:1.85,marginBottom:40}}>Polymesh is purpose-built for regulated securities. Compliance isn't optional — it's enforced at the chain level before any token moves.</p>
     <div style={{background:C.bg1,border:`0.5px solid ${C.goldBrd}`,borderRadius:6,padding:"48px 48px",marginBottom:52,display:"grid",gridTemplateColumns:"1fr 1fr",gap:64}}>
       <div>
         <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",marginBottom:14}}>THE BLOCKCHAIN LAYER</div>
@@ -857,7 +1092,8 @@ function Compliance({go}){
     <h1 style={{fontFamily:FS,fontSize:"clamp(40px,5vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
       Compliance is<br/><em style={{color:C.goldLt}}>The Architecture.</em>
     </h1>
-    <p style={{fontSize:16,color:C.muted,fontWeight:300,maxWidth:500,lineHeight:1.85,marginBottom:72}}>Not bolted on after the fact. Every infrastructure decision at DotVests traces directly to a regulatory requirement.</p>
+    <RegulatoryPipeline/>
+    <p style={{fontSize:16,color:C.muted,fontWeight:300,maxWidth:500,lineHeight:1.85,marginBottom:40}}>Not bolted on after the fact. Every infrastructure decision at DotVests traces directly to a regulatory requirement.</p>
     <div style={{marginBottom:72}}>
       <div style={{fontSize:11,color:C.muted,letterSpacing:"0.08em",marginBottom:24,textTransform:"uppercase"}}>Four-Stage Regulatory Roadmap</div>
       {roadmap.map((r,i)=>(
@@ -896,7 +1132,8 @@ function Company({go}){
     <h1 style={{fontFamily:FS,fontSize:"clamp(40px,5vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
       The Infrastructure for<br/><em style={{color:C.goldLt}}>African Capital Markets.</em>
     </h1>
-    <p style={{fontSize:16,color:C.muted,fontWeight:300,maxWidth:500,lineHeight:1.85,marginBottom:72}}>DotVests Technologies Limited. CAC registered. Founded 2024. Bankers and blockchain engineers who understand the opportunity and the regulatory landscape.</p>
+    <CoinsOnBlocks/>
+    <p style={{fontSize:16,color:C.muted,fontWeight:300,maxWidth:500,lineHeight:1.85,marginBottom:40}}>DotVests Technologies Limited. CAC registered. Founded 2024. Bankers and blockchain engineers who understand the opportunity and the regulatory landscape.</p>
     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:72,marginBottom:72}}>
       <div>
         <div style={{width:32,height:1,background:C.gold,marginBottom:22}}/>
@@ -932,6 +1169,178 @@ function Company({go}){
   </div>;
 }
 
+
+// ── ANIMATION: MOBILE PLATFORM DEMO (Platform page) ──────────────────────────
+function MobilePlatformDemo() {
+  const ref = useRef();
+  useEffect(() => {
+    const cv = ref.current; if(!cv) return;
+    const cx = cv.getContext('2d');
+    const resize = () => { cv.width = cv.offsetWidth; cv.height = cv.offsetHeight; };
+    resize();
+    const W = () => cv.width, H = () => cv.height;
+    const PW=160,PH=310,PR=18;
+    const getPX = () => W()/2-PW/2, getPY = () => H()/2-PH/2+8;
+
+    const STEPS=['lock','home','market','buy','confirm','success'];
+    const stepDur=[140,110,130,120,100,160];
+    let step=0,stepTick=0,fingerX=0,fingerY=0,fingerAlpha=0,tapAnim=0,tick=0;
+    const particles=[];
+
+    function spawnParticles(){for(let i=0;i<18;i++){const a=Math.random()*Math.PI*2;particles.push({x:W()/2,y:H()/2,vx:Math.cos(a)*(2+Math.random()*3),vy:Math.sin(a)*(2+Math.random()*3)-1,life:1,r:2.5+Math.random()*2.5,color:Math.random()>0.5?'#E8B121':'#22C55E'});}}
+
+    function update(){
+      tick++;stepTick++;
+      if(stepTick>=stepDur[step]){stepTick=0;step=(step+1)%STEPS.length;if(step===5)spawnParticles();tapAnim=0;}
+      const PX=getPX(),PY=getPY();
+      if(STEPS[step]==='lock'){fingerX=PX+PW/2;fingerY=PY+PH*0.72;fingerAlpha=Math.min(1,stepTick/20);if(stepTick===60)tapAnim=0.01;}
+      else if(STEPS[step]==='market'){fingerX=PX+PW*0.5;fingerY=PY+PH*0.42;fingerAlpha=stepTick>20?Math.min(1,(stepTick-20)/20):0;if(stepTick===50)tapAnim=0.01;}
+      else if(STEPS[step]==='buy'){fingerX=PX+PW*0.5;fingerY=PY+PH*0.78;fingerAlpha=stepTick>10?Math.min(1,(stepTick-10)/15):0;if(stepTick===40)tapAnim=0.01;}
+      else if(STEPS[step]==='confirm'){fingerX=PX+PW*0.5;fingerY=PY+PH*0.82;fingerAlpha=stepTick>10?Math.min(1,(stepTick-10)/15):0;if(stepTick===35)tapAnim=0.01;}
+      else{fingerAlpha=Math.max(0,fingerAlpha-0.04);}
+      if(tapAnim>0&&tapAnim<1)tapAnim+=0.04;if(tapAnim>=1)tapAnim=0;
+      for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=0.06;p.life-=0.025;if(p.life<=0)particles.splice(i,1);}
+    }
+
+    function drawPhone(){
+      const PX=getPX(),PY=getPY();
+      const gl=cx.createRadialGradient(W()/2,H()/2,0,W()/2,H()/2,140);gl.addColorStop(0,'rgba(201,150,12,0.07)');gl.addColorStop(1,'rgba(0,0,0,0)');cx.fillStyle=gl;cx.fillRect(0,0,W(),H());
+      cx.beginPath();if(cx.roundRect)cx.roundRect(PX,PY,PW,PH,PR);else cx.rect(PX,PY,PW,PH);cx.fillStyle='#111';cx.fill();cx.strokeStyle='rgba(201,150,12,0.5)';cx.lineWidth=1;cx.stroke();
+      const SX=PX+5,SY=PY+28,SW=PW-10,SH=PH-52;
+      cx.beginPath();if(cx.roundRect)cx.roundRect(SX,SY,SW,SH,7);else cx.rect(SX,SY,SW,SH);cx.fillStyle='#0A0A0A';cx.fill();
+      cx.beginPath();if(cx.roundRect)cx.roundRect(PX+PW/2-18,PY+7,36,14,7);else cx.rect(PX+PW/2-18,PY+7,36,14);cx.fillStyle='#0D0D0D';cx.fill();cx.strokeStyle='rgba(201,150,12,0.2)';cx.lineWidth=0.5;cx.stroke();
+      cx.beginPath();if(cx.roundRect)cx.roundRect(PX+PW/2-22,PY+PH-14,44,4,2);else cx.rect(PX+PW/2-22,PY+PH-14,44,4);cx.fillStyle='rgba(201,150,12,0.3)';cx.fill();
+      cx.save();cx.beginPath();if(cx.roundRect)cx.roundRect(SX,SY,SW,SH,7);else cx.rect(SX,SY,SW,SH);cx.clip();
+      drawScreen(SX,SY,SW,SH);cx.restore();
+    }
+
+    function drawScreen(sx,sy,sw,sh){
+      const s=STEPS[step],p=stepTick/stepDur[step];
+      if(s==='lock')drawLock(sx,sy,sw,sh,p);
+      else if(s==='home')drawHome(sx,sy,sw,sh,p);
+      else if(s==='market')drawMarket(sx,sy,sw,sh,p);
+      else if(s==='buy')drawBuy(sx,sy,sw,sh,p);
+      else if(s==='confirm')drawConfirm(sx,sy,sw,sh,p);
+      else if(s==='success')drawSuccess(sx,sy,sw,sh,p);
+    }
+
+    function drawLock(sx,sy,sw,sh,p){
+      cx.fillStyle='#080808';cx.fillRect(sx,sy,sw,sh);
+      cx.fillStyle='rgba(201,150,12,0.9)';cx.font='bold 11px sans-serif';cx.textAlign='center';cx.fillText('◆ DotVests',sx+sw/2,sy+36);
+      cx.fillStyle='rgba(255,255,255,0.8)';cx.font='bold 22px sans-serif';cx.fillText('09:41',sx+sw/2,sy+72);
+      cx.fillStyle='rgba(255,255,255,0.35)';cx.font='400 8px sans-serif';cx.fillText('Mon, 12 May 2026',sx+sw/2,sy+86);
+      const fx=sx+sw/2,fy=sy+sh*0.68,pulse=0.5+0.5*Math.sin(tick*0.08);
+      cx.beginPath();cx.arc(fx,fy,20+pulse*3,0,Math.PI*2);cx.strokeStyle=`rgba(201,150,12,${0.12+0.08*pulse})`;cx.lineWidth=1;cx.stroke();
+      cx.beginPath();cx.arc(fx,fy,16,0,Math.PI*2);cx.strokeStyle='rgba(201,150,12,0.35)';cx.lineWidth=1;cx.stroke();
+      for(let i=0;i<5;i++){cx.beginPath();cx.arc(fx,fy,5+i*2.5,Math.PI*0.2,Math.PI*1.8);cx.strokeStyle=`rgba(232,177,33,${0.25+0.12*i})`;cx.lineWidth=0.7;cx.stroke();}
+      if(p>0.3){const sp=Math.min(1,(p-0.3)/0.5);cx.save();cx.beginPath();cx.arc(fx,fy,16,0,Math.PI*2);cx.clip();cx.fillStyle=`rgba(201,150,12,${0.15*sp})`;cx.fillRect(fx-16,fy-16,32,32*sp);cx.restore();}
+      cx.fillStyle='rgba(255,255,255,0.25)';cx.font='400 8px sans-serif';cx.textAlign='center';cx.fillText('Touch to unlock',sx+sw/2,sy+sh-18);
+    }
+
+    function drawHome(sx,sy,sw,sh,p){
+      cx.fillStyle='#090909';cx.fillRect(sx,sy,sw,sh);
+      cx.fillStyle='rgba(255,255,255,0.45)';cx.font='400 7px sans-serif';cx.textAlign='left';cx.fillText('9:41',sx+7,sy+13);
+      cx.fillStyle='rgba(255,255,255,0.5)';cx.font='400 7px sans-serif';cx.fillText('Good morning, Precious',sx+10,sy+30);
+      cx.fillStyle='#E8B121';cx.font='bold 13px sans-serif';cx.fillText('₦248,500',sx+10,sy+46);
+      cx.fillStyle='rgba(34,197,94,0.9)';cx.font='400 7px sans-serif';cx.fillText('▲ +3.2% today',sx+10,sy+58);
+      const chartX=sx+10,chartY=sy+66,chartW=sw-20,chartH=32;
+      const pts=[0.5,0.45,0.55,0.48,0.62,0.58,0.72,0.68,0.78,0.82,0.75,0.88];
+      cx.beginPath();cx.moveTo(chartX,chartY+chartH-(pts[0]*chartH));pts.forEach((v,i)=>cx.lineTo(chartX+(i/(pts.length-1))*chartW,chartY+chartH-v*chartH));cx.strokeStyle='rgba(34,197,94,0.6)';cx.lineWidth=1;cx.stroke();
+      const assets=[{n:'PiggyVest',v:'₦1,842',c:'+2.3%',up:true},{n:'Carbon',v:'₦983',c:'+3.5%',up:true},{n:'Chowdeck',v:'₦619',c:'-0.8%',up:false}];
+      assets.forEach((a,i)=>{
+        const ay=sy+108+i*38;
+        cx.beginPath();if(cx.roundRect)cx.roundRect(sx+8,ay,sw-16,30,3);else cx.rect(sx+8,ay,sw-16,30);cx.fillStyle='rgba(255,255,255,0.03)';cx.fill();cx.strokeStyle='rgba(201,150,12,0.12)';cx.lineWidth=0.5;cx.stroke();
+        cx.fillStyle='rgba(255,255,255,0.75)';cx.font='500 8px sans-serif';cx.textAlign='left';cx.fillText(a.n,sx+13,ay+13);
+        cx.fillStyle='rgba(255,255,255,0.9)';cx.font='500 9px sans-serif';cx.textAlign='right';cx.fillText(a.v,sx+sw-13,ay+13);
+        cx.fillStyle=a.up?'rgba(34,197,94,0.8)':'rgba(239,68,68,0.8)';cx.font='400 7px sans-serif';cx.fillText(a.c,sx+sw-13,ay+24);
+      });
+    }
+
+    function drawMarket(sx,sy,sw,sh,p){
+      cx.fillStyle='#090909';cx.fillRect(sx,sy,sw,sh);
+      cx.fillStyle='rgba(201,150,12,0.8)';cx.font='bold 10px sans-serif';cx.textAlign='left';cx.fillText('Markets',sx+10,sy+24);
+      const assets=[{n:'PiggyVest',sec:'Fintech',v:'₦1,842',c:'+2.34%',up:true},{n:'Erisco Foods',sec:'Consumer',v:'₦312',c:'+1.12%',up:true},{n:'Chowdeck',sec:'Logistics',v:'₦619',c:'-0.87%',up:false},{n:'Carbon',sec:'Banking',v:'₦983',c:'+3.56%',up:true}];
+      const tapped=p>0.35;
+      assets.forEach((a,i)=>{
+        const ay=sy+36+i*46;const isSelected=i===0&&tapped;
+        cx.beginPath();if(cx.roundRect)cx.roundRect(sx+7,ay,sw-14,38,4);else cx.rect(sx+7,ay,sw-14,38);cx.fillStyle=isSelected?'rgba(201,150,12,0.1)':'rgba(255,255,255,0.03)';cx.fill();cx.strokeStyle=isSelected?'rgba(201,150,12,0.45)':'rgba(255,255,255,0.06)';cx.lineWidth=0.5;cx.stroke();
+        cx.fillStyle='rgba(255,255,255,0.82)';cx.font='500 8.5px sans-serif';cx.textAlign='left';cx.fillText(a.n,sx+12,ay+15);
+        cx.fillStyle='rgba(255,255,255,0.3)';cx.font='400 7px sans-serif';cx.fillText(a.sec,sx+12,ay+27);
+        cx.fillStyle='rgba(255,255,255,0.88)';cx.font='500 9px sans-serif';cx.textAlign='right';cx.fillText(a.v,sx+sw-12,ay+15);
+        cx.fillStyle=a.up?'rgba(34,197,94,0.85)':'rgba(239,68,68,0.85)';cx.font='400 7px sans-serif';cx.fillText(a.c,sx+sw-12,ay+27);
+      });
+    }
+
+    function drawBuy(sx,sy,sw,sh,p){
+      cx.fillStyle='#090909';cx.fillRect(sx,sy,sw,sh);
+      cx.fillStyle='rgba(201,150,12,0.85)';cx.font='bold 11px sans-serif';cx.textAlign='center';cx.fillText('PiggyVest',sx+sw/2,sy+36);
+      cx.fillStyle='rgba(255,255,255,0.45)';cx.font='400 7px sans-serif';cx.fillText('PGV · Fintech · Stage 1',sx+sw/2,sy+48);
+      cx.fillStyle='rgba(255,255,255,0.9)';cx.font='bold 18px sans-serif';cx.fillText('₦1,842',sx+sw/2,sy+74);
+      cx.fillStyle='rgba(34,197,94,0.75)';cx.font='400 8px sans-serif';cx.fillText('▲ +2.34% today',sx+sw/2,sy+88);
+      cx.beginPath();if(cx.roundRect)cx.roundRect(sx+10,sy+100,sw-20,26,4);else cx.rect(sx+10,sy+100,sw-20,26);cx.fillStyle='rgba(255,255,255,0.04)';cx.fill();cx.strokeStyle='rgba(201,150,12,0.35)';cx.lineWidth=0.5;cx.stroke();
+      cx.fillStyle='rgba(201,150,12,0.45)';cx.font='400 7px sans-serif';cx.textAlign='left';cx.fillText('Amount (₦)',sx+15,sy+112);cx.fillStyle='rgba(255,255,255,0.85)';cx.font='bold 9px sans-serif';cx.fillText('5,000',sx+15,sy+122);
+      cx.fillStyle='rgba(255,255,255,0.35)';cx.font='400 7px sans-serif';cx.textAlign='left';cx.fillText('You receive:',sx+10,sy+140);
+      cx.fillStyle='rgba(232,177,33,0.85)';cx.font='bold 8px sans-serif';cx.fillText('2.716 PGV tokens',sx+10,sy+152);
+      ['₦1k','₦5k','₦10k'].forEach((amt,i)=>{const bx=sx+9+i*(sw-18)/3+1,bw=(sw-18)/3-2;cx.beginPath();if(cx.roundRect)cx.roundRect(bx,sy+160,bw,16,2);else cx.rect(bx,sy+160,bw,16);cx.fillStyle=i===1?'rgba(201,150,12,0.18)':'rgba(255,255,255,0.03)';cx.fill();cx.strokeStyle=i===1?'rgba(201,150,12,0.45)':'rgba(255,255,255,0.07)';cx.lineWidth=0.5;cx.stroke();cx.fillStyle=i===1?'#E8B121':'rgba(255,255,255,0.45)';cx.font=`${i===1?'500':'400'} 7px sans-serif`;cx.textAlign='center';cx.fillText(amt,bx+bw/2,sy+171);});
+      const btnY=sy+sh-48,btnP=p>0.55?0.5+0.5*Math.sin((p-0.55)*30):0;
+      cx.beginPath();if(cx.roundRect)cx.roundRect(sx+12,btnY,sw-24,26,5);else cx.rect(sx+12,btnY,sw-24,26);cx.fillStyle=`rgba(201,150,12,${0.85+0.15*btnP})`;cx.fill();cx.fillStyle='#000';cx.font='bold 9px sans-serif';cx.textAlign='center';cx.fillText('Buy PGV Tokens',sx+sw/2,btnY+17);
+    }
+
+    function drawConfirm(sx,sy,sw,sh,p){
+      cx.fillStyle='#090909';cx.fillRect(sx,sy,sw,sh);
+      cx.fillStyle='rgba(255,255,255,0.65)';cx.font='bold 9px sans-serif';cx.textAlign='center';cx.fillText('Confirm Purchase',sx+sw/2,sy+28);
+      const rows=[['Asset','PiggyVest (PGV)'],['Amount','₦5,000'],['Tokens','2.716 PGV'],['Network','Polymesh']];
+      rows.forEach(([k,v],i)=>{const ry=sy+46+i*26;cx.fillStyle='rgba(255,255,255,0.3)';cx.font='400 7px sans-serif';cx.textAlign='left';cx.fillText(k,sx+12,ry);cx.fillStyle=k==='Network'?'rgba(201,150,12,0.8)':k==='Amount'?'rgba(255,255,255,0.9)':'rgba(255,255,255,0.75)';cx.font=`${k==='Amount'?'bold':'400'} 7px sans-serif`;cx.textAlign='right';cx.fillText(v,sx+sw-12,ry);cx.beginPath();cx.moveTo(sx+10,ry+5);cx.lineTo(sx+sw-10,ry+5);cx.strokeStyle='rgba(255,255,255,0.04)';cx.lineWidth=0.5;cx.stroke();});
+      cx.beginPath();if(cx.roundRect)cx.roundRect(sx+12,sy+sh-44,sw-24,28,5);else cx.rect(sx+12,sy+sh-44,sw-24,28);cx.fillStyle='rgba(34,197,94,0.82)';cx.fill();cx.fillStyle='#000';cx.font='bold 8.5px sans-serif';cx.textAlign='center';cx.fillText('✓ Confirm & Buy',sx+sw/2,sy+sh-27);
+    }
+
+    function drawSuccess(sx,sy,sw,sh,p){
+      cx.fillStyle='#090909';cx.fillRect(sx,sy,sw,sh);
+      const fi=Math.min(1,p*4),cy2=sy+sh*0.38;
+      cx.beginPath();cx.arc(sx+sw/2,cy2,22,0,Math.PI*2);cx.fillStyle=`rgba(34,197,94,${0.12*fi})`;cx.fill();cx.strokeStyle=`rgba(34,197,94,${0.75*fi})`;cx.lineWidth=1.2;cx.stroke();
+      cx.fillStyle=`rgba(34,197,94,${fi})`;cx.font='bold 18px sans-serif';cx.textAlign='center';cx.fillText('✓',sx+sw/2,cy2+7);
+      cx.fillStyle=`rgba(255,255,255,${0.88*fi})`;cx.font='bold 9px sans-serif';cx.fillText('Purchase Complete!',sx+sw/2,sy+sh*0.56);
+      cx.fillStyle=`rgba(201,150,12,${0.85*fi})`;cx.font='bold 12px sans-serif';cx.fillText('2.716 PGV',sx+sw/2,sy+sh*0.66);
+      cx.fillStyle=`rgba(255,255,255,${0.35*fi})`;cx.font='400 7px sans-serif';cx.fillText('Settled on Polymesh · T+0',sx+sw/2,sy+sh*0.76);
+    }
+
+    function drawFinger(){
+      if(fingerAlpha<=0)return;
+      cx.save();cx.globalAlpha=fingerAlpha;cx.translate(fingerX,fingerY+16);
+      cx.beginPath();cx.ellipse(0,0,8,12,0,0,Math.PI*2);cx.fillStyle='rgba(255,220,180,0.85)';cx.fill();cx.strokeStyle='rgba(255,200,140,0.4)';cx.lineWidth=0.7;cx.stroke();
+      cx.beginPath();cx.ellipse(0,-6,5,3,0,Math.PI,Math.PI*2);cx.fillStyle='rgba(255,240,220,0.55)';cx.fill();
+      cx.restore();
+      if(tapAnim>0){cx.beginPath();cx.arc(fingerX,fingerY,tapAnim*22,0,Math.PI*2);cx.strokeStyle=`rgba(201,150,12,${0.5*(1-tapAnim)})`;cx.lineWidth=0.8;cx.stroke();}
+    }
+
+    const LABELS=['Touch ID login','Home dashboard','Browse markets','Buy tokens','Confirm order','Complete ✓'];
+
+    function render(){
+      cx.clearRect(0,0,W(),H());
+      cx.strokeStyle='rgba(201,150,12,0.025)';cx.lineWidth=0.5;
+      for(let x=0;x<W();x+=52){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,H());cx.stroke();}
+      for(let y=0;y<H();y+=52){cx.beginPath();cx.moveTo(0,y);cx.lineTo(W(),y);cx.stroke();}
+      drawPhone();drawFinger();
+      particles.forEach(p=>{cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);const c2=p.color;const r=parseInt(c2.slice(1,3),16),g=parseInt(c2.slice(3,5),16),b=parseInt(c2.slice(5,7),16);cx.fillStyle=`rgba(${r},${g},${b},${p.life})`;cx.fill();});
+      cx.fillStyle='rgba(201,150,12,0.22)';cx.font='400 9px sans-serif';cx.textAlign='center';
+      cx.fillText(LABELS[step],W()/2,H()-18);
+      STEPS.forEach((_,i)=>{cx.beginPath();cx.arc(W()/2-(STEPS.length-1)*7+i*14,H()-8,i===step?3.5:2,0,Math.PI*2);cx.fillStyle=i===step?'#E8B121':'rgba(201,150,12,0.22)';cx.fill();});
+    }
+
+    let raf;
+    function loop(){update();render();raf=requestAnimationFrame(loop);}
+    loop();
+    return()=>cancelAnimationFrame(raf);
+  },[]);
+  return (
+    <canvas ref={ref} style={{
+      width:"100%", height:"100%",
+      display:"block", borderRadius:8, background:"#070707"
+    }}/>
+  );
+}
+
+
 // ── PLATFORM PAGE ────────────────────────────────────────────────────────────
 function Platform({ go }) {
   const steps = [
@@ -962,16 +1371,21 @@ function Platform({ go }) {
   return (
     <div style={{padding:"130px 52px 80px"}}>
       {/* HERO */}
-      <div style={{marginBottom:80}}>
-        <Tag gold>Platform</Tag>
-        <h1 style={{fontFamily:FS,fontSize:"clamp(44px,5.5vw,72px)",fontWeight:400,color:C.white,
-          lineHeight:1.08,letterSpacing:"-0.025em",marginBottom:20,maxWidth:720}}>
-          How Our<br/><em style={{color:C.goldLt}}>Platform Works.</em>
-        </h1>
-        <p style={{fontSize:17,color:C.muted,fontWeight:300,maxWidth:520,lineHeight:1.85}}>
-          A seamless, secure, and transparent way to invest in African stocks —
-          built on compliance-native blockchain infrastructure from day one.
-        </p>
+      <div style={{display:"grid",gridTemplateColumns:"1fr auto",gap:48,alignItems:"center",marginBottom:80}}>
+        <div>
+          <Tag gold>Platform</Tag>
+          <h1 style={{fontFamily:FS,fontSize:"clamp(40px,5vw,68px)",fontWeight:400,color:C.white,
+            lineHeight:1.08,letterSpacing:"-0.025em",marginBottom:20,maxWidth:600}}>
+            How Our<br/><em style={{color:C.goldLt}}>Platform Works.</em>
+          </h1>
+          <p style={{fontSize:16,color:C.muted,fontWeight:300,maxWidth:460,lineHeight:1.85}}>
+            A seamless, secure, and transparent way to invest in African stocks —
+            built on compliance-native blockchain infrastructure from day one.
+          </p>
+        </div>
+        <div style={{width:200,height:400,flexShrink:0}}>
+          <MobilePlatformDemo/>
+        </div>
       </div>
 
       {/* 4 STEPS */}
@@ -1605,7 +2019,7 @@ function FAQItem({faq,idx}){
   const [open,setOpen]=useState(false);
   return(
     <div style={{borderTop:`0.5px solid ${C.brd}`,overflow:"hidden"}}>
-      <div onClick={()=>setOpen(o=>!o)} style={{display:"flex",justifyContent:"space-between",
+      <div onClick={(e)=>{e.stopPropagation();setOpen(o=>!o);}} style={{display:"flex",justifyContent:"space-between",
         alignItems:"center",padding:"22px 0",cursor:"pointer",userSelect:"none"}}>
         <span style={{fontSize:15,fontWeight:500,color:open?C.goldLt:C.white,
           fontFamily:FS,paddingRight:24,lineHeight:1.4}}>{faq.q}</span>
