@@ -1450,7 +1450,23 @@ function AdminPage({ go, prices }) {
         {tab === "analytics" && (
           <div>
             <div style={{fontFamily:FS, fontSize:32, fontWeight:400, color:C.white, marginBottom:4}}>Analytics</div>
-            <div style={{fontSize:13, color:C.muted, marginBottom:32}}>Site traffic and engagement overview</div>
+            <div style={{fontSize:13, color:C.muted, marginBottom:20}}>Live data powered by Google Analytics 4</div>
+            <div style={{display:"flex",gap:12,marginBottom:32}}>
+              <a href="https://analytics.google.com/analytics/web/#/p{G-RB7D67YTN8}/reports/intelligenthome"
+                target="_blank" rel="noopener noreferrer"
+                style={{background:C.gold,color:"#000",fontFamily:"'Sora',sans-serif",
+                  fontSize:13,fontWeight:600,padding:"10px 22px",borderRadius:3,
+                  textDecoration:"none",display:"inline-flex",alignItems:"center",gap:8}}>
+                Open GA4 Dashboard →
+              </a>
+              <a href="https://analytics.google.com/analytics/web/#/p/G-RB7D67YTN8/reports/explorer"
+                target="_blank" rel="noopener noreferrer"
+                style={{background:"none",border:`0.5px solid ${C.brd2}`,color:C.muted,
+                  fontFamily:"'Sora',sans-serif",fontSize:13,padding:"10px 22px",borderRadius:3,
+                  textDecoration:"none",display:"inline-flex",alignItems:"center",gap:8}}>
+                View Full Reports
+              </a>
+            </div>
 
             <div style={{display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:16, marginBottom:32}}>
               <AdminStat label="Total Visits" value={analytics.totalVisits.toLocaleString()} sub="All time" color={C.goldLt}/>
@@ -1916,18 +1932,28 @@ function DisclaimerBanner(){
 // ── ROOT ──────────────────────────────────────────────────────────────────────
 export default function App(){
   const [page,setPage]=useState("home");
-  // GA4: Sherriff — add your G-XXXXXXXXXX below and uncomment
-  // useEffect(()=>{
-  //   const s=document.createElement('script');
-  //   s.async=true;
-  //   s.src='https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
-  //   document.head.appendChild(s);
-  //   window.dataLayer=window.dataLayer||[];
-  //   function gtag(){window.dataLayer.push(arguments);}
-  //   gtag('js',new Date()); gtag('config','G-XXXXXXXXXX');
-  // },[]);
+  useEffect(()=>{
+    // GA4 — DotVests Analytics
+    const s=document.createElement('script');
+    s.async=true;
+    s.src='https://www.googletagmanager.com/gtag/js?id=G-RB7D67YTN8';
+    document.head.appendChild(s);
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){window.dataLayer.push(arguments);}
+    window.gtag=gtag;
+    gtag('js',new Date());
+    gtag('config','G-RB7D67YTN8');
+  },[]);
   const prices=useLivePrices();
-  const go=(p)=>{setPage(p);const el=document.getElementById("rs");if(el)el.scrollTop=0;};
+  const go=(p)=>{
+    setPage(p);
+    const el=document.getElementById("rs");
+    if(el)el.scrollTop=0;
+    // Track page view in GA4
+    if(window.gtag){
+      window.gtag('event','page_view',{page_title:p,page_location:window.location.href+'#'+p});
+    }
+  };
   const pages={home:Home,markets:Markets,tokenize:Tokenize,compliance:Compliance,company:Company,platform:Platform,admin:AdminPage};
   const Page=pages[page]||NotFound;
   return <>
