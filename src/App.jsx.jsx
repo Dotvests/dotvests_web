@@ -998,15 +998,15 @@ function RotatingDiamond() {
     const cx = cv.getContext('2d');
     cv.width = cv.offsetWidth; cv.height = cv.offsetHeight;
     const W=cv.width,H=cv.height,CX=W/2,CY=H/2;
-    const R=80,HC=46,HP=80,N=8;
+    const R=Math.min(W,H)*0.32,HC=R*0.57,HP=R*1.0,N=8;
     function makeVerts(){const v=[];v.push([0,-HC-14,0]);for(let i=0;i<N;i++){const a=(i/N)*Math.PI*2-Math.PI/N;v.push([Math.cos(a)*R*0.44,-HC,Math.sin(a)*R*0.44]);}for(let i=0;i<N;i++){const a=(i/N)*Math.PI*2;v.push([Math.cos(a)*R,0,Math.sin(a)*R]);}for(let i=0;i<N;i++){const a=(i/N)*Math.PI*2+Math.PI/N;v.push([Math.cos(a)*R*0.9,-3,Math.sin(a)*R*0.9]);}v.push([0,HP,0]);return v;}
     const BASE=makeVerts();
     function makeFaces(){const f=[];for(let i=0;i<N;i++){const ni=(i+1)%N;f.push({v:[0,1+i,1+ni],t:'ct'});}for(let i=0;i<N;i++){const ni=(i+1)%N;f.push({v:[1+i,9+i,1+ni],t:'cm'});f.push({v:[9+i,9+ni,1+ni],t:'cl'});}for(let i=0;i<N;i++){const ni=(i+1)%N;f.push({v:[9+i,17+i,9+ni],t:'g'});f.push({v:[17+i,17+ni,9+ni],t:'g'});}for(let i=0;i<N;i++){const ni=(i+1)%N;f.push({v:[9+i,25,9+ni],t:'pm'});f.push({v:[17+i,25,17+ni],t:'pi'});}return f;}
     const FACES=makeFaces();
     let rX=0.1,rY=0,rZ=0,vX=0.006,vY=0.018,vZ=0.004,ct=0;
     function rot(v,ax,ay,az){let[x,y,z]=v;let ny=y*Math.cos(ax)-z*Math.sin(ax),nz=y*Math.sin(ax)+z*Math.cos(ax);y=ny;z=nz;let nx2=x*Math.cos(ay)+z*Math.sin(ay),nz2=-x*Math.sin(ay)+z*Math.cos(ay);x=nx2;z=nz2;let nx3=x*Math.cos(az)-y*Math.sin(az),ny3=x*Math.sin(az)+y*Math.cos(az);return[nx3,ny3,z];}
-    const FOCAL=400;
-    function project(v){const[x,y,z]=v;const s=FOCAL/(FOCAL+z+160);return[CX+x*s,CY+y*s,z,s];}
+    const FOCAL=Math.min(W,H)*1.3;
+    function project(v){const[x,y,z]=v;const s=FOCAL/(FOCAL+z+Math.min(W,H)*0.4);return[CX+x*s,CY+y*s,z,s];}
     function n2d(p,vi){const ax=p[vi[1]][0]-p[vi[0]][0],ay=p[vi[1]][1]-p[vi[0]][1],bx=p[vi[2]][0]-p[vi[0]][0],by=p[vi[2]][1]-p[vi[0]][1];return ax*by-ay*bx;}
     function fc(t,nrm,cz){const lit=Math.max(0,Math.min(1,-cz/120+0.5)),face=nrm>0?1:0,rr=201,gg=150,bb=12,rl=232,gl=177,bl=33;if(t==='ct'){const br=0.55+0.45*lit;return`rgba(${rl*br|0},${gl*br|0},${bl*br|0},${face?0.95:0.25})`;}if(t==='cm'){const br=0.4+0.6*lit;return`rgba(${rr*br|0},${gg*br|0},${bb*br|0},${face?0.9:0.2})`;}if(t==='cl'){const br=0.3+0.55*lit;return`rgba(${rl*br|0},${gl*br|0},${bl*br|0},${face?0.85:0.18})`;}if(t==='g'){return`rgba(${rl},${gl},${bl},${0.55+0.3*lit})`;}if(t==='pm'){const br=0.2+0.7*(1-lit);return`rgba(${rr*br|0},${gg*br|0},${bb*br|0},${face?0.88:0.18})`;}if(t==='pi'){const br=0.12+0.6*(1-lit);return`rgba(${rl*br|0},${gl*br|0},${bl*br|0},${face?0.82:0.12})`;}return'rgba(201,150,12,0.5)';}
     let tick=0;
@@ -1025,7 +1025,7 @@ function RotatingDiamond() {
     let raf;function loop(){render();raf=requestAnimationFrame(loop);}loop();
     return()=>cancelAnimationFrame(raf);
   },[]);
-  return <canvas ref={ref} style={{width:"100%",height:280,display:"block",borderRadius:6,background:"#070707"}}/>;
+  return <canvas ref={ref} style={{width:"100%",height:"100%",display:"block",borderRadius:6,background:"#070707"}}/>;
 }
 
 // ── MARKETS ───────────────────────────────────────────────────────────────────
@@ -1051,7 +1051,7 @@ function Markets({go,prices,siteAssets}){
       <strong style={{color:C.goldLt}}>Pre-Launch Notice: </strong>DotVests is pre-launch pending SEC Nigeria ARIP approval. All prices are simulated. No investment services offered. Stage 3 assets available only post full regulatory approval.
     </div>
     <div style={{display:"flex",justifyContent:"center",padding:"20px 0 40px"}}>
-      <div style={{width:"min(600px,100%)",height:420}}><RotatingDiamond/></div>
+      <div style={{width:"100%",height:500}}><RotatingDiamond/></div>
     </div>
     <div style={{maxWidth:540,margin:"0 auto",textAlign:"center",marginBottom:80}}>
       <Tag>Early Access</Tag>
