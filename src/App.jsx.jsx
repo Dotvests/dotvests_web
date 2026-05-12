@@ -58,7 +58,7 @@ const ASSETS = [
 ];
 
 function useLivePrices(siteAssets) {
-  const [prices, set] = useState(() => Object.fromEntries(ASSETS.map(a=>[a.id,{price:a.price,chg:a.chg}])));
+  const [pData, set] = useState(() => Object.fromEntries(ASSETS.map(a=>[a.id,{price:a.price,chg:a.chg}])));
   useEffect(()=>{
     const id = setInterval(()=>{
       set(prev=>{
@@ -75,7 +75,7 @@ function useLivePrices(siteAssets) {
     return()=>clearInterval(id);
   },[siteAssets]);
   // Apply chgOverride instantly for any admin-overridden asset
-  const result={...prices};
+  const result={...p};
   if(siteAssets){
     siteAssets.forEach(a=>{
       if(a.chgOverride!=null && result[a.id]){
@@ -700,7 +700,7 @@ function Stat({value,suffix,label,prefix=""}){
   </div>;
 }
 
-function Home({go,prices}){
+function Home({go,prices,siteAssets,setSiteAssets}){
   const pillars=[
     {n:"01",icon:"◈",title:"Tokenize",sub:"Nigerian equity → blockchain tokens",body:"Polymesh converts private company shares into compliance-native tokens. KYC/AML enforced at protocol level.",badge:"Polymesh Native",cta:"tokenize"},
     {n:"02",icon:"◎",title:"Trade",sub:"Fractional ownership from ₦1,000",body:"Buy and sell tokenized equity 24/7. Naira-denominated. Paystack and Breet rails. Instant settlement.",badge:"Naira Denominated",cta:"markets"},
