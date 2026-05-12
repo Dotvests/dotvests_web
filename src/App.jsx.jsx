@@ -57,21 +57,33 @@ const ASSETS = [
   {id:"MTN",name:"MTN Nigeria",  sector:"Telecom",          price:3150,chg:-1.21,stage:3},
 ];
 
-function useLivePrices() {
+function useLivePrices(siteAssets) {
   const [prices, set] = useState(() => Object.fromEntries(ASSETS.map(a=>[a.id,{price:a.price,chg:a.chg}])));
   useEffect(()=>{
     const id = setInterval(()=>{
       set(prev=>{
         const next={...prev};
-        const a=ASSETS[Math.floor(Math.random()*ASSETS.length)];
+        const pool=(siteAssets||ASSETS).filter(a=>a.status!=="frozen");
+        if(!pool.length) return prev;
+        const a=pool[Math.floor(Math.random()*pool.length)];
         const d=(Math.random()-0.48)*a.price*0.003;
-        next[a.id]={price:Math.max(1,prev[a.id].price+d),chg:prev[a.id].chg+(Math.random()-0.5)*0.04};
+        const chg = a.chgOverride!=null ? a.chgOverride : (prev[a.id]?.chg||a.chg)+(Math.random()-0.5)*0.04;
+        next[a.id]={price:Math.max(1,(prev[a.id]?.price||a.price)+d),chg};
         return next;
       });
     },1400);
-    return ()=>clearInterval(id);
-  },[]);
-  return prices;
+    return()=>clearInterval(id);
+  },[siteAssets]);
+  // Apply chgOverride instantly for any admin-overridden asset
+  const result={...prices};
+  if(siteAssets){
+    siteAssets.forEach(a=>{
+      if(a.chgOverride!=null && result[a.id]){
+        result[a.id]={...result[a.id], chg:a.chgOverride};
+      }
+    });
+  }
+  return result;
 }
 
 function fmt(n){return"₦"+Math.round(n).toLocaleString();}
@@ -722,12 +734,12 @@ function Home({go,prices}){
       </div>
       <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"flex-end",gap:14,position:"relative",zIndex:2,paddingLeft:36}}>
         <div style={{display:"flex",gap:14,justifyContent:"flex-end"}}>
-          <AssetCard asset={ASSETS[0]} prices={prices} delay={200} anim="floatA"/>
-          <AssetCard asset={ASSETS[3]} prices={prices} delay={500} anim="floatB"/>
+          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="PGV")||ASSETS[0]} prices={prices} delay={200} anim="floatA"/>
+          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="CBN")||ASSETS[3]} prices={prices} delay={500} anim="floatB"/>
         </div>
         <div style={{display:"flex",gap:14,justifyContent:"flex-end",marginLeft:44}}>
-          <AssetCard asset={ASSETS[1]} prices={prices} delay={350} anim="floatB"/>
-          <AssetCard asset={ASSETS[2]} prices={prices} delay={650} anim="floatA"/>
+          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="CHW")||ASSETS[1]} prices={prices} delay={350} anim="floatB"/>
+          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="ERF")||ASSETS[2]} prices={prices} delay={650} anim="floatA"/>
         </div>
       </div>
     </section>
@@ -757,7 +769,7 @@ function Home({go,prices}){
         <div style={{display:"grid",gridTemplateColumns:"44px 1fr 1fr 120px 120px 90px",padding:"10px 22px",background:C.bg2,borderBottom:`0.5px solid ${C.brd}`,fontSize:10.5,color:C.muted,letterSpacing:"0.1em",textTransform:"uppercase"}}>
           <span>#</span><span>Asset</span><span>Sector</span><span style={{textAlign:"right"}}>Price</span><span style={{textAlign:"right"}}>24h</span><span style={{textAlign:"right"}}>Stage</span>
         </div>
-        {ASSETS.map((a,i)=><TableRow key={a.id} asset={a} idx={i} prices={prices}/>)}
+        {(siteAssets||ASSETS).filter(a=>a.status!=="frozen").map((a,i)=><TableRow key={a.id} asset={a} idx={i} prices={prices}/>)}
       </div>
       <p style={{fontSize:11,color:C.dim,marginTop:8,textAlign:"right"}}>* Simulated prices. No investment services offered.</p>
     </section>
@@ -1594,7 +1606,7 @@ function AdminPage({ go, prices, siteAssets, setSiteAssets }) {
     {id:4, email:"emeka@gmail.com",    date:"2026-05-07", source:"Home",    status:"Active"},
     {id:5, email:"ngozi@proton.me",    date:"2026-05-09", source:"Home",    status:"Active"},
   ]);
-  const [assets, setAssets] = useState((siteAssets||ASSETS).map(a=>({...a})));
+  const [assets, setAssets] = useState(()=>(siteAssets||ASSETS).map(a=>({...a,status:a.status||"active",chgOverride:a.chgOverride||null})));
   const [editAsset, setEditAsset] = useState(null);
   const [newEmail, setNewEmail] = useState("");
   // Simulated analytics
@@ -1800,7 +1812,7 @@ function AdminPage({ go, prices, siteAssets, setSiteAssets }) {
             {editAsset ? (
               <div style={{background:C.bg1, border:`0.5px solid ${C.goldBrd}`, borderRadius:6, padding:"36px 36px", maxWidth:540}}>
                 <div style={{fontSize:14, fontWeight:500, color:C.white, marginBottom:24}}>Editing: {editAsset.name}</div>
-                {[["name","Asset Name"],["sector","Sector"],["price","Base Price (₦)"],["chg","24h Change (%)"]].map(([field,label]) => (
+                {[["name","Asset Name"],["sector","Sector"],["price","Base Price (₦)"]].map(([field,label]) => (
                   <div key={field} style={{marginBottom:18}}>
                     <div style={{fontSize:11, color:C.muted, letterSpacing:"0.06em", marginBottom:6, textTransform:"uppercase"}}>{label}</div>
                     <input type={field==="price"||field==="chg"?"number":"text"}
@@ -1810,6 +1822,20 @@ function AdminPage({ go, prices, siteAssets, setSiteAssets }) {
                         fontSize:14, padding:"10px 14px", borderRadius:3, outline:"none", fontFamily:FN}}/>
                   </div>
                 ))}
+                <div style={{marginBottom:18}}>
+                  <div style={{fontSize:11, color:C.muted, letterSpacing:"0.06em", marginBottom:6, textTransform:"uppercase"}}>24h Change Override (%)</div>
+                  <div style={{display:"flex",gap:10,alignItems:"center"}}>
+                    <input type="number" step="0.01"
+                      value={editAsset.chgOverride!=null?editAsset.chgOverride:editAsset.chg}
+                      onChange={e=>setEditAsset(a=>({...a,chgOverride:parseFloat(e.target.value)||0}))}
+                      style={{flex:1,background:C.bg2,border:`0.5px solid ${C.brd2}`,color:C.white,fontSize:14,padding:"10px 14px",borderRadius:3,outline:"none"}}/>
+                    <button onClick={()=>setEditAsset(a=>({...a,chgOverride:null}))}
+                      style={{background:"none",border:`0.5px solid ${C.brd}`,color:C.muted,fontFamily:"'Sora',sans-serif",fontSize:11,padding:"10px 12px",borderRadius:3,cursor:"pointer",whiteSpace:"nowrap"}}>
+                      Reset to Live
+                    </button>
+                  </div>
+                  <div style={{fontSize:10,color:C.dim,marginTop:6}}>Positive = profit (green), Negative = loss (red). Overrides live price movement.</div>
+                </div>
                 <div style={{marginBottom:24}}>
                   <div style={{fontSize:11, color:C.muted, letterSpacing:"0.06em", marginBottom:6, textTransform:"uppercase"}}>Stage</div>
                   <div style={{display:"flex", gap:10}}>
@@ -2389,7 +2415,7 @@ export default function App(){
     gtag('js',new Date());
     gtag('config','G-RB7D67YTN8');
   },[]);
-  const prices=useLivePrices();
+  const prices=useLivePrices(siteAssets);
   const go=(p)=>{
     setPage(p);
     const el=document.getElementById("rs");
