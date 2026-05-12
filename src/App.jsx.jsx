@@ -75,7 +75,7 @@ function useLivePrices(siteAssets) {
     return()=>clearInterval(id);
   },[siteAssets]);
   // Apply chgOverride instantly for any admin-overridden asset
-  const result={...p};
+  const result={...pData};
   if(siteAssets){
     siteAssets.forEach(a=>{
       if(a.chgOverride!=null && result[a.id]){
@@ -391,7 +391,8 @@ function Nav({page,go}){
 // ── SHARED COMPONENTS ─────────────────────────────────────────────────────────
 function TableRow({asset,idx,prices}){
   const [h,set]=useState(false);
-  const p=prices[asset.id];const up=p.chg>=0;
+  const p=prices[asset.id]||{price:asset.price,chg:asset.chg};
+  const up=p.chg>=0;
   return <div onMouseEnter={()=>set(true)} onMouseLeave={()=>set(false)}
     style={{display:"grid",gridTemplateColumns:"44px 1fr 1fr 120px 120px 90px",
       padding:"16px 22px",background:h?C.bg2:"transparent",
@@ -672,7 +673,8 @@ function PillarCard({n,icon,title,sub,body,badge,onClick}){
 }
 
 function AssetCard({asset,prices,delay=0,anim="floatA"}){
-  const p=prices[asset.id];const up=p.chg>=0;
+  const p=prices[asset.id]||{price:asset.price,chg:asset.chg};
+  const up=p.chg>=0;
   return <div style={{background:C.bg2,border:`0.5px solid ${C.brd2}`,borderRadius:10,padding:"18px 20px",minWidth:200,
     animation:`fadeUp 0.8s ${delay}ms both, ${anim} ${4+(delay*0.001)}s ${delay}ms ease-in-out infinite`}}>
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:10}}>
