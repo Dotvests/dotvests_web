@@ -316,7 +316,11 @@ const DROP_ITEMS=[
   {l:"Compliance",     p:"compliance",desc:"Four-stage regulatory roadmap"},
   {l:"Company",        p:"company",   desc:"About DotVests Technologies"},
   {l:"Platform",       p:"platform",  desc:"How the platform works"},
-  {l:"Explore Assets", p:"markets",   desc:"Start investing today"},
+  {l:"Explore Assets", p:"markets",        desc:"Start investing today"},
+  {l:"Join Waitlist",  p:"waitlist",        desc:"Sign up for early access"},
+  {l:"Team",           p:"team",            desc:"Meet the founders"},
+  {l:"Roadmap",        p:"roadmap",         desc:"Our path to launch and beyond"},
+  {l:"Token Economics",p:"token-economics", desc:"How DotVests tokens work"},
 ];
 
 function DropItem({item,go,close}){
