@@ -45,13 +45,14 @@ const GF = `
     .footer-grid{grid-template-columns:1fr !important;}
   }
   /* ── MOBILE RESPONSIVE ── */
+  *{ box-sizing:border-box; }
   @media(max-width:768px){
-    /* Hide floating asset cards on mobile hero */
     .hero-cards{ display:none !important; }
-    /* Hide search bar on mobile */
-    .nav-search{ display:none !important; }
-    /* Stats strip scrollable */
-    .stats-strip{ overflow-x:auto; flex-wrap:nowrap !important; }
+    canvas{ max-width:100% !important; }
+  }
+  @media(max-width:500px){
+    /* Search bar hidden on very small screens */
+    .search-wrapper{ display:none !important; }
   }
 
 `;
@@ -341,8 +342,7 @@ function Nav({page,go}){
   },[]);
   return(
     <nav ref={ref} className="nav-inner" style={{position:"relative",top:0,left:0,right:0,zIndex:200,height:64,
-      display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 clamp(12px,4vw,48px)",
-      background:"rgba(7,7,7,0.97)",
+      display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 clamp(12px,4vw,48px)",background:"rgba(7,7,7,0.97)",
       width:"100%",
       borderBottom:sc?`0.5px solid ${C.brd}`:"0.5px solid transparent",
       backdropFilter:sc?"blur(16px)":"none",transition:"all 0.35s"}}>
@@ -362,8 +362,7 @@ function Nav({page,go}){
             transform:open?"rotate(180deg)":"rotate(0deg)",transition:"transform 0.25s",display:"inline-block"}}>▼</span>
         </button>
         {open&&(
-          <div style={{position:"absolute",top:"calc(100% + 12px)",right:"auto",left:"50%",transform:"translateX(-50%)",
-            width:"min(500px,100vw)",background:"rgba(8,8,8,0.99)",left:"50%",right:"auto",
+          <div style={{position:"fixed",top:100,left:"clamp(8px,3vw,60px)",right:"clamp(8px,3vw,60px)",background:"rgba(8,8,8,0.99)",
             border:`0.5px solid ${C.goldBrd}`,borderRadius:6,
             backdropFilter:"blur(24px)",
             boxShadow:`0 32px 64px rgba(0,0,0,0.9)`,
@@ -373,7 +372,7 @@ function Nav({page,go}){
               <DotVestsLogo height={20}/>
               <span style={{fontSize:10,color:C.muted,letterSpacing:"0.1em",textTransform:"uppercase"}}>Navigate</span>
             </div>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))"}}>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(200px,100%),1fr))"}}>
               {DROP_ITEMS.map(item=><DropItem key={item.l} item={item} go={go} close={()=>setOpen(false)}/>)}
             </div>
             <div style={{padding:"9px 20px",borderTop:`0.5px solid ${C.brd}`,
@@ -533,7 +532,7 @@ function WaitlistBar(){
         <input type="text" style={{display:"none"}} name="returnURL" defaultValue="null"/>
         <input type="text" style={{display:"none"}} name="aG9uZXlwb3Q" defaultValue=""/>
 
-        <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:12}}>
+        <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))", gap:12, marginBottom:12}}>
           <div>
             <div style={{fontSize:10, color:C.muted, letterSpacing:"0.08em", marginBottom:6, textTransform:"uppercase"}}>Company / Organisation *</div>
             <input type="text" name="Company" maxLength={200} placeholder="Your company or N/A" style={inputStyle('company')}/>
@@ -546,7 +545,7 @@ function WaitlistBar(){
           </div>
         </div>
 
-        <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:12}}>
+        <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))", gap:12, marginBottom:12}}>
           <div>
             <div style={{fontSize:10, color:C.muted, letterSpacing:"0.08em", marginBottom:6, textTransform:"uppercase"}}>Email Address</div>
             <input type="text" name="Email" maxLength={100} placeholder="you@email.com" style={inputStyle('email')}/>
@@ -614,8 +613,8 @@ function Footer({go}){
     {t:"Company", links:[["About","company"],["Team","team"],["Roadmap","roadmap"],["Token Economics","token-economics"],["Compliance","compliance"],["Contact","company"]]},
     {t:"Legal",   links:[["Privacy Policy","company"],["Risk Disclosure","company"],["Regulatory Info","compliance"]]},
   ];
-  return <footer style={{background:C.bg1,borderTop:`0.5px solid ${C.brd}`,padding:"clamp(32px,5vw,56px) clamp(14px,4vw,48px) 32px"}}>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(140px,1fr))",gap:32,marginBottom:48}}>
+  return <footer style={{background:C.bg1,borderTop:`0.5px solid ${C.brd}`,padding:"clamp(28px,4vw,56px) clamp(14px,4vw,48px) 28px"}}>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(130px,1fr))",gap:"clamp(16px,3vw,32px)",marginBottom:36}}>
       <div>
         <div style={{marginBottom:14}}><DotVestsLogo height={36}/></div>
         <p style={{fontSize:13,color:C.muted,lineHeight:1.8,maxWidth:220}}>Redefining Access To African Wealth. Tokenized Nigerian equity on Polymesh.</p>
@@ -671,7 +670,7 @@ function PillarCard({n,icon,title,sub,body,badge,onClick}){
       background:`linear-gradient(90deg,transparent,${C.gold},transparent)`,opacity:h?1:0,transition:"opacity 0.3s"}}/>
     <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",marginBottom:22}}>{n}</div>
     <div style={{fontSize:24,marginBottom:12,color:C.goldLt}}>{icon}</div>
-    <h3 style={{fontFamily:FS,fontSize:30,fontWeight:400,color:C.white,marginBottom:8}}>{title}</h3>
+    <h3 style={{fontFamily:FS,fontSize:"clamp(20px,4.5vw,30px)",fontWeight:400,color:C.white,marginBottom:8}}>{title}</h3>
     <div style={{fontSize:12,color:C.muted,marginBottom:16,fontStyle:"italic"}}>{sub}</div>
     <div style={{width:28,height:1,background:C.goldBrd,marginBottom:16}}/>
     <p style={{fontSize:13,color:C.muted,lineHeight:1.85}}>{body}</p>
@@ -718,7 +717,7 @@ function Home({go,prices,siteAssets,setSiteAssets}){
   ];
   return <div>
     {/* HERO */}
-    <section className="hero-grid" style={{minHeight:"100vh",display:"flex",alignItems:"center",padding:"120px 48px 80px",position:"relative",overflow:"hidden",borderBottom:`0.5px solid ${C.brd}`}}>
+    <section className="hero-grid" style={{minHeight:"100vh",display:"flex",alignItems:"center",flexWrap:"wrap",padding:"clamp(80px,12vw,120px) clamp(16px,4vw,48px) 80px",position:"relative",overflow:"hidden",borderBottom:`0.5px solid ${C.brd}`}}>
       <div style={{position:"absolute",inset:0,backgroundImage:`linear-gradient(${C.brd} 1px,transparent 1px),linear-gradient(90deg,${C.brd} 1px,transparent 1px)`,backgroundSize:"64px 64px",maskImage:"linear-gradient(to bottom,transparent,rgba(0,0,0,0.5) 15%,rgba(0,0,0,0.5) 85%,transparent)",pointerEvents:"none"}}/>
       <div style={{position:"absolute",top:"30%",left:"40%",width:500,height:350,background:`radial-gradient(ellipse,rgba(201,150,12,0.06) 0%,transparent 65%)`,pointerEvents:"none",animation:"glow 4s ease-in-out infinite"}}/>
       <div style={{flex:1,maxWidth:580,position:"relative",zIndex:2}}>
@@ -754,7 +753,7 @@ function Home({go,prices,siteAssets,setSiteAssets}){
       </div>
     </section>
     {/* STATS */}
-    <section style={{background:C.bg1,borderBottom:`0.5px solid ${C.brd}`,padding:"56px 48px",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",gap:1}}>
+    <section style={{background:C.bg1,borderBottom:`0.5px solid ${C.brd}`,padding:"56px 48px",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(200px,100%),1fr))",gap:1}}>
       {[{v:160,s:"T+",p:"₦",l:"NGX Market Capitalisation"},{v:154,s:"+",p:"",l:"NGX Listed Companies"},{v:10,s:"M",p:"₦",l:"DotVests Share Capital"},{v:6,s:"M+",p:"",l:"PiggyVest Users — Stage 1"}].map((s,i)=>(
         <div key={i} style={{textAlign:"center",padding:"0 20px",borderRight:i<3?`0.5px solid ${C.brd}`:"none"}}><Stat value={s.v} suffix={s.s} prefix={s.p} label={s.l}/></div>
       ))}
@@ -763,16 +762,16 @@ function Home({go,prices,siteAssets,setSiteAssets}){
     <section style={{padding:"90px 48px",borderBottom:`0.5px solid ${C.brd}`}}>
       <div style={{textAlign:"center",marginBottom:56}}>
         <Tag>Platform Architecture</Tag>
-        <h2 style={{fontFamily:FS,fontSize:40,fontWeight:400,color:C.white,letterSpacing:"-0.02em"}}>One Platform. Three Functions.</h2>
+        <h2 style={{fontFamily:FS,fontSize:"clamp(26px,6vw,40px)",fontWeight:400,color:C.white,letterSpacing:"-0.02em"}}>One Platform. Three Functions.</h2>
       </div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))",gap:1,background:C.brd}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(240px,100%),1fr))",gap:1,background:C.brd}}>
         {pillars.map(p=><PillarCard key={p.n} {...p} onClick={()=>go(p.cta)}/>)}
       </div>
     </section>
     {/* LIVE TABLE */}
     <section style={{padding:"90px 48px",borderBottom:`0.5px solid ${C.brd}`}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:32}}>
-        <div><Tag gold>Live Asset Feed</Tag><h2 style={{fontFamily:FS,fontSize:36,fontWeight:400,color:C.white,letterSpacing:"-0.02em"}}>Tokenized Asset Pipeline</h2></div>
+        <div><Tag gold>Live Asset Feed</Tag><h2 style={{fontFamily:FS,fontSize:"clamp(24px,5vw,36px)",fontWeight:400,color:C.white,letterSpacing:"-0.02em"}}>Tokenized Asset Pipeline</h2></div>
         <Btn v="og" onClick={()=>go("markets")}>View All →</Btn>
       </div>
       <div style={{border:`0.5px solid ${C.brd}`,borderRadius:6,overflow:"hidden"}}>
@@ -785,11 +784,11 @@ function Home({go,prices,siteAssets,setSiteAssets}){
     </section>
     {/* PLATFORM CTA */}
     <section style={{padding:"0 48px 90px",borderBottom:`0.5px solid ${C.brd}`}}>
-      <div style={{background:`linear-gradient(135deg,${C.bg2},rgba(201,150,12,0.04))`,border:`0.5px solid ${C.goldBrd}`,borderRadius:8,padding:"64px 56px",display:"grid",gridTemplateColumns:"1fr 1fr",gap:60,position:"relative",overflow:"hidden"}}>
+      <div style={{background:`linear-gradient(135deg,${C.bg2},rgba(201,150,12,0.04))`,border:`0.5px solid ${C.goldBrd}`,borderRadius:8,padding:"64px 56px",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:60,position:"relative",overflow:"hidden"}}>
         <div style={{position:"absolute",top:0,right:0,width:520,height:200,background:`radial-gradient(circle at top right,${C.goldDim},transparent)`,pointerEvents:"none"}}/>
         <div>
           <Tag gold>New Feature</Tag>
-          <h2 style={{fontFamily:FS,fontSize:36,fontWeight:400,color:C.white,lineHeight:1.2,marginBottom:18}}>How the Platform<br/><em style={{color:C.goldLt}}>Works.</em></h2>
+          <h2 style={{fontFamily:FS,fontSize:"clamp(24px,5vw,36px)",fontWeight:400,color:C.white,lineHeight:1.2,marginBottom:18}}>How the Platform<br/><em style={{color:C.goldLt}}>Works.</em></h2>
           <p style={{fontSize:14,color:C.muted,lineHeight:1.9,marginBottom:28}}>A seamless, secure, and transparent way to invest in African stocks — built on compliance-native Polymesh blockchain infrastructure from day one.</p>
           <Btn v="gold" onClick={()=>go("platform")}>Launch Simulator →</Btn>
         </div>
@@ -811,7 +810,7 @@ function Home({go,prices,siteAssets,setSiteAssets}){
     <section id="waitlist-section" style={{padding:"90px 48px",borderBottom:`0.5px solid ${C.brd}`}}>
       <div style={{maxWidth:560,margin:"0 auto",textAlign:"center"}}>
         <Tag gold>Early Access</Tag>
-        <h2 style={{fontFamily:FS,fontSize:40,fontWeight:400,color:C.white,letterSpacing:"-0.02em",marginBottom:14}}>Be First In Line.</h2>
+        <h2 style={{fontFamily:FS,fontSize:"clamp(26px,6vw,40px)",fontWeight:400,color:C.white,letterSpacing:"-0.02em",marginBottom:14}}>Be First In Line.</h2>
         <p style={{fontSize:15,color:C.muted,lineHeight:1.8,marginBottom:36}}>Join the waitlist. Get priority access, insider updates, and be first to invest when we launch post-ARIP approval.</p>
         <WaitlistBar/>
       </div>
@@ -1113,10 +1112,10 @@ function Markets({go,prices,siteAssets}){
   const [filter,setFilter]=useState("all");
   const activeAssets=(siteAssets||ASSETS).filter(a=>a.status!=="frozen");
   const filtered=filter==="all"?activeAssets:activeAssets.filter(a=>filter==="Stage 1"?a.stage===1:a.stage===3);
-  return <div style={{padding:"clamp(72px,10vw,110px) clamp(14px,4vw,48px) 60px"}}>
+  return <div style={{padding:"clamp(70px,10vw,110px) clamp(16px,4vw,48px) 60px"}}>
     <Tag gold>Asset Marketplace</Tag>
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:44}}>
-      <h1 style={{fontFamily:FS,fontSize:"clamp(32px,8vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em"}}>
+      <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em"}}>
         Tokenized<br/><em style={{color:C.goldLt}}>Nigerian Equity.</em>
       </h1>
       <div style={{display:"flex",gap:8}}>
@@ -1124,7 +1123,7 @@ function Markets({go,prices,siteAssets}){
       </div>
     </div>
     <LiveMarketChart/>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:1,background:C.brd,marginBottom:48}}>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(min(280px,100%),1fr))",gap:1,background:C.brd,marginBottom:48}}>
       {filtered.map(a=><MarketCard key={a.id} asset={a} prices={prices} statusOverride={a.status}/>)}
     </div>
     <div style={{background:C.bg1,border:`0.5px solid ${C.brd}`,borderRadius:4,padding:"18px 24px",fontSize:12.5,color:C.muted,lineHeight:1.8,marginBottom:60}}>
@@ -1135,7 +1134,7 @@ function Markets({go,prices,siteAssets}){
     </div>
     <div style={{maxWidth:540,margin:"0 auto",textAlign:"center",marginBottom:80}}>
       <Tag>Early Access</Tag>
-      <h2 style={{fontFamily:FS,fontSize:32,fontWeight:400,color:C.white,letterSpacing:"-0.02em",marginBottom:14}}>Join the Waitlist</h2>
+      <h2 style={{fontFamily:FS,fontSize:"clamp(22px,5vw,32px)",fontWeight:400,color:C.white,letterSpacing:"-0.02em",marginBottom:14}}>Join the Waitlist</h2>
       <p style={{fontSize:14,color:C.muted,lineHeight:1.8,marginBottom:28}}>Be first to access tokenized Nigerian equity post-ARIP approval.</p>
       <WaitlistBar/>
     </div>
@@ -1146,17 +1145,17 @@ function Markets({go,prices,siteAssets}){
 
 // ── TOKENIZE ──────────────────────────────────────────────────────────────────
 function Tokenize({go}){
-  return <div style={{padding:"clamp(72px,10vw,110px) clamp(14px,4vw,48px) 60px"}}>
+  return <div style={{padding:"clamp(70px,10vw,110px) clamp(16px,4vw,48px) 60px"}}>
     <Tag>How Tokenization Works</Tag>
-    <h1 style={{fontFamily:FS,fontSize:"clamp(32px,8vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
+    <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
       Every Share,<br/><em style={{color:C.goldLt}}>On Polymesh.</em>
     </h1>
     <CoinsOnBlocks/>
-    <p style={{fontSize:16,color:C.muted,fontWeight:300,maxWidth:500,lineHeight:1.85,marginBottom:40}}>Polymesh is purpose-built for regulated securities. Compliance isn't optional — it's enforced at the chain level before any token moves.</p>
-    <div style={{background:C.bg1,border:`0.5px solid ${C.goldBrd}`,borderRadius:6,padding:"48px 48px",marginBottom:52,display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:"clamp(20px,4vw,64px)"}}>
+    <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:40}}>Polymesh is purpose-built for regulated securities. Compliance isn't optional — it's enforced at the chain level before any token moves.</p>
+    <div style={{background:C.bg1,border:`0.5px solid ${C.goldBrd}`,borderRadius:6,padding:"48px 48px",marginBottom:52,display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:"clamp(20px,4vw,64px)"}}>
       <div>
         <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",marginBottom:14}}>THE BLOCKCHAIN LAYER</div>
-        <h2 style={{fontFamily:FS,fontSize:30,fontWeight:400,color:C.white,marginBottom:14}}>Why Polymesh Wins for Securities</h2>
+        <h2 style={{fontFamily:FS,fontSize:"clamp(20px,4.5vw,30px)",fontWeight:400,color:C.white,marginBottom:14}}>Why Polymesh Wins for Securities</h2>
         <p style={{fontSize:14,color:C.muted,lineHeight:1.9}}>General-purpose blockchains allow anonymous wallets and free token transfers — a securities law violation by default. Polymesh enforces identity, transfer restrictions, and compliance natively before any transaction executes.</p>
       </div>
       <div style={{display:"flex",flexDirection:"column",gap:20}}>
@@ -1170,7 +1169,7 @@ function Tokenize({go}){
     </div>
     <div style={{fontSize:11,color:C.muted,letterSpacing:"0.08em",marginBottom:24,textTransform:"uppercase"}}>Tokenization Process</div>
     {[["01","Company Onboarding","Stage 1 targets: PiggyVest, Chowdeck, Erisco Foods, Carbon. Pre-IPO private companies with strong fundamentals and broad name recognition."],["02","Legal Structuring","Share capital, investor rights, dividend entitlements, and transfer restrictions formally structured through SEC-aligned legal framework before any token is issued."],["03","Polymesh Issuance","Tokens issued on Polymesh. Every holder is KYC-verified at the protocol level. Corporate actions enforced natively by smart contracts."],["04","Investor Access","Verified investors access fractional equity via DotVests. Naira-denominated pricing. Paystack (NGN) and Breet (crypto) rails. Real-time settlement."]].map(([n,t,b],i)=>(
-      <div key={i} style={{display:"grid",gridTemplateColumns:"64px 1fr",gap:36,padding:"36px 0",borderTop:`0.5px solid ${C.brd}`}}>
+      <div key={i} style={{display:"grid",gridTemplateColumns:"clamp(36px,8vw,64px) 1fr",gap:"clamp(12px,3vw,36px)",padding:"28px 0",borderTop:`0.5px solid ${C.brd}`}}>
         <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",paddingTop:3}}>{n}</div>
         <div><h3 style={{fontFamily:FS,fontSize:22,fontWeight:400,color:C.white,marginBottom:10}}>{t}</h3><p style={{fontSize:13.5,color:C.muted,lineHeight:1.85,maxWidth:560}}>{b}</p></div>
       </div>
@@ -1195,17 +1194,17 @@ function Compliance({go}){
     {reg:"NGX",role:"Nigerian Exchange Group",note:"Stage 3 target. Requires licensed broker-custodian partnership."},
     {reg:"Polymesh",role:"Blockchain Protocol",note:"Purpose-built for regulated securities. Compliance at the chain level."},
   ];
-  return <div style={{padding:"clamp(72px,10vw,110px) clamp(14px,4vw,48px) 60px"}}>
+  return <div style={{padding:"clamp(70px,10vw,110px) clamp(16px,4vw,48px) 60px"}}>
     <Tag gold>Regulatory Architecture</Tag>
-    <h1 style={{fontFamily:FS,fontSize:"clamp(32px,8vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
+    <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
       Compliance is<br/><em style={{color:C.goldLt}}>The Architecture.</em>
     </h1>
     <RegulatoryPipeline/>
-    <p style={{fontSize:16,color:C.muted,fontWeight:300,maxWidth:500,lineHeight:1.85,marginBottom:40}}>Not bolted on after the fact. Every infrastructure decision at DotVests traces directly to a regulatory requirement.</p>
+    <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:40}}>Not bolted on after the fact. Every infrastructure decision at DotVests traces directly to a regulatory requirement.</p>
     <div style={{marginBottom:72}}>
       <div style={{fontSize:11,color:C.muted,letterSpacing:"0.08em",marginBottom:24,textTransform:"uppercase"}}>Four-Stage Regulatory Roadmap</div>
       {roadmap.map((r,i)=>(
-        <div key={i} style={{display:"grid",gridTemplateColumns:"clamp(80px,20vw,160px) 1fr",gap:"clamp(12px,3vw,36px)",padding:"28px 0",borderTop:`0.5px solid ${r.active?C.goldBrd:C.brd}`,opacity:r.active?1:0.5}}>
+        <div key={i} style={{display:"grid",gridTemplateColumns:"clamp(60px,18vw,160px) 1fr",gap:"clamp(10px,2vw,36px)",padding:"20px 0",borderTop:`0.5px solid ${r.active?C.goldBrd:C.brd}`,opacity:r.active?1:0.5}}>
           <div>
             <div style={{fontSize:11,color:r.active?C.goldLt:C.muted,letterSpacing:"0.06em",marginBottom:8}}>{r.s}</div>
             {r.active&&<span style={{fontSize:10,background:C.gold,color:"#000",padding:"2px 10px",borderRadius:20}}>ACTIVE</span>}
@@ -1220,9 +1219,9 @@ function Compliance({go}){
         </div>
       ))}
     </div>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))",gap:1,background:C.brd}}>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(240px,100%),1fr))",gap:1,background:C.brd}}>
       {regs.map((f,i)=>(
-        <div key={i} style={{background:C.bg1,padding:"32px 28px"}}>
+        <div key={i} style={{background:C.bg1,padding:"clamp(18px,3vw,32px) clamp(14px,2.5vw,28px)"}}>
           <div style={{display:"inline-block",fontSize:10.5,color:C.goldLt,border:`0.5px solid ${C.goldBrd}`,padding:"3px 10px",borderRadius:2,letterSpacing:"0.08em",marginBottom:12}}>{f.reg}</div>
           <div style={{fontSize:13,color:C.white,fontWeight:500,marginBottom:7}}>{f.role}</div>
           <p style={{fontSize:12.5,color:C.muted,lineHeight:1.8}}>{f.note}</p>
@@ -1235,22 +1234,22 @@ function Compliance({go}){
 
 // ── COMPANY ───────────────────────────────────────────────────────────────────
 function Company({go}){
-  return <div style={{padding:"clamp(72px,10vw,110px) clamp(14px,4vw,48px) 60px"}}>
+  return <div style={{padding:"clamp(70px,10vw,110px) clamp(16px,4vw,48px) 60px"}}>
     <Tag>About DotVests</Tag>
-    <h1 style={{fontFamily:FS,fontSize:"clamp(32px,8vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
+    <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
       The Infrastructure for<br/><em style={{color:C.goldLt}}>African Capital Markets.</em>
     </h1>
     <CoinsOnBlocks/>
-    <p style={{fontSize:16,color:C.muted,fontWeight:300,maxWidth:500,lineHeight:1.85,marginBottom:40}}>DotVests Technologies Limited. CAC registered. Founded 2024. Bankers and blockchain engineers who understand the opportunity and the regulatory landscape.</p>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:"clamp(24px,5vw,72px)",marginBottom:72}}>
+    <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:40}}>DotVests Technologies Limited. CAC registered. Founded 2024. Bankers and blockchain engineers who understand the opportunity and the regulatory landscape.</p>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:"clamp(20px,4vw,72px)",marginBottom:48}}>
       <div>
         <div style={{width:32,height:1,background:C.gold,marginBottom:22}}/>
-        <h2 style={{fontFamily:FS,fontSize:28,fontWeight:400,color:C.white,marginBottom:18}}>Mission</h2>
-        <p style={{fontSize:14.5,color:C.muted,lineHeight:1.95}}>Democratize access to African wealth. Make Nigerian company equity investable by anyone, anywhere, at any size — without geography restrictions, broker minimums, or settlement delays.</p>
+        <h2 style={{fontFamily:FS,fontSize:"clamp(20px,4vw,28px)",fontWeight:400,color:C.white,marginBottom:18}}>Mission</h2>
+        <p style={{fontSize:"clamp(13px,3vw,14.5px)",color:C.muted,lineHeight:1.95}}>Democratize access to African wealth. Make Nigerian company equity investable by anyone, anywhere, at any size — without geography restrictions, broker minimums, or settlement delays.</p>
       </div>
       <div>
         <div style={{width:32,height:1,background:C.gold,marginBottom:22}}/>
-        <h2 style={{fontFamily:FS,fontSize:28,fontWeight:400,color:C.white,marginBottom:18}}>Fundamentals</h2>
+        <h2 style={{fontFamily:FS,fontSize:"clamp(20px,4vw,28px)",fontWeight:400,color:C.white,marginBottom:18}}>Fundamentals</h2>
         {[["Incorporated","2024"],["Registration","CAC — DotVests Technologies Limited"],["Share Capital","₦10,000,000"],["Headquarters","Uyo, Akwa Ibom State, Nigeria"],["Blockchain","Polymesh (Substrate — TypeScript SDK)"],["Payment Rails","Paystack (NGN) · Breet (Crypto)"],["Reg. Path","SEC Nigeria ARIP Sandbox"]].map(([k,v])=>(
           <div key={k} style={{display:"flex",justifyContent:"space-between",padding:"12px 0",borderBottom:`0.5px solid ${C.brd}`}}>
             <span style={{fontSize:13,color:C.muted}}>{k}</span><span style={{fontSize:13,color:C.white}}>{v}</span>
@@ -1258,10 +1257,10 @@ function Company({go}){
         ))}
       </div>
     </div>
-    <div style={{background:C.bg1,border:`0.5px solid ${C.brd}`,borderRadius:6,padding:"44px 44px",display:"grid",gridTemplateColumns:"1fr 1fr",gap:52}}>
+    <div style={{background:C.bg1,border:`0.5px solid ${C.brd}`,borderRadius:6,padding:"44px 44px",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:"clamp(20px,4vw,52px)"}}>
       <div>
         <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",marginBottom:18}}>CONTACT</div>
-        <h3 style={{fontFamily:FS,fontSize:28,fontWeight:400,color:C.white,marginBottom:14}}>Get in Touch</h3>
+        <h3 style={{fontFamily:FS,fontSize:"clamp(20px,4vw,28px)",fontWeight:400,color:C.white,marginBottom:14}}>Get in Touch</h3>
         <p style={{fontSize:13.5,color:C.muted,lineHeight:1.8}}>Partnership inquiries, investor relations, regulatory correspondence, or press.</p>
       </div>
       <div style={{display:"flex",flexDirection:"column",gap:0}}>
@@ -1477,9 +1476,9 @@ function Platform({ go }) {
   ];
 
   return (
-    <div style={{padding:"clamp(72px,10vw,130px) clamp(14px,4vw,52px) 60px"}}>
+    <div style={{padding:"clamp(70px,10vw,130px) clamp(16px,4vw,52px) 60px"}}>
       {/* HERO */}
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:"clamp(20px,4vw,48px)",alignItems:"center",marginBottom:80}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(280px,100%),1fr))",gap:"clamp(20px,4vw,48px)",alignItems:"center",marginBottom:60}}>
         <div>
           <Tag gold>Platform</Tag>
           <h1 style={{fontFamily:FS,fontSize:"clamp(40px,5vw,68px)",fontWeight:400,color:C.white,
@@ -1501,7 +1500,7 @@ function Platform({ go }) {
         <div style={{fontSize:11.5,color:C.muted,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:32}}>
           Get Started in Four Steps
         </div>
-        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",gap:1,background:C.brd}}>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(200px,100%),1fr))",gap:1,background:C.brd}}>
           {steps.map((s,i) => (
             <div key={i} style={{background:C.bg1,padding:"40px 32px",position:"relative"}}>
               <div style={{position:"absolute",top:0,left:0,right:0,height:2,
@@ -1515,7 +1514,7 @@ function Platform({ go }) {
       </div>
 
       {/* TOKENIZATION SECTION */}
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:1,background:C.brd,marginBottom:80}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:1,background:C.brd,marginBottom:80}}>
         {/* What is tokenization */}
         <div style={{background:C.bg1,padding:"56px 48px"}}>
           <div style={{width:32,height:1,background:C.gold,marginBottom:24}}/>
@@ -1576,10 +1575,10 @@ function Platform({ go }) {
       {/* POLYMESH CALLOUT */}
       <div style={{background:C.bg1,border:`0.5px solid ${C.goldBrd}`,borderRadius:6,
         padding:"52px 52px",marginBottom:80,
-        display:"grid",gridTemplateColumns:"1fr 1fr",gap:72}}>
+        display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:72}}>
         <div>
           <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",marginBottom:16}}>BLOCKCHAIN INFRASTRUCTURE</div>
-          <h2 style={{fontFamily:FS,fontSize:32,fontWeight:400,color:C.white,marginBottom:16,lineHeight:1.2}}>
+          <h2 style={{fontFamily:FS,fontSize:"clamp(22px,5vw,32px)",fontWeight:400,color:C.white,marginBottom:16,lineHeight:1.2}}>
             Built on Polymesh —<br/><em style={{color:C.goldLt}}>Not an Afterthought.</em>
           </h2>
           <p style={{fontSize:14,color:C.muted,lineHeight:1.9}}>
@@ -1607,7 +1606,7 @@ function Platform({ go }) {
       <div style={{background:`linear-gradient(135deg,${C.bg2},rgba(201,150,12,0.05))`,
         border:`0.5px solid ${C.goldBrd}`,borderRadius:6,padding:"60px 56px",textAlign:"center"}}>
         <Tag gold>Early Access</Tag>
-        <h2 style={{fontFamily:FS,fontSize:40,fontWeight:400,color:C.white,
+        <h2 style={{fontFamily:FS,fontSize:"clamp(26px,6vw,40px)",fontWeight:400,color:C.white,
           letterSpacing:"-0.02em",marginBottom:16}}>Be Among the First.</h2>
         <p style={{fontSize:15,color:C.muted,lineHeight:1.8,maxWidth:480,margin:"0 auto 36px"}}>
           Join thousands of forward-thinking investors getting early access to tokenized African stocks.
@@ -1750,7 +1749,7 @@ function AdminPage({ go, prices, siteAssets, setSiteAssets }) {
         </div>
       </div>
 
-      <div style={{padding:"32px 52px 80px"}}>
+      <div style={{padding:"clamp(16px,3vw,32px) clamp(14px,4vw,52px) 60px"}}>
 
         {/* ── OVERVIEW TAB ── */}
         {tab === "overview" && (
@@ -1762,14 +1761,14 @@ function AdminPage({ go, prices, siteAssets, setSiteAssets }) {
               <div style={{fontSize:14, color:C.muted}}>Here's what's happening with DotVests today.</div>
             </div>
 
-            <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))", gap:16, marginBottom:40}}>
+            <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(min(200px,100%),1fr))", gap:16, marginBottom:40}}>
               <AdminStat label="Waitlist Signups" value={waitlist.length} sub="Total registered" color={C.goldLt}/>
               <AdminStat label="Today's Visits" value={analytics.todayVisits} sub="Unique sessions" color={C.green}/>
               <AdminStat label="Total Visits" value={analytics.totalVisits.toLocaleString()} sub="All time"/>
               <AdminStat label="Avg. Session" value={analytics.avgTime} sub="Time on site"/>
             </div>
 
-            <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:16, marginBottom:40}}>
+            <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))", gap:16, marginBottom:40}}>
               {/* Recent waitlist */}
               <div style={{background:C.bg1, border:`0.5px solid ${C.brd}`, borderRadius:6, padding:"28px 28px"}}>
                 <div style={{fontSize:11, color:C.muted, letterSpacing:"0.08em", textTransform:"uppercase", marginBottom:18}}>Recent Signups</div>
@@ -1804,7 +1803,7 @@ function AdminPage({ go, prices, siteAssets, setSiteAssets }) {
             {/* Asset prices overview */}
             <div style={{background:C.bg1, border:`0.5px solid ${C.brd}`, borderRadius:6, padding:"28px 28px"}}>
               <div style={{fontSize:11, color:C.muted, letterSpacing:"0.08em", textTransform:"uppercase", marginBottom:18}}>Live Asset Prices</div>
-              <div style={{display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:12}}>
+              <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(min(230px,100%),1fr))", gap:12}}>
                 {ASSETS.map(a => {
                   const p = prices[a.id]; const up = p.chg >= 0;
                   return (
@@ -2006,7 +2005,7 @@ function AdminPage({ go, prices, siteAssets, setSiteAssets }) {
               </a>
             </div>
 
-            <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))", gap:16, marginBottom:32}}>
+            <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(min(200px,100%),1fr))", gap:16, marginBottom:32}}>
               <AdminStat label="Total Visits" value={analytics.totalVisits.toLocaleString()} sub="All time" color={C.goldLt}/>
               <AdminStat label="Today" value={analytics.todayVisits} sub="Sessions today" color={C.green}/>
               <AdminStat label="Avg Session" value={analytics.avgTime} sub="Time on site"/>
@@ -2029,7 +2028,7 @@ function AdminPage({ go, prices, siteAssets, setSiteAssets }) {
               </div>
             </div>
 
-            <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:16}}>
+            <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))", gap:16}}>
               {/* Traffic sources */}
               <div style={{background:C.bg1, border:`0.5px solid ${C.brd}`, borderRadius:6, padding:"28px 28px"}}>
                 <div style={{fontSize:11, color:C.muted, letterSpacing:"0.08em", textTransform:"uppercase", marginBottom:20}}>Traffic Sources</div>
@@ -2158,11 +2157,11 @@ function FAQItem({faq,idx}){
 
 function FAQSection(){
   return(
-    <section style={{padding:"clamp(40px,6vw,80px) clamp(14px,4vw,48px)",borderBottom:`0.5px solid ${C.brd}`}}>
-      <div style={{maxWidth:780,margin:"0 auto"}}>
+    <section style={{padding:"clamp(32px,5vw,80px) clamp(14px,4vw,48px)",borderBottom:`0.5px solid ${C.brd}`}}>
+      <div style={{maxWidth:"min(780px,100%)",margin:"0 auto"}}>
         <div style={{textAlign:"center",marginBottom:52}}>
           <Tag>FAQ</Tag>
-          <h2 style={{fontFamily:FS,fontSize:40,fontWeight:400,color:C.white,letterSpacing:"-0.02em"}}>
+          <h2 style={{fontFamily:FS,fontSize:"clamp(26px,6vw,40px)",fontWeight:400,color:C.white,letterSpacing:"-0.02em"}}>
             Frequently Asked Questions
           </h2>
         </div>
@@ -2187,17 +2186,17 @@ function PartnerPipeline(){
     {name:"Pavestones",   tag:"Legal Counsel",       desc:"FinTech · ARIP track record",icon:"⚖️"},
   ];
   return(
-    <section style={{padding:"clamp(40px,6vw,80px) clamp(14px,4vw,48px)",borderBottom:`0.5px solid ${C.brd}`,background:C.bg1}}>
+    <section style={{padding:"clamp(32px,5vw,80px) clamp(14px,4vw,48px)",borderBottom:`0.5px solid ${C.brd}`,background:C.bg1}}>
       <div style={{textAlign:"center",marginBottom:48}}>
         <Tag gold>Asset & Partner Pipeline</Tag>
-        <h2 style={{fontFamily:FS,fontSize:38,fontWeight:400,color:C.white,letterSpacing:"-0.02em"}}>
+        <h2 style={{fontFamily:FS,fontSize:"clamp(26px,6vw,38px)",fontWeight:400,color:C.white,letterSpacing:"-0.02em"}}>
           In Conversation With<br/><em style={{color:C.goldLt}}>Nigeria's Best.</em>
         </h2>
         <p style={{fontSize:14,color:C.muted,marginTop:12,maxWidth:480,margin:"12px auto 0",lineHeight:1.8}}>
           Stage 1 asset targets and strategic partners driving DotVests to launch.
         </p>
       </div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))",gap:1,background:C.brd,maxWidth:900,margin:"0 auto"}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(240px,100%),1fr))",gap:1,background:C.brd,maxWidth:900,margin:"0 auto"}}>
         {partners.map((p,i)=>(
           <div key={i} style={{background:C.bg2,padding:"32px 28px",position:"relative"}}>
             <div style={{fontSize:28,marginBottom:14}}>{p.icon}</div>
@@ -2218,14 +2217,14 @@ function PartnerPipeline(){
 // ── MOBILE APP SECTION ────────────────────────────────────────────────────────
 function MobileAppSection(){
   return(
-    <section style={{padding:"clamp(40px,6vw,80px) clamp(14px,4vw,48px)",borderBottom:`0.5px solid ${C.brd}`}}>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:"clamp(24px,5vw,80px)",alignItems:"center",maxWidth:1000,margin:"0 auto"}}>
+    <section style={{padding:"clamp(32px,5vw,80px) clamp(14px,4vw,48px)",borderBottom:`0.5px solid ${C.brd}`}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(280px,100%),1fr))",gap:"clamp(20px,4vw,80px)",alignItems:"center",maxWidth:1000,margin:"0 auto"}}>
         <div>
           <Tag gold>Mobile App</Tag>
-          <h2 style={{fontFamily:FS,fontSize:40,fontWeight:400,color:C.white,lineHeight:1.15,marginBottom:18}}>
+          <h2 style={{fontFamily:FS,fontSize:"clamp(26px,6vw,40px)",fontWeight:400,color:C.white,lineHeight:1.15,marginBottom:18}}>
             Your Portfolio,<br/><em style={{color:C.goldLt}}>In Your Pocket.</em>
           </h2>
-          <p style={{fontSize:14.5,color:C.muted,lineHeight:1.9,marginBottom:32}}>
+          <p style={{fontSize:"clamp(13px,3vw,14.5px)",color:C.muted,lineHeight:1.9,marginBottom:32}}>
             The DotVests mobile app is in development alongside the platform. Native iOS and Android — built for the 40M+ smartphone users in Nigeria who deserve access to African equity markets.
           </p>
           <div style={{display:"flex",flexDirection:"column",gap:14,marginBottom:36}}>
@@ -2429,7 +2428,7 @@ function DisclaimerBanner(){
             <button onClick={()=>setExpanded(false)} style={{background:"none",border:"0.5px solid rgba(255,255,255,0.1)",color:"#7A7870",fontFamily:"'Sora',sans-serif",fontSize:11,padding:"5px 14px",borderRadius:2,cursor:"pointer"}}>Close ↓</button>
           </div>
 
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:32}}>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:32}}>
             <div>
               <div style={{fontSize:11,color:"#C9960C",letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:10}}>Pre-Launch & Regulatory Status</div>
               <p style={{fontSize:12,color:"#7A7870",lineHeight:1.85,marginBottom:16}}>
@@ -2535,19 +2534,19 @@ function Team({go}){
     },
   ];
 
-  return <div style={{padding:"clamp(72px,10vw,110px) clamp(14px,4vw,48px) 60px"}}>
+  return <div style={{padding:"clamp(70px,10vw,110px) clamp(16px,4vw,48px) 60px"}}>
     <Tag gold>The Team</Tag>
-    <h1 style={{fontFamily:FS,fontSize:"clamp(32px,8vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
+    <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
       Built by People Who<br/><em style={{color:C.goldLt}}>Know the Problem.</em>
     </h1>
-    <p style={{fontSize:16,color:C.muted,fontWeight:300,maxWidth:520,lineHeight:1.85,marginBottom:72}}>
+    <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:72}}>
       Bankers and engineers who have seen what African capital markets look like from the inside — and are building the infrastructure to change them.
     </p>
 
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:2,background:C.brd,marginBottom:72}}>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(280px,100%),1fr))",gap:2,background:C.brd,marginBottom:48}}>
       {members.map((m,i)=>(
         <div key={i} style={{background:C.bg1,padding:"48px 44px"}}>
-          <div style={{display:"flex",gap:28,alignItems:"flex-start",marginBottom:28}}>
+          <div style={{display:"flex",gap:"clamp(14px,3vw,28px)",alignItems:"flex-start",marginBottom:24,flexWrap:"wrap"}}>
             <div style={{width:96,height:96,borderRadius:"50%",overflow:"hidden",flexShrink:0,
               border:`2px solid ${C.goldBrd}`,boxShadow:`0 0 0 4px rgba(201,150,12,0.08)`}}>
               <img src={m.photo} alt={m.name} style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center top"}}/>
@@ -2573,10 +2572,10 @@ function Team({go}){
     </div>
 
     <div style={{background:C.bg1,border:`0.5px solid ${C.brd}`,borderRadius:6,padding:"44px 48px",marginBottom:72}}>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:52}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:"clamp(20px,4vw,52px)"}}>
         <div>
           <Tag>Join the Team</Tag>
-          <h2 style={{fontFamily:FS,fontSize:32,fontWeight:400,color:C.white,marginBottom:14}}>We're Building the<br/>Infrastructure Layer.</h2>
+          <h2 style={{fontFamily:FS,fontSize:"clamp(22px,5vw,32px)",fontWeight:400,color:C.white,marginBottom:14}}>We're Building the<br/>Infrastructure Layer.</h2>
           <p style={{fontSize:14,color:C.muted,lineHeight:1.85}}>DotVests is pre-launch and growing. If you're a Polymesh developer, securities lawyer, compliance specialist, or Nigerian fintech operator who believes in the mission — we want to hear from you.</p>
         </div>
         <div style={{display:"flex",flexDirection:"column",gap:16,justifyContent:"center"}}>
@@ -2607,21 +2606,21 @@ function Roadmap({go}){
     {q:"2028+",label:"Stage 3–4 — NGX & Pan-African",done:false,items:["Licensed NGX broker-custodian partnership","GTBank, MTN Nigeria, Dangote Cement, Zenith tokenization","Multi-jurisdiction expansion: Ghana, Kenya, Egypt","Proprietary chain migration — DotVests as continental infrastructure"]},
   ];
 
-  return <div style={{padding:"clamp(72px,10vw,110px) clamp(14px,4vw,48px) 60px"}}>
+  return <div style={{padding:"clamp(70px,10vw,110px) clamp(16px,4vw,48px) 60px"}}>
     <Tag gold>Roadmap</Tag>
-    <h1 style={{fontFamily:FS,fontSize:"clamp(32px,8vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
+    <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
       From Registration<br/><em style={{color:C.goldLt}}>To Continental Infrastructure.</em>
     </h1>
-    <p style={{fontSize:16,color:C.muted,fontWeight:300,maxWidth:520,lineHeight:1.85,marginBottom:72}}>
+    <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:72}}>
       Every milestone is a regulatory and technical prerequisite for the next. DotVests is not moving fast — it is moving correctly.
     </p>
 
     <div style={{position:"relative",marginBottom:72}}>
       {/* Vertical timeline line */}
-      <div style={{position:"absolute",left:"clamp(58px,14vw,119px)",top:0,bottom:0,width:1,background:`linear-gradient(to bottom,${C.gold},rgba(201,150,12,0.1))`}}/>
+      <div style={{position:"absolute",left:"clamp(50px,13vw,119px)",top:0,bottom:0,width:1,background:`linear-gradient(to bottom,${C.gold},rgba(201,150,12,0.1))`}}/>
 
       {milestones.map((m,i)=>(
-        <div key={i} style={{display:"grid",gridTemplateColumns:"clamp(60px,15vw,120px) 1fr",gap:"clamp(12px,3vw,40px)",marginBottom:48,position:"relative"}}>
+        <div key={i} style={{display:"grid",gridTemplateColumns:"clamp(50px,14vw,120px) 1fr",gap:"clamp(10px,2.5vw,40px)",marginBottom:36,position:"relative"}}>
           {/* Quarter label */}
           <div style={{textAlign:"right",paddingTop:4}}>
             <div style={{fontSize:11,color:m.active?C.goldLt:m.done?C.gold:"rgba(255,255,255,0.25)",
@@ -2629,7 +2628,7 @@ function Roadmap({go}){
           </div>
 
           {/* Timeline dot */}
-          <div style={{position:"absolute",left:"clamp(51px,13.5vw,111px)",top:4,width:14,height:14,borderRadius:"50%",
+          <div style={{position:"absolute",left:"clamp(43px,12.5vw,111px)",top:6,width:12,height:12,borderRadius:"50%",
             background:m.active?C.gold:m.done?C.gold:"rgba(255,255,255,0.1)",
             border:`2px solid ${m.active||m.done?C.gold:"rgba(255,255,255,0.15)"}`,
             boxShadow:m.active?`0 0 12px rgba(201,150,12,0.6)`:m.done?`0 0 6px rgba(201,150,12,0.2)`:"none",
@@ -2638,7 +2637,7 @@ function Roadmap({go}){
           {/* Content */}
           <div style={{background:m.active?C.bg2:m.done?C.bg1:"rgba(255,255,255,0.02)",
             border:`0.5px solid ${m.active?C.goldBrd:m.done?"rgba(201,150,12,0.15)":C.brd}`,
-            borderRadius:6,padding:"24px 28px",opacity:m.done||m.active?1:0.55}}>
+            borderRadius:6,padding:"clamp(14px,3vw,24px) clamp(12px,2.5vw,28px)",opacity:m.done||m.active?1:0.55}}>
             <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:14}}>
               <h3 style={{fontFamily:FS,fontSize:20,fontWeight:400,color:m.active?C.goldLt:C.white}}>{m.label}</h3>
               {m.done&&<span style={{fontSize:9,background:"rgba(34,197,94,0.15)",color:"#22C55E",
@@ -2672,12 +2671,12 @@ function TokenEconomics({go}){
      fields:[["Underlying Asset","Ordinary shares of Chowdeck Technologies"],["Token Standard","Polymesh Security Token"],["Minimum Holding","₦1,000 (fractional)"],["Dividend Entitlement","Pro-rata to token holdings"],["Transfer Restrictions","KYC-verified wallets only"],["Settlement","Atomic — T+0 on Polymesh"]]},
   ];
 
-  return <div style={{padding:"clamp(72px,10vw,110px) clamp(14px,4vw,48px) 60px"}}>
+  return <div style={{padding:"clamp(70px,10vw,110px) clamp(16px,4vw,48px) 60px"}}>
     <Tag gold>Token Economics</Tag>
-    <h1 style={{fontFamily:FS,fontSize:"clamp(32px,8vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
+    <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
       What You Own.<br/><em style={{color:C.goldLt}}>How It Works.</em>
     </h1>
-    <p style={{fontSize:16,color:C.muted,fontWeight:300,maxWidth:520,lineHeight:1.85,marginBottom:72}}>
+    <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:72}}>
       Every DotVests token represents a verified, on-chain economic interest in an underlying Nigerian company. Not a derivative. Not a synthetic. Actual ownership, structured through a compliant legal framework.
     </p>
 
@@ -2691,7 +2690,7 @@ function TokenEconomics({go}){
         {n:"05",t:"Dividends",icon:"₦",b:"Corporate actions — including dividend distributions — are automated via Polymesh smart contracts. When the underlying company declares a dividend, token holders receive their pro-rata share automatically."},
         {n:"06",t:"Exit",icon:"→",b:"Token holders can exit positions peer-to-peer via the DotVests marketplace, or via Breet crypto off-ramp. Naira-denominated settlement to your bank account. No lock-in periods."},
       ].map((f,i)=>(
-        <div key={i} style={{background:C.bg1,padding:"36px 32px"}}>
+        <div key={i} style={{background:C.bg1,padding:"clamp(18px,3vw,36px) clamp(14px,2.5vw,32px)"}}>
           <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",marginBottom:12}}>{f.n}</div>
           <div style={{fontSize:22,color:C.goldLt,marginBottom:12}}>{f.icon}</div>
           <h3 style={{fontFamily:FS,fontSize:20,fontWeight:400,color:C.white,marginBottom:10}}>{f.t}</h3>
@@ -2702,9 +2701,9 @@ function TokenEconomics({go}){
 
     {/* Token specs */}
     <div style={{fontSize:11,color:C.muted,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:24}}>Stage 1 Token Specifications</div>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:2,background:C.brd,marginBottom:72}}>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(280px,100%),1fr))",gap:2,background:C.brd,marginBottom:48}}>
       {tokens.map((t,i)=>(
-        <div key={i} style={{background:C.bg1,padding:"36px 32px"}}>
+        <div key={i} style={{background:C.bg1,padding:"clamp(18px,3vw,36px) clamp(14px,2.5vw,32px)"}}>
           <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:24}}>
             <div style={{width:44,height:44,borderRadius:"50%",background:`rgba(201,150,12,0.1)`,
               border:`0.5px solid ${C.goldBrd}`,display:"flex",alignItems:"center",justifyContent:"center",
