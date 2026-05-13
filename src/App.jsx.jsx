@@ -372,18 +372,25 @@ function Nav({page,go}){
             transform:open?"rotate(180deg)":"rotate(0deg)",transition:"transform 0.25s",display:"inline-block"}}>▼</span>
         </button>
         {open&&(
-          <div style={{position:"absolute",top:"calc(100% + 12px)",left:"50%",
-            width:290,background:"rgba(8,8,8,0.99)",
+          <div style={{position:"absolute",top:"calc(100% + 12px)",right:0,
+            width:"min(560px,90vw)",background:"rgba(8,8,8,0.99)",
             border:`0.5px solid ${C.goldBrd}`,borderRadius:6,
             backdropFilter:"blur(24px)",
             boxShadow:`0 32px 64px rgba(0,0,0,0.9)`,
             animation:"dropIn 0.18s ease both",overflow:"hidden",zIndex:300}}>
-            <div style={{padding:"13px 22px 11px",borderBottom:`0.5px solid ${C.brd}`,
+            <div style={{padding:"12px 20px 10px",borderBottom:`0.5px solid ${C.brd}`,
               display:"flex",alignItems:"center",gap:10}}>
-              <DotVestsLogo height={22}/>
+              <DotVestsLogo height={20}/>
               <span style={{fontSize:10,color:C.muted,letterSpacing:"0.1em",textTransform:"uppercase"}}>Navigate</span>
             </div>
-            {DROP_ITEMS.map(item=><DropItem key={item.l} item={item} go={go} close={()=>setOpen(false)}/>)}
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr"}}>
+              {DROP_ITEMS.map(item=><DropItem key={item.l} item={item} go={go} close={()=>setOpen(false)}/>)}
+            </div>
+            <div style={{padding:"9px 20px",borderTop:`0.5px solid ${C.brd}`,
+              display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+              <span style={{fontSize:10,color:C.dim}}>DotVests Technologies Limited</span>
+              <span style={{fontSize:10,color:C.dim}}>Pre-launch · Pending SEC ARIP</span>
+            </div>
           </div>
         )}
       </div>
