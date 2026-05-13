@@ -789,7 +789,7 @@ function Home({go,prices,siteAssets,setSiteAssets}){
     {/* PLATFORM CTA */}
     <section style={{padding:"0 48px 90px",borderBottom:`0.5px solid ${C.brd}`}}>
       <div style={{background:`linear-gradient(135deg,${C.bg2},rgba(201,150,12,0.04))`,border:`0.5px solid ${C.goldBrd}`,borderRadius:8,padding:"64px 56px",display:"grid",gridTemplateColumns:"1fr 1fr",gap:60,position:"relative",overflow:"hidden"}}>
-        <div style={{position:"absolute",top:0,right:0,width:200,height:200,background:`radial-gradient(circle at top right,${C.goldDim},transparent)`,pointerEvents:"none"}}/>
+        <div style={{position:"absolute",top:0,right:0,width:520,height:200,background:`radial-gradient(circle at top right,${C.goldDim},transparent)`,pointerEvents:"none"}}/>
         <div>
           <Tag gold>New Feature</Tag>
           <h2 style={{fontFamily:FS,fontSize:36,fontWeight:400,color:C.white,lineHeight:1.2,marginBottom:18}}>How the Platform<br/><em style={{color:C.goldLt}}>Works.</em></h2>
