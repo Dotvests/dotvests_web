@@ -329,68 +329,108 @@ function DropItem({item,go,close}){
 }
 
 function Nav({page,go}){
-  const [sc,setSc]=useState(false);
   const [open,setOpen]=useState(false);
   const ref=useRef();
-  useEffect(()=>{
-    const el=document.getElementById("rs");if(!el)return;
-    const h=()=>setSc(el.scrollTop>50);el.addEventListener("scroll",h);return()=>el.removeEventListener("scroll",h);
-  },[]);
+
   useEffect(()=>{
     const h=(e)=>{if(ref.current&&!ref.current.contains(e.target))setOpen(false);};
-    document.addEventListener("mousedown",h);return()=>document.removeEventListener("mousedown",h);
+    document.addEventListener("mousedown",h);
+    return()=>document.removeEventListener("mousedown",h);
   },[]);
+
+  const pageLabel = {
+    home:"Home",markets:"Markets",tokenize:"Tokenize",
+    compliance:"Compliance",company:"Company",platform:"Platform",
+    team:"Team",roadmap:"Roadmap","token-economics":"Token Economics",admin:"Admin"
+  }[page]||"Menu";
+
   return(
-    <nav ref={ref} className="nav-inner" style={{position:"relative",top:0,left:0,right:0,zIndex:200,height:64,
-      display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 clamp(12px,4vw,48px)",background:"rgba(7,7,7,0.97)",
-      width:"100%",
-      borderBottom:sc?`0.5px solid ${C.brd}`:"0.5px solid transparent",
-      backdropFilter:sc?"blur(16px)":"none",transition:"all 0.35s"}}>
-      <div onClick={()=>{go("home");setOpen(false);}} style={{cursor:"pointer"}}>
-        <DotVestsLogo height={42}/>
+    <nav ref={ref} style={{
+      position:"relative",zIndex:200,height:56,
+      display:"flex",alignItems:"center",justifyContent:"space-between",
+      padding:"0 clamp(12px,3vw,48px)",
+      background:"rgba(7,7,7,0.97)",
+      borderBottom:`0.5px solid rgba(255,255,255,0.06)`,
+      width:"100%",flexShrink:0,
+    }}>
+
+      {/* Logo */}
+      <div onClick={()=>{go("home");setOpen(false);}}
+        style={{cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center"}}>
+        <DotVestsLogo height={36}/>
       </div>
-      <div style={{position:"relative"}}>
+
+      {/* Centre — nav button */}
+      <div style={{position:"relative",flexShrink:0}}>
         <button onClick={(e)=>{e.stopPropagation();setOpen(o=>!o);}} style={{
           background:open?C.goldDim:"none",
           border:`0.5px solid ${open?C.gold:C.brd}`,
           color:open?C.goldLt:C.white,
-          fontSize:14,fontWeight:500,letterSpacing:"0.05em",
-          padding:"9px 22px",borderRadius:3,
-          display:"flex",alignItems:"center",gap:10,transition:"all 0.2s"}}>
-          {({home:"Home",markets:"Markets",tokenize:"Tokenize",compliance:"Compliance",company:"Company",platform:"Platform",admin:"Admin"})[page]||"DotVests"}
-          <span style={{fontSize:9,color:open?C.goldLt:C.muted,
-            transform:open?"rotate(180deg)":"rotate(0deg)",transition:"transform 0.25s",display:"inline-block"}}>▼</span>
+          fontSize:13,fontWeight:500,
+          padding:"7px 16px",borderRadius:3,
+          display:"flex",alignItems:"center",gap:8,
+          transition:"all 0.2s",cursor:"pointer",
+          fontFamily:"'Sora',sans-serif",
+          whiteSpace:"nowrap",
+        }}>
+          {pageLabel}
+          <span style={{fontSize:8,transform:open?"rotate(180deg)":"rotate(0deg)",
+            transition:"transform 0.25s",display:"inline-block",
+            color:open?C.goldLt:C.muted}}>▼</span>
         </button>
+
+        {/* Dropdown — always within viewport */}
         {open&&(
-          <div style={{position:"fixed",top:100,left:"clamp(8px,3vw,60px)",right:"clamp(8px,3vw,60px)",background:"rgba(8,8,8,0.99)",
-            border:`0.5px solid ${C.goldBrd}`,borderRadius:6,
-            backdropFilter:"blur(24px)",
-            boxShadow:`0 32px 64px rgba(0,0,0,0.9)`,
-            animation:"dropIn 0.18s ease both",overflow:"hidden",zIndex:300}}>
-            <div style={{padding:"12px 20px 10px",borderBottom:`0.5px solid ${C.brd}`,
+          <div style={{
+            position:"absolute",
+            top:"calc(100% + 8px)",
+            left:"50%",
+            transform:"translateX(-50%)",
+            width:"min(540px,90vw)",
+            background:"rgba(6,6,6,0.99)",
+            border:`0.5px solid ${C.goldBrd}`,
+            borderRadius:6,
+            backdropFilter:"blur(20px)",
+            boxShadow:"0 24px 48px rgba(0,0,0,0.95)",
+            animation:"dropIn 0.18s ease both",
+            overflow:"hidden",
+            zIndex:500,
+            maxHeight:"70vh",
+            overflowY:"auto",
+          }}>
+            <div style={{padding:"10px 18px 9px",borderBottom:`0.5px solid ${C.brd}`,
               display:"flex",alignItems:"center",gap:10}}>
-              <DotVestsLogo height={20}/>
-              <span style={{fontSize:10,color:C.muted,letterSpacing:"0.1em",textTransform:"uppercase"}}>Navigate</span>
+              <DotVestsLogo height={18}/>
+              <span style={{fontSize:9.5,color:C.muted,letterSpacing:"0.1em",textTransform:"uppercase"}}>Navigate</span>
             </div>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(200px,100%),1fr))"}}>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))"}}>
               {DROP_ITEMS.map(item=><DropItem key={item.l} item={item} go={go} close={()=>setOpen(false)}/>)}
             </div>
-            <div style={{padding:"9px 20px",borderTop:`0.5px solid ${C.brd}`,
-              display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-              <span style={{fontSize:10,color:C.dim}}>DotVests Technologies Limited</span>
-              <span style={{fontSize:10,color:C.dim}}>Pre-launch · Pending SEC ARIP</span>
+            <div style={{padding:"8px 18px",borderTop:`0.5px solid ${C.brd}`,
+              display:"flex",justifyContent:"space-between",flexWrap:"wrap",gap:6}}>
+              <span style={{fontSize:9.5,color:C.dim}}>DotVests Technologies Limited</span>
+              <span style={{fontSize:9.5,color:C.dim}}>Pre-launch · Pending SEC ARIP</span>
             </div>
           </div>
         )}
       </div>
-      <div style={{display:"flex",alignItems:"center",gap:12}}><SearchBar go={go}/><Btn v="gold" onClick={()=>{
-  setOpen(false);
-  go("home");
-  setTimeout(()=>{
-    const el=document.getElementById("waitlist-section");
-    if(el)el.scrollIntoView({behavior:"smooth",block:"start"});
-  },80);
-}}>Join Waitlist →</Btn></div>
+
+      {/* Right — search + CTA */}
+      <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0}}>
+        <SearchBar go={go}/>
+        <button onClick={()=>{
+          setOpen(false);go("home");
+          setTimeout(()=>{
+            const el=document.getElementById("waitlist-section");
+            if(el)el.scrollIntoView({behavior:"smooth",block:"start"});
+          },80);
+        }} style={{
+          background:C.gold,border:"none",color:"#000",
+          fontFamily:"'Sora',sans-serif",fontSize:12,fontWeight:600,
+          padding:"8px 14px",borderRadius:3,cursor:"pointer",
+          whiteSpace:"nowrap",flexShrink:0,
+        }}>Join Waitlist</button>
+      </div>
     </nav>
   );
 }
