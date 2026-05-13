@@ -372,7 +372,7 @@ function Nav({page,go}){
             transform:open?"rotate(180deg)":"rotate(0deg)",transition:"transform 0.25s",display:"inline-block"}}>▼</span>
         </button>
         {open&&(
-          <div style={{position:"absolute",top:"calc(100% + 12px)",right:0,
+          <div style={{position:"absolute",top:"calc(100% + 12px)",right:"auto",left:"50%",transform:"translateX(-50%)",
             width:"min(560px,90vw)",background:"rgba(8,8,8,0.99)",
             border:`0.5px solid ${C.goldBrd}`,borderRadius:6,
             backdropFilter:"blur(24px)",
