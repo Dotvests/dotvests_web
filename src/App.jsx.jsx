@@ -717,7 +717,7 @@ function Home({go,prices,siteAssets,setSiteAssets}){
   ];
   return <div>
     {/* HERO */}
-    <section className="hero-grid" style={{minHeight:"100vh",display:"flex",alignItems:"center",flexWrap:"wrap",padding:"clamp(80px,12vw,120px) clamp(16px,4vw,48px) 80px",position:"relative",overflow:"hidden",borderBottom:`0.5px solid ${C.brd}`}}>
+    <section className="hero-grid" style={{minHeight:"90vh",display:"flex",alignItems:"center",flexWrap:"wrap",padding:"clamp(24px,4vw,64px) clamp(16px,4vw,48px) 48px",position:"relative",overflow:"hidden",borderBottom:`0.5px solid ${C.brd}`}}>
       <div style={{position:"absolute",inset:0,backgroundImage:`linear-gradient(${C.brd} 1px,transparent 1px),linear-gradient(90deg,${C.brd} 1px,transparent 1px)`,backgroundSize:"64px 64px",maskImage:"linear-gradient(to bottom,transparent,rgba(0,0,0,0.5) 15%,rgba(0,0,0,0.5) 85%,transparent)",pointerEvents:"none"}}/>
       <div style={{position:"absolute",top:"30%",left:"40%",width:500,height:350,background:`radial-gradient(ellipse,rgba(201,150,12,0.06) 0%,transparent 65%)`,pointerEvents:"none",animation:"glow 4s ease-in-out infinite"}}/>
       <div style={{flex:1,maxWidth:580,position:"relative",zIndex:2}}>
@@ -1112,7 +1112,7 @@ function Markets({go,prices,siteAssets}){
   const [filter,setFilter]=useState("all");
   const activeAssets=(siteAssets||ASSETS).filter(a=>a.status!=="frozen");
   const filtered=filter==="all"?activeAssets:activeAssets.filter(a=>filter==="Stage 1"?a.stage===1:a.stage===3);
-  return <div style={{padding:"clamp(70px,10vw,110px) clamp(16px,4vw,48px) 60px"}}>
+  return <div style={{padding:"clamp(32px,5vw,72px) clamp(16px,4vw,48px) 60px"}}>
     <Tag gold>Asset Marketplace</Tag>
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:44}}>
       <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em"}}>
@@ -1132,7 +1132,7 @@ function Markets({go,prices,siteAssets}){
     <div style={{display:"flex",justifyContent:"center",padding:"20px 0 40px"}}>
       <div style={{width:"100%",height:500}}><RotatingDiamond/></div>
     </div>
-    <div style={{maxWidth:540,margin:"0 auto",textAlign:"center",marginBottom:80}}>
+    <div style={{maxWidth:540,margin:"0 auto",textAlign:"center",marginBottom:52}}>
       <Tag>Early Access</Tag>
       <h2 style={{fontFamily:FS,fontSize:"clamp(22px,5vw,32px)",fontWeight:400,color:C.white,letterSpacing:"-0.02em",marginBottom:14}}>Join the Waitlist</h2>
       <p style={{fontSize:14,color:C.muted,lineHeight:1.8,marginBottom:28}}>Be first to access tokenized Nigerian equity post-ARIP approval.</p>
@@ -1145,7 +1145,7 @@ function Markets({go,prices,siteAssets}){
 
 // ── TOKENIZE ──────────────────────────────────────────────────────────────────
 function Tokenize({go}){
-  return <div style={{padding:"clamp(70px,10vw,110px) clamp(16px,4vw,48px) 60px"}}>
+  return <div style={{padding:"clamp(32px,5vw,72px) clamp(16px,4vw,48px) 60px"}}>
     <Tag>How Tokenization Works</Tag>
     <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
       Every Share,<br/><em style={{color:C.goldLt}}>On Polymesh.</em>
@@ -1194,14 +1194,14 @@ function Compliance({go}){
     {reg:"NGX",role:"Nigerian Exchange Group",note:"Stage 3 target. Requires licensed broker-custodian partnership."},
     {reg:"Polymesh",role:"Blockchain Protocol",note:"Purpose-built for regulated securities. Compliance at the chain level."},
   ];
-  return <div style={{padding:"clamp(70px,10vw,110px) clamp(16px,4vw,48px) 60px"}}>
+  return <div style={{padding:"clamp(32px,5vw,72px) clamp(16px,4vw,48px) 60px"}}>
     <Tag gold>Regulatory Architecture</Tag>
     <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
       Compliance is<br/><em style={{color:C.goldLt}}>The Architecture.</em>
     </h1>
     <RegulatoryPipeline/>
     <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:40}}>Not bolted on after the fact. Every infrastructure decision at DotVests traces directly to a regulatory requirement.</p>
-    <div style={{marginBottom:72}}>
+    <div style={{marginBottom:48}}>
       <div style={{fontSize:11,color:C.muted,letterSpacing:"0.08em",marginBottom:24,textTransform:"uppercase"}}>Four-Stage Regulatory Roadmap</div>
       {roadmap.map((r,i)=>(
         <div key={i} style={{display:"grid",gridTemplateColumns:"clamp(60px,18vw,160px) 1fr",gap:"clamp(10px,2vw,36px)",padding:"20px 0",borderTop:`0.5px solid ${r.active?C.goldBrd:C.brd}`,opacity:r.active?1:0.5}}>
@@ -1234,7 +1234,7 @@ function Compliance({go}){
 
 // ── COMPANY ───────────────────────────────────────────────────────────────────
 function Company({go}){
-  return <div style={{padding:"clamp(70px,10vw,110px) clamp(16px,4vw,48px) 60px"}}>
+  return <div style={{padding:"clamp(32px,5vw,72px) clamp(16px,4vw,48px) 60px"}}>
     <Tag>About DotVests</Tag>
     <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
       The Infrastructure for<br/><em style={{color:C.goldLt}}>African Capital Markets.</em>
@@ -1476,7 +1476,7 @@ function Platform({ go }) {
   ];
 
   return (
-    <div style={{padding:"clamp(70px,10vw,130px) clamp(16px,4vw,52px) 60px"}}>
+    <div style={{padding:"clamp(32px,5vw,72px) clamp(16px,4vw,52px) 60px"}}>
       {/* HERO */}
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(280px,100%),1fr))",gap:"clamp(20px,4vw,48px)",alignItems:"center",marginBottom:60}}>
         <div>
@@ -1496,7 +1496,7 @@ function Platform({ go }) {
       </div>
 
       {/* 4 STEPS */}
-      <div style={{marginBottom:80}}>
+      <div style={{marginBottom:52}}>
         <div style={{fontSize:11.5,color:C.muted,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:32}}>
           Get Started in Four Steps
         </div>
@@ -1514,7 +1514,7 @@ function Platform({ go }) {
       </div>
 
       {/* TOKENIZATION SECTION */}
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:1,background:C.brd,marginBottom:80}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:1,background:C.brd,marginBottom:52}}>
         {/* What is tokenization */}
         <div style={{background:C.bg1,padding:"56px 48px"}}>
           <div style={{width:32,height:1,background:C.gold,marginBottom:24}}/>
@@ -1574,7 +1574,7 @@ function Platform({ go }) {
 
       {/* POLYMESH CALLOUT */}
       <div style={{background:C.bg1,border:`0.5px solid ${C.goldBrd}`,borderRadius:6,
-        padding:"52px 52px",marginBottom:80,
+        padding:"52px 52px",marginBottom:52,
         display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:72}}>
         <div>
           <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",marginBottom:16}}>BLOCKCHAIN INFRASTRUCTURE</div>
@@ -2534,12 +2534,12 @@ function Team({go}){
     },
   ];
 
-  return <div style={{padding:"clamp(70px,10vw,110px) clamp(16px,4vw,48px) 60px"}}>
+  return <div style={{padding:"clamp(32px,5vw,72px) clamp(16px,4vw,48px) 60px"}}>
     <Tag gold>The Team</Tag>
     <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
       Built by People Who<br/><em style={{color:C.goldLt}}>Know the Problem.</em>
     </h1>
-    <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:72}}>
+    <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:48}}>
       Bankers and engineers who have seen what African capital markets look like from the inside — and are building the infrastructure to change them.
     </p>
 
@@ -2571,7 +2571,7 @@ function Team({go}){
       ))}
     </div>
 
-    <div style={{background:C.bg1,border:`0.5px solid ${C.brd}`,borderRadius:6,padding:"44px 48px",marginBottom:72}}>
+    <div style={{background:C.bg1,border:`0.5px solid ${C.brd}`,borderRadius:6,padding:"44px 48px",marginBottom:48}}>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:"clamp(20px,4vw,52px)"}}>
         <div>
           <Tag>Join the Team</Tag>
@@ -2606,16 +2606,16 @@ function Roadmap({go}){
     {q:"2028+",label:"Stage 3–4 — NGX & Pan-African",done:false,items:["Licensed NGX broker-custodian partnership","GTBank, MTN Nigeria, Dangote Cement, Zenith tokenization","Multi-jurisdiction expansion: Ghana, Kenya, Egypt","Proprietary chain migration — DotVests as continental infrastructure"]},
   ];
 
-  return <div style={{padding:"clamp(70px,10vw,110px) clamp(16px,4vw,48px) 60px"}}>
+  return <div style={{padding:"clamp(32px,5vw,72px) clamp(16px,4vw,48px) 60px"}}>
     <Tag gold>Roadmap</Tag>
     <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
       From Registration<br/><em style={{color:C.goldLt}}>To Continental Infrastructure.</em>
     </h1>
-    <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:72}}>
+    <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:48}}>
       Every milestone is a regulatory and technical prerequisite for the next. DotVests is not moving fast — it is moving correctly.
     </p>
 
-    <div style={{position:"relative",marginBottom:72}}>
+    <div style={{position:"relative",marginBottom:48}}>
       {/* Vertical timeline line */}
       <div style={{position:"absolute",left:"clamp(50px,13vw,119px)",top:0,bottom:0,width:1,background:`linear-gradient(to bottom,${C.gold},rgba(201,150,12,0.1))`}}/>
 
@@ -2671,17 +2671,17 @@ function TokenEconomics({go}){
      fields:[["Underlying Asset","Ordinary shares of Chowdeck Technologies"],["Token Standard","Polymesh Security Token"],["Minimum Holding","₦1,000 (fractional)"],["Dividend Entitlement","Pro-rata to token holdings"],["Transfer Restrictions","KYC-verified wallets only"],["Settlement","Atomic — T+0 on Polymesh"]]},
   ];
 
-  return <div style={{padding:"clamp(70px,10vw,110px) clamp(16px,4vw,48px) 60px"}}>
+  return <div style={{padding:"clamp(32px,5vw,72px) clamp(16px,4vw,48px) 60px"}}>
     <Tag gold>Token Economics</Tag>
     <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
       What You Own.<br/><em style={{color:C.goldLt}}>How It Works.</em>
     </h1>
-    <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:72}}>
+    <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:48}}>
       Every DotVests token represents a verified, on-chain economic interest in an underlying Nigerian company. Not a derivative. Not a synthetic. Actual ownership, structured through a compliant legal framework.
     </p>
 
     {/* Core mechanics */}
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:1,background:C.brd,marginBottom:72}}>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:1,background:C.brd,marginBottom:48}}>
       {[
         {n:"01",t:"Issuance",icon:"◈",b:"Tokens are issued on Polymesh after a formal partnership agreement is executed with the underlying company, and all regulatory approvals are in place. Zero tokens exist before legal structure is confirmed."},
         {n:"02",t:"Ownership",icon:"◆",b:"Each token carries a fractional claim on the equity of the issuing company — identical economic rights to the underlying shares, including dividend entitlements and participation in liquidity events."},
@@ -2726,7 +2726,7 @@ function TokenEconomics({go}){
 
     {/* Risk disclaimer */}
     <div style={{background:"rgba(239,68,68,0.05)",border:"0.5px solid rgba(239,68,68,0.15)",
-      borderRadius:6,padding:"28px 32px",marginBottom:72}}>
+      borderRadius:6,padding:"28px 32px",marginBottom:48}}>
       <div style={{fontSize:11,color:"rgba(239,68,68,0.7)",letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:12}}>Risk Disclosure</div>
       <p style={{fontSize:13,color:"rgba(255,255,255,0.5)",lineHeight:1.85}}>
         Investment in tokenized securities carries risk, including the possible loss of principal. Past performance of underlying companies does not guarantee future token performance. DotVests is in pre-launch phase and does not offer investment services until SEC Nigeria ARIP sandbox approval is granted. All token specifications are indicative and subject to change pending final regulatory and legal structuring. This page is for informational purposes only and does not constitute a prospectus or offer to sell securities.
