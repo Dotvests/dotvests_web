@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // ── DESIGN TOKENS ─────────────────────────────────────────────────────────────
 const C = {
@@ -208,7 +208,6 @@ const SEARCH_INDEX = [
 
   {label:"Paystack",         page:"platform",  keywords:"paystack payment rails ngn"},
   {label:"Breet",            page:"platform",  keywords:"breet crypto on ramp"},
-  {label:"Admin",            page:"admin",     keywords:"admin dashboard login"},
 ];
 
 function SearchBar({go}){
@@ -623,7 +622,7 @@ function Footer({go}){
       <div>
         <div style={{marginBottom:14}}><DotVestsLogo height={36}/></div>
         <p style={{fontSize:13,color:C.muted,lineHeight:1.8,maxWidth:220}}>Redefining Access To African Wealth. Tokenized Nigerian equity on Polymesh.</p>
-        <p style={{fontSize:11.5,color:C.dim,marginTop:14,lineHeight:1.7}}>DotVests Technologies Limited<br/>CAC Registered · Nigeria · 2024</p>
+        <p style={{fontSize:11.5,color:C.dim,marginTop:14,lineHeight:1.7}}>DotVests Technologies Limited<br/>CAC Registered · Nigeria · 2026</p>
         {/* Social Links */}
         <div style={{display:"flex",gap:10,marginTop:16}}>
           <a href="https://wa.me/2349066818379" target="_blank" rel="noopener noreferrer"
@@ -660,7 +659,7 @@ function Footer({go}){
       </div>)}
     </div>
     <div style={{borderTop:`0.5px solid ${C.brd}`,paddingTop:22,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-      <span style={{fontSize:12,color:C.dim}}>© 2026 DotVests Technologies Limited.</span>
+      <span style={{fontSize:12,color:C.dim}}>© 2026 DotVests Technologies Limited. All rights reserved.</span>
       <span style={{fontSize:11,color:C.dim}}>Pre-launch · No investment services offered · Pending SEC Nigeria ARIP</span>
     </div>
   </footer>;
@@ -735,7 +734,7 @@ function Home({go,prices,siteAssets,setSiteAssets}){
         </p>
         <div style={{display:"flex",gap:12,flexWrap:"wrap",animation:"fadeUp 0.9s 0.4s both"}}>
           <Btn v="gold" onClick={()=>go("markets")}>Explore Assets →</Btn>
-          <Btn v="ghost" onClick={()=>go("platform")}>Try Portfolio Simulator</Btn>
+          <Btn v="ghost" onClick={()=>go("platform")}>Explore Platform →</Btn>
         </div>
         <div style={{marginTop:48,display:"flex",gap:0,borderTop:`0.5px solid ${C.brd}`,animation:"fadeUp 0.9s 0.55s both"}}>
           {["CAC Registered","Polymesh Blockchain","SEC ARIP Sandbox","NDPC Compliant"].map((t,i)=>(
@@ -759,7 +758,7 @@ function Home({go,prices,siteAssets,setSiteAssets}){
     </section>
     {/* STATS */}
     <section style={{background:C.bg1,borderBottom:`0.5px solid ${C.brd}`,padding:"56px 48px",display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:1}}>
-      {[{v:160,s:"T+",p:"₦",l:"NGX Market Capitalisation"},{v:167,s:"+",p:"",l:"NGX Listed Companies"},{v:10,s:"M",p:"₦",l:"DotVests Share Capital"},{v:6,s:"M+",p:"",l:"PiggyVest Users — Stage 1"}].map((s,i)=>(
+      {[{v:160,s:"T+",p:"₦",l:"NGX Market Capitalisation"},{v:154,s:"+",p:"",l:"NGX Listed Companies"},{v:10,s:"M",p:"₦",l:"DotVests Share Capital"},{v:6,s:"M+",p:"",l:"PiggyVest Users — Stage 1"}].map((s,i)=>(
         <div key={i} style={{textAlign:"center",padding:"0 20px",borderRight:i<3?`0.5px solid ${C.brd}`:"none"}}><Stat value={s.v} suffix={s.s} prefix={s.p} label={s.l}/></div>
       ))}
     </section>
@@ -1269,10 +1268,10 @@ function Company({go}){
         <p style={{fontSize:13.5,color:C.muted,lineHeight:1.8}}>Partnership inquiries, investor relations, regulatory correspondence, or press.</p>
       </div>
       <div style={{display:"flex",flexDirection:"column",gap:0}}>
-        {[["General","info@dotvests.com"],["Support","support@dotvests.com"],["Address","No. 23 Effiong Essien Street, Off Aka Road, Uyo, Akwa Ibom State"],["Phone","+234 906 681 8379"]].map(([k,v])=>(
+        {[["General","info@dotvests.com"],["Support","support@dotvests.com"],["Address","No. 23 Effiong Essien Street, Off Aka Road, Uyo, Akwa Ibom State"],["Phone","<tel>"]].map(([k,v])=>(
           <div key={k} style={{padding:"16px 0",borderBottom:`0.5px solid ${C.brd}`}}>
             <div style={{fontSize:10,color:C.muted,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:5}}>{k}</div>
-            <div style={{fontSize:13.5,color:C.white}}>{v}</div>
+            <div style={{fontSize:13.5,color:C.white}}>{k==="Phone"?<a href="tel:+2349066818379" style={{color:C.white,textDecoration:"none"}}>+234 906 681 8379</a>:k==="General"?<a href="mailto:info@dotvests.com" style={{color:"#E8B121",textDecoration:"none"}}>info@dotvests.com</a>:k==="Support"?<a href="mailto:support@dotvests.com" style={{color:"#E8B121",textDecoration:"none"}}>support@dotvests.com</a>:v}</div>
           </div>
         ))}
       </div>
@@ -2377,6 +2376,17 @@ function NotFound({go}){
 // ── LEGAL DISCLAIMER BANNER ───────────────────────────────────────────────────
 function DisclaimerBanner(){
   const [expanded, setExpanded] = useState(false);
+  const [show, setShow] = useState(false);
+  useEffect(()=>{
+    // Show disclaimer only after cookie decision has been made
+    const cookieDecided = (() => { try { return localStorage.getItem("dv_cookie_ok") !== null; } catch(e){ return false; }})();
+    if(cookieDecided){ setShow(true); }
+    else {
+      const timer = setTimeout(()=>setShow(true), 8000); // Show after 8s regardless
+      return ()=>clearTimeout(timer);
+    }
+  },[]);
+  if(!show) return null;
   return(
     <div style={{
       position:"fixed", bottom: 0, left:0, right:0, zIndex:490,
@@ -2728,6 +2738,43 @@ function TokenEconomics({go}){
     <Footer go={go}/>
   </div>;
 }
+
+// ── ERROR BOUNDARY ────────────────────────────────────────────────────────────
+class ErrorBoundary extends React.Component {
+  constructor(props){ super(props); this.state={hasError:false,error:null}; }
+  static getDerivedStateFromError(error){ return {hasError:true,error}; }
+  componentDidCatch(error,info){ console.error("DotVests Error:",error,info); }
+  render(){
+    if(this.state.hasError){
+      return(
+        <div style={{minHeight:"100vh",display:"flex",flexDirection:"column",alignItems:"center",
+          justifyContent:"center",background:"#070707",padding:"48px",textAlign:"center"}}>
+          <div style={{fontSize:40,marginBottom:20,color:"#C9960C"}}>◆</div>
+          <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:28,fontWeight:400,
+            color:"#F2F0E8",marginBottom:14}}>Something went wrong.</h2>
+          <p style={{fontSize:14,color:"#7A7870",lineHeight:1.8,maxWidth:400,marginBottom:32}}>
+            We encountered an unexpected error. Please refresh the page or contact support if the issue persists.
+          </p>
+          <div style={{display:"flex",gap:12}}>
+            <button onClick={()=>window.location.reload()} style={{background:"#C9960C",border:"none",
+              color:"#000",fontFamily:"'Sora',sans-serif",fontSize:13,fontWeight:600,
+              padding:"11px 24px",borderRadius:3,cursor:"pointer"}}>
+              Refresh Page
+            </button>
+            <a href="mailto:support@dotvests.com" style={{display:"inline-flex",alignItems:"center",
+              background:"none",border:"0.5px solid rgba(255,255,255,0.1)",color:"#7A7870",
+              fontFamily:"'Sora',sans-serif",fontSize:13,padding:"11px 24px",borderRadius:3,
+              textDecoration:"none"}}>
+              Contact Support
+            </a>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 // ── ROOT ──────────────────────────────────────────────────────────────────────
 export default function App(){
   const [page,setPage]=useState("home");
@@ -2757,7 +2804,7 @@ export default function App(){
   };
   const pages={home:Home,markets:Markets,tokenize:Tokenize,compliance:Compliance,company:Company,platform:Platform,admin:AdminPage,team:Team,roadmap:Roadmap,"token-economics":TokenEconomics};
   const Page=pages[page]||NotFound;
-  return <>
+  return <ErrorBoundary>
     <style>{GF}</style>
     <div id="rs" style={{height:"100vh",overflowY:"auto",overflowX:"hidden",background:C.bg,width:"100%",position:"relative",paddingBottom:48}}>
       <Ticker prices={prices}/>
@@ -2768,5 +2815,5 @@ export default function App(){
       <DisclaimerBanner/>
       <CookieBanner/>
     </div>
-  </>;
+  </ErrorBoundary>;
 }
