@@ -1704,7 +1704,7 @@ function AdminStat({ label, value, sub, color }) {
 
 
 function AdminPage({ go, prices, siteAssets, setSiteAssets }) {
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState(() => { try { return localStorage.getItem('dv_admin_auth') === '1'; } catch(e) { return false; } });
   const [tab, setTab] = useState("overview");
   const [waitlist, setWaitlist] = useState([
     {id:1, email:"ade@gmail.com",      date:"2026-05-01", source:"Home",    status:"Active"},
@@ -1752,7 +1752,7 @@ function AdminPage({ go, prices, siteAssets, setSiteAssets }) {
     setEditAsset(null);
   };
 
-  if (!auth) return <AdminLogin onLogin={() => setAuth(true)}/>;
+  if (!auth) return <AdminLogin onLogin={() => { try { localStorage.setItem('dv_admin_auth', '1'); } catch(e) {} setAuth(true); }}/>;
 
   return (
     <div style={{minHeight:"100vh", background:C.bg}}>
@@ -1782,7 +1782,7 @@ function AdminPage({ go, prices, siteAssets, setSiteAssets }) {
             background:"none", border:`0.5px solid ${C.brd}`, color:C.muted,
             fontFamily:FN, fontSize:12, padding:"5px 14px", borderRadius:3, cursor:"pointer",
           }}>← Exit Admin</button>
-          <button onClick={() => setAuth(false)} style={{
+          <button onClick={() => { try { localStorage.removeItem('dv_admin_auth'); } catch(e) {} setAuth(false); }} style={{
             background:"none", border:`0.5px solid ${C.brd}`, color:C.muted,
             fontFamily:FN, fontSize:12, padding:"5px 14px", borderRadius:3, cursor:"pointer",
           }}>Log Out</button>
