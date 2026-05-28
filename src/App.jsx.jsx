@@ -175,9 +175,9 @@ const SEARCH_INDEX = [
   {label:"Home",             page:"home",      keywords:"home overview hero landing"},
   {label:"Markets",          page:"markets",   keywords:"markets assets trade buy sell equity"},
   {label:"PiggyVest",        page:"markets",   keywords:"piggyvest fintech savings pgv"},
-  {label:"Chowdeck",         page:"markets",   keywords:"chowdeck food delivery logistics chw"},
+  {label:"Chowdeck",         page:"markets",   keywords:"chowdeck food delivery logistics chd"},
   {label:"Erisco Foods",     page:"markets",   keywords:"erisco foods consumer goods erf"},
-  {label:"Carbon",           page:"markets",   keywords:"carbon digital banking cbn"},
+  {label:"Carbon",           page:"markets",   keywords:"carbon digital banking cbt"},
   {label:"GT Bank",          page:"markets",   keywords:"gt bank gtb banking stage 3"},
   {label:"MTN Nigeria",      page:"markets",   keywords:"mtn nigeria telecom stage 3"},
   {label:"Tokenize",         page:"tokenize",  keywords:"tokenize blockchain polymesh how it works"},
@@ -194,7 +194,7 @@ const SEARCH_INDEX = [
   {label:"Press",             page:"home",      keywords:"press media techcabal techpoint businessday"},
   {label:"Team",               page:"team",      keywords:"team founders precious sherriff about people"},
   {label:"Roadmap",            page:"roadmap",   keywords:"roadmap timeline milestones q1 q2 launch arip"},
-  {label:"Token Economics",    page:"token-economics", keywords:"token economics issuance dividend settlement ownership pgv chw"},
+  {label:"Token Economics",    page:"token-economics", keywords:"token economics issuance dividend settlement ownership pgv chd"},
 
 
   {label:"Paystack",         page:"platform",  keywords:"paystack payment rails ngn"},
