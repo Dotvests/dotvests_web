@@ -62,9 +62,9 @@ const REAL_LOGO = "data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1B
 // ── ASSETS ────────────────────────────────────────────────────────────────────
 const ASSETS = [
   {id:"PGV",name:"PiggyVest",    sector:"Fintech",          price:1840,chg:+2.34,stage:1},
-  {id:"CHW",name:"Chowdeck",     sector:"Food & Logistics", price:620, chg:-0.87,stage:1},
+  {id:"CHD",name:"Chowdeck",     sector:"Food & Logistics", price:620, chg:-0.87,stage:1},
   {id:"ERF",name:"Erisco Foods", sector:"Consumer Goods",   price:310, chg:+1.12,stage:1},
-  {id:"CBN",name:"Carbon",       sector:"Digital Banking",  price:980, chg:+3.56,stage:1},
+  {id:"CBT",name:"Carbon",       sector:"Digital Banking",  price:980, chg:+3.56,stage:1},
   {id:"GTB",name:"GT Bank",      sector:"Banking",          price:4220,chg:+0.44,stage:3},
   {id:"MTN",name:"MTN Nigeria",  sector:"Telecom",          price:3150,chg:-1.21,stage:3},
 ];
@@ -784,10 +784,10 @@ function Home({go,prices,siteAssets,setSiteAssets}){
       <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"flex-end",gap:14,position:"relative",zIndex:2,paddingLeft:36}}>
         <div style={{display:"flex",gap:14,justifyContent:"flex-end"}}>
           <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="PGV")||ASSETS[0]} prices={prices} delay={200} anim="floatA"/>
-          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="CBN")||ASSETS[3]} prices={prices} delay={500} anim="floatB"/>
+          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="CBT")||ASSETS[3]} prices={prices} delay={500} anim="floatB"/>
         </div>
         <div style={{display:"flex",gap:14,justifyContent:"flex-end",marginLeft:44}}>
-          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="CHW")||ASSETS[1]} prices={prices} delay={350} anim="floatB"/>
+          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="CHD")||ASSETS[1]} prices={prices} delay={350} anim="floatB"/>
           <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="ERF")||ASSETS[2]} prices={prices} delay={650} anim="floatA"/>
         </div>
       </div>
@@ -1050,7 +1050,7 @@ function LiveMarketChart() {
     const cx = cv.getContext('2d');
     cv.width = cv.offsetWidth; cv.height = cv.offsetHeight;
     const W=cv.width,H=cv.height;
-    const AS=[{id:'PGV',color:'#22C55E'},{id:'CHW',color:'#EF4444'},{id:'ERF',color:'#60A5FA'},{id:'CBN',color:'#A78BFA'},{id:'GTB',color:'#E8B121'},{id:'MTN',color:'#F97316'}];
+    const AS=[{id:'PGV',color:'#22C55E'},{id:'CHD',color:'#EF4444'},{id:'ERF',color:'#60A5FA'},{id:'CBT',color:'#A78BFA'},{id:'GTB',color:'#E8B121'},{id:'MTN',color:'#F97316'}];
     const POINTS=60,PAD={l:44,r:14,t:40,b:26};
     const CW=W-PAD.l-PAD.r,CH=H-PAD.t-PAD.b;
     const histories=AS.map(()=>{const arr=[];let v=0.5;for(let i=0;i<POINTS;i++){v+=(Math.random()-0.49)*0.06;v=Math.max(0.05,Math.min(0.95,v));arr.push(v);}return{arr,vel:(Math.random()-0.5)*0.04};});
@@ -2707,7 +2707,7 @@ function TokenEconomics({go}){
   const tokens = [
     {id:"PGV",name:"PiggyVest",type:"Equity Token",supply:"Variable",stage:"Stage 1",color:C.green,
      fields:[["Underlying Asset","Ordinary shares of PiggyVest Limited"],["Token Standard","Polymesh Security Token (ERC-1400 compliant)"],["Minimum Holding","₦1,000 (fractional)"],["Dividend Entitlement","Pro-rata to token holdings"],["Transfer Restrictions","KYC-verified wallets only"],["Settlement","Atomic — T+0 on Polymesh"]]},
-    {id:"CHW",name:"Chowdeck",type:"Equity Token",supply:"Variable",stage:"Stage 1",color:"#60A5FA",
+    {id:"CHD",name:"Chowdeck",type:"Equity Token",supply:"Variable",stage:"Stage 1",color:"#60A5FA",
      fields:[["Underlying Asset","Ordinary shares of Chowdeck Technologies"],["Token Standard","Polymesh Security Token"],["Minimum Holding","₦1,000 (fractional)"],["Dividend Entitlement","Pro-rata to token holdings"],["Transfer Restrictions","KYC-verified wallets only"],["Settlement","Atomic — T+0 on Polymesh"]]},
   ];
 
