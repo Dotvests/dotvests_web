@@ -1,36 +1,40 @@
 import React, { useState, useEffect, useRef } from "react";
+import { createClient } from "@supabase/supabase-js";
 import { C, FS, FN, ASSETS, REAL_LOGO } from "../constants";
+
+const supabase = createClient(
+  'https://fhrohggfiqfrbicbmdwd.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZocm9oZ2dmaXFmcmJpY2JtZHdkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1Mjc0MzAsImV4cCI6MjA5NzEwMzQzMH0.Ys1B_0ZnQwS99A8IWpwzsrA4KcP-AgT-vl7qFJBwoT0'
+);
 
 function useLivePrices(siteAssets) {
   const [pData, set] = useState(() => Object.fromEntries(ASSETS.map(a=>[a.id,{price:a.price,chg:a.chg}])));
   useEffect(()=>{
-    const id = setInterval(()=>{
-      set(prev=>{
-        const next={...prev};
-        const pool=(siteAssets||ASSETS).filter(a=>a.status!=="frozen");
-        if(!pool.length) return prev;
-        const a=pool[Math.floor(Math.random()*pool.length)];
-        const d=(Math.random()-0.48)*a.price*0.003;
-        const chg = a.chgOverride!=null ? a.chgOverride : (prev[a.id]?.chg||a.chg)+(Math.random()-0.5)*0.04;
-        next[a.id]={price:Math.max(1,(prev[a.id]?.price||a.price)+d),chg};
-        return next;
-      });
-    },1400);
-    return()=>clearInterval(id);
-  },[siteAssets]);
-  // Apply chgOverride instantly for any admin-overridden asset
-  const result={...pData};
-  if(siteAssets){
-    siteAssets.forEach(a=>{
-      if(a.chgOverride!=null && result[a.id]){
-        result[a.id]={...result[a.id], chg:a.chgOverride};
+    const fetchPrices = async () => {
+      const { data, error } = await supabase
+        .from('tokens')
+        .select('ticker, current_price_kobo');
+      console.log('Supabase data:', data, 'error:', error);
+      if(data && data.length > 0){
+        set(prev=>{
+          const next={...prev};
+          data.forEach(row=>{
+            if(next[row.ticker]){
+              next[row.ticker]={...next[row.ticker], price:row.current_price_kobo/100};
+            }
+          });
+          return next;
+        });
       }
-    });
-  }
-  return result;
+    };
+    fetchPrices();
+    const interval = setInterval(fetchPrices, 30000);
+    return () => clearInterval(interval);
+  },[]);
+  return pData;
 }
 
-function fmt(n){return"₦"+Math.round(n).toLocaleString();}
+function fmt(n){return"₦"+n.toLocaleString("en-NG",{minimumFractionDigits:2,maximumFractionDigits:2});}
 
 function useCountUp(target){
   const [v,set]=useState(0);const r=useRef();
@@ -41,7 +45,6 @@ function useCountUp(target){
   },[target]);return v;
 }
 
-// ── PRIMITIVES ────────────────────────────────────────────────────────────────
 function Tag({children,gold}){
   return <span style={{display:"inline-flex",alignItems:"center",gap:6,fontSize:10.5,letterSpacing:"0.14em",textTransform:"uppercase",
     color:gold?C.goldLt:C.muted,border:`0.5px solid ${gold?C.goldBrd:C.brd2}`,borderRadius:2,padding:"5px 12px",marginBottom:22}}>
@@ -71,7 +74,6 @@ function MiniChart({up,h=44}){
   </div>;
 }
 
-// ── LOGO SVG (replicates DotVests mark) ──────────────────────────────────────
 function DotVestsLogo({height=44}){
   return(
     <div style={{position:"relative",display:"inline-flex",height:height,

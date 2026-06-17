@@ -63,8 +63,6 @@ const ASSETS = [
   {id:"CHD",name:"Chowdeck",     sector:"Food & Logistics", price:620, chg:-0.87,stage:1},
   {id:"ERF",name:"Erisco Foods", sector:"Consumer Goods",   price:310, chg:+1.12,stage:1},
   {id:"CBT",name:"Carbon",       sector:"Digital Banking",  price:980, chg:+3.56,stage:1},
-  {id:"GTB",name:"GT Bank",      sector:"Banking",          price:4220,chg:+0.44,stage:3},
-  {id:"MTN",name:"MTN Nigeria",  sector:"Telecom",          price:3150,chg:-1.21,stage:3},
 ];
 
 
