@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { C, FS, ASSETS } from "../constants";
-import { Tag, Btn, fmt } from "../components/shared";
+import { C, FS, FN, ASSETS } from "../constants";
+import { Tag, Btn, fmt, DotVestsLogo } from "../components/shared";
 
 const ADMIN_PASS = "dotvests2026";
 
@@ -45,6 +45,7 @@ function AdminStat({ label, value, sub, color }) {
 
 
 function AdminPage({ go, prices, siteAssets, setSiteAssets }) {
+  console.log('AdminPage prices:', prices);
   const [auth, setAuth] = useState(false);
   const [tab, setTab] = useState("overview");
   const [waitlist, setWaitlist] = useState([
@@ -186,11 +187,11 @@ function AdminPage({ go, prices, siteAssets, setSiteAssets }) {
               <div style={{fontSize:11, color:C.muted, letterSpacing:"0.08em", textTransform:"uppercase", marginBottom:18}}>Live Asset Prices</div>
               <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(min(230px,100%),1fr))", gap:12}}>
                 {ASSETS.map(a => {
-                  const p = prices[a.id]; const up = p.chg >= 0;
+                  const p = prices?.[a.id] || {price:a.price,chg:a.chg}; const up = p.chg >= 0;
                   return (
                     <div key={a.id} style={{background:C.bg2, border:`0.5px solid ${C.brd}`, borderRadius:4, padding:"14px 16px"}}>
                       <div style={{fontSize:11, color:C.muted, marginBottom:4}}>{a.id} · {a.sector}</div>
-                      <div style={{fontSize:17, fontWeight:600, color:C.white}}>₦{Math.round(p.price).toLocaleString()}</div>
+                      <div style={{fontSize:17, fontWeight:600, color:C.white}}>{fmt(p.price)}</div>
                       <div style={{fontSize:11, color:up?C.green:C.red, marginTop:2}}>{up?"+":""}{p.chg.toFixed(2)}%</div>
                     </div>
                   );
@@ -326,14 +327,14 @@ function AdminPage({ go, prices, siteAssets, setSiteAssets }) {
                   <span style={{textAlign:"right"}}>24h %</span><span style={{textAlign:"center"}}>Stage</span><span></span>
                 </div>
                 {assets.map((a, i) => {
-                  const p = prices[a.id]; const up = p.chg >= 0;
+                  const p = prices?.[a.id] || {price:a.price,chg:a.chg}; const up = p.chg >= 0;
                   return (
                     <div key={a.id} style={{display:"grid", gridTemplateColumns:"60px 1fr 1fr 120px 100px 70px 1fr",
                       padding:"14px 24px", borderBottom:i<assets.length-1?`0.5px solid ${C.brd}`:"none", alignItems:"center"}}>
                       <span style={{fontSize:11, color:C.gold}}>{a.id}</span>
                       <span style={{fontSize:13.5, color:C.white, fontWeight:500}}>{a.name}</span>
                       <span style={{fontSize:12, color:C.muted}}>{a.sector}</span>
-                      <span style={{fontSize:14, color:C.white, textAlign:"right", fontWeight:500}}>₦{Math.round(p.price).toLocaleString()}</span>
+                      <span style={{fontSize:14, color:C.white, textAlign:"right", fontWeight:500}}>{fmt(p.price)}</span>
                       <span style={{textAlign:"right", fontSize:12, color:up?C.green:C.red}}>{up?"+":""}{p.chg.toFixed(2)}%</span>
                       <span style={{textAlign:"center"}}>
                         <span style={{fontSize:10, color:a.stage===1?C.goldLt:C.muted,
