@@ -39,13 +39,14 @@ function WaitlistBar(){
           company: form['Company'].value.trim(),
           investor_type: form['Lead Source'].value,
           investment_range: form['Description'].value,
-          source: 'waitlist_form',
+          source: 'landing_page',
         }),
       });
-      if (!res.ok) throw new Error();
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.message || 'Something went wrong. Please try again.');
       setDone(true);
-    } catch {
-      setErrors({ submit: 'Something went wrong. Please try again.' });
+    } catch (err) {
+      setErrors({ submit: err.message || 'Something went wrong. Please try again.' });
     } finally {
       setSubmitting(false);
     }
