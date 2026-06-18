@@ -4,15 +4,14 @@ import { C, FS } from "../constants";
 function WaitlistBar(){
   const [done, setDone] = useState(false);
   const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
 
-  const validate = () => {
-    const form = document.forms['WebToLeads7406654000000605590'];
+  const validate = (form) => {
     const errs = {};
-    if (!form) return errs;
     const company = form['Company']?.value?.trim();
     const name    = form['Last Name']?.value?.trim();
     const email   = form['Email']?.value?.trim();
-    const privacy = document.getElementById('privacyTool7406654000000605590');
+    const privacy = document.getElementById('privacyConsent');
     if (!company) errs.company = 'Company / Organisation is required.';
     if (!name)    errs.name    = 'Full name is required.';
     if (email) {
@@ -23,18 +22,33 @@ function WaitlistBar(){
     return errs;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const errs = validate();
+    const form = e.target;
+    const errs = validate(form);
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
     setErrors({});
-    // Submit via hidden iframe — bypasses CORS, data lands in Zoho CRM
-    const form = document.forms['WebToLeads7406654000000605590'];
-    form.target = 'zoho_iframe';
-    form.action = 'https://crm.zoho.com/crm/WebToLeadForm';
-    form.method = 'POST';
-    form.submit();
-    setTimeout(() => setDone(true), 800);
+    setSubmitting(true);
+    try {
+      const res = await fetch('https://dotvests-backend.onrender.com/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form['Last Name'].value.trim(),
+          email: form['Email'].value.trim(),
+          company: form['Company'].value.trim(),
+          investor_type: form['Lead Source'].value,
+          investment_range: form['Description'].value,
+          source: 'waitlist_form',
+        }),
+      });
+      if (!res.ok) throw new Error();
+      setDone(true);
+    } catch {
+      setErrors({ submit: 'Something went wrong. Please try again.' });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (done) return (
@@ -65,17 +79,7 @@ function WaitlistBar(){
 
   return (
     <div style={{maxWidth:560, margin:"0 auto"}}>
-      {/* Hidden iframe target — receives Zoho redirect silently */}
-      <iframe name="zoho_iframe" style={{display:"none"}} title="zoho_submit"/>
-
-      <form name="WebToLeads7406654000000605590" onSubmit={handleSubmit} noValidate>
-        {/* Zoho hidden auth fields */}
-        <input type="text" style={{display:"none"}} name="xnQsjsdp" defaultValue="be0707caeac2fe05dd2ccd38ad3085037747e72912a40197be635504935ac6dd"/>
-        <input type="hidden" name="zc_gad" defaultValue=""/>
-        <input type="text" style={{display:"none"}} name="xmIwtLD" defaultValue="67396539347e76c6e554f2aa574b0a41ed75811b42fdf41fda4bee5ec18dc94b9970ae8d12ba4c7bd65258105620b932"/>
-        <input type="text" style={{display:"none"}} name="actionType" defaultValue="TGVhZHM="/>
-        <input type="text" style={{display:"none"}} name="returnURL" defaultValue="null"/>
-        <input type="text" style={{display:"none"}} name="aG9uZXlwb3Q" defaultValue=""/>
+      <form onSubmit={handleSubmit} noValidate>
 
         <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))", gap:12, marginBottom:12}}>
           <div>
@@ -99,11 +103,11 @@ function WaitlistBar(){
           <div>
             <div style={{fontSize:10, color:C.muted, letterSpacing:"0.08em", marginBottom:6, textTransform:"uppercase"}}>Investor Type</div>
             <select name="Lead Source" style={selectStyle('type')}>
-              <option value="-None-">Select type</option>
-              <option value="Web Research">Retail Investor</option>
-              <option value="Advertisement">Institutional</option>
-              <option value="External Referral">Diaspora Investor</option>
-              <option value="Partner">High Net-Worth (HNI)</option>
+              <option value="">Select type</option>
+              <option value="Retail Investor">Retail Investor</option>
+              <option value="Institutional">Institutional</option>
+              <option value="Diaspora Investor">Diaspora Investor</option>
+              <option value="High Net-Worth (HNI)">High Net-Worth (HNI)</option>
             </select>
           </div>
         </div>
@@ -123,20 +127,23 @@ function WaitlistBar(){
         <div style={{display:"flex", gap:12, alignItems:"flex-start", marginBottom:16,
           background:C.bg2, border:`0.5px solid ${errors.privacy?C.red:C.brd}`,
           borderRadius:4, padding:"14px 16px", transition:"border 0.2s"}}>
-          <input type="checkbox" id="privacyTool7406654000000605590"
+          <input type="checkbox" id="privacyConsent"
             style={{marginTop:3, flexShrink:0, accentColor:C.gold, width:16, height:16}}/>
-          <label htmlFor="privacyTool7406654000000605590" style={{fontSize:12, color:C.muted, lineHeight:1.7, cursor:"pointer"}}>
+          <label htmlFor="privacyConsent" style={{fontSize:12, color:C.muted, lineHeight:1.7, cursor:"pointer"}}>
             I consent to DotVests collecting and using my information for research and product development purposes.
             Data will not be sold or shared with third parties. Contact: <span style={{color:C.goldLt}}><a href="mailto:info@dotvests.com" style={{color:"#E8B121",textDecoration:"none"}}><a href="mailto:info@dotvests.com" style={{color:"#E8B121",textDecoration:"none"}}><a href="mailto:info@dotvests.com" style={{color:"#E8B121",textDecoration:"none"}}><a href="mailto:info@dotvests.com" style={{color:"#E8B121",textDecoration:"none"}}><a href="mailto:info@dotvests.com" style={{color:"#E8B121",textDecoration:"none"}}>info@dotvests.com</a></a></a></a></a></span>
           </label>
         </div>
         {errors.privacy && <div style={{fontSize:11,color:C.red,marginBottom:10}}>{errors.privacy}</div>}
 
-        <button type="submit" style={{
+        {errors.submit && <div style={{fontSize:13,color:C.red,marginBottom:12,textAlign:"center"}}>{errors.submit}</div>}
+
+        <button type="submit" disabled={submitting} style={{
           width:"100%", background:C.gold, border:"none", color:"#000",
           fontFamily:"'Sora',sans-serif", fontSize:13.5, fontWeight:600,
-          padding:"13px", borderRadius:3, cursor:"pointer", letterSpacing:"0.05em",
-        }}>Request Early Access →</button>
+          padding:"13px", borderRadius:3, cursor:submitting?"not-allowed":"pointer", letterSpacing:"0.05em",
+          opacity:submitting?0.6:1,
+        }}>{submitting ? 'Submitting…' : 'Request Early Access →'}</button>
 
         <div style={{fontSize:11, color:C.dim, marginTop:10, textAlign:"center"}}>
           No spam. No investment solicitation. Informational updates only.
