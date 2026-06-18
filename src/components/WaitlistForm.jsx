@@ -105,10 +105,10 @@ function WaitlistBar(){
             <div style={{fontSize:10, color:C.muted, letterSpacing:"0.08em", marginBottom:6, textTransform:"uppercase"}}>Investor Type</div>
             <select name="investor_type" style={selectStyle('type')}>
               <option value="">Select type</option>
-              <option value="Retail Investor">Retail Investor</option>
+              <option value="Retail">Retail Investor</option>
               <option value="Institutional">Institutional</option>
-              <option value="Diaspora Investor">Diaspora Investor</option>
-              <option value="High Net-Worth (HNI)">High Net-Worth (HNI)</option>
+              <option value="Diaspora">Diaspora Investor</option>
+              <option value="High Net-Worth HNI">High Net-Worth (HNI)</option>
             </select>
           </div>
         </div>
@@ -118,9 +118,9 @@ function WaitlistBar(){
           <select name="investment_range" style={selectStyle('amount')}>
             <option value="">Select range</option>
             <option value="Under ₦100,000">Under ₦100,000</option>
-            <option value="₦100,000 – ₦500,000">₦100,000 – ₦500,000</option>
-            <option value="₦500,000 – ₦2,000,000">₦500,000 – ₦2,000,000</option>
-            <option value="₦2M – ₦10M">₦2M – ₦10M</option>
+            <option value="₦100,000–₦500,000">₦100,000 – ₦500,000</option>
+            <option value="₦500,000–₦2,000,000">₦500,000 – ₦2,000,000</option>
+            <option value="₦2M–₦10M">₦2M – ₦10M</option>
             <option value="Over ₦10M">Over ₦10M</option>
           </select>
         </div>
