@@ -8,9 +8,9 @@ function WaitlistBar(){
 
   const validate = (form) => {
     const errs = {};
-    const company = form['Company']?.value?.trim();
-    const name    = form['Last Name']?.value?.trim();
-    const email   = form['Email']?.value?.trim();
+    const company = form['company']?.value?.trim();
+    const name    = form['name']?.value?.trim();
+    const email   = form['email']?.value?.trim();
     const privacy = document.getElementById('privacyConsent');
     if (!company) errs.company = 'Company / Organisation is required.';
     if (!name)    errs.name    = 'Full name is required.';
@@ -34,11 +34,11 @@ function WaitlistBar(){
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: form['Last Name'].value.trim(),
-          email: form['Email'].value.trim(),
-          company: form['Company'].value.trim(),
-          investor_type: form['Lead Source'].value,
-          investment_range: form['Description'].value,
+          name: form['name'].value.trim(),
+          email: form['email'].value.trim(),
+          company: form['company'].value.trim(),
+          investor_type: form['investor_type'].value,
+          investment_range: form['investment_range'].value,
           source: 'landing_page',
         }),
       });
@@ -85,12 +85,12 @@ function WaitlistBar(){
         <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))", gap:12, marginBottom:12}}>
           <div>
             <div style={{fontSize:10, color:C.muted, letterSpacing:"0.08em", marginBottom:6, textTransform:"uppercase"}}>Company / Organisation *</div>
-            <input type="text" name="Company" maxLength={200} placeholder="Your company or N/A" style={inputStyle('company')}/>
+            <input type="text" name="company" maxLength={200} placeholder="Your company or N/A" style={inputStyle('company')}/>
             {errors.company && <div style={{fontSize:11,color:C.red,marginTop:4}}>{errors.company}</div>}
           </div>
           <div>
             <div style={{fontSize:10, color:C.muted, letterSpacing:"0.08em", marginBottom:6, textTransform:"uppercase"}}>Full Name *</div>
-            <input type="text" name="Last Name" maxLength={80} placeholder="Your full name" style={inputStyle('name')}/>
+            <input type="text" name="name" maxLength={80} placeholder="Your full name" style={inputStyle('name')}/>
             {errors.name && <div style={{fontSize:11,color:C.red,marginTop:4}}>{errors.name}</div>}
           </div>
         </div>
@@ -98,12 +98,12 @@ function WaitlistBar(){
         <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))", gap:12, marginBottom:12}}>
           <div>
             <div style={{fontSize:10, color:C.muted, letterSpacing:"0.08em", marginBottom:6, textTransform:"uppercase"}}>Email Address</div>
-            <input type="text" name="Email" maxLength={100} placeholder="you@email.com" style={inputStyle('email')}/>
+            <input type="text" name="email" maxLength={100} placeholder="you@email.com" style={inputStyle('email')}/>
             {errors.email && <div style={{fontSize:11,color:C.red,marginTop:4}}>{errors.email}</div>}
           </div>
           <div>
             <div style={{fontSize:10, color:C.muted, letterSpacing:"0.08em", marginBottom:6, textTransform:"uppercase"}}>Investor Type</div>
-            <select name="Lead Source" style={selectStyle('type')}>
+            <select name="investor_type" style={selectStyle('type')}>
               <option value="">Select type</option>
               <option value="Retail Investor">Retail Investor</option>
               <option value="Institutional">Institutional</option>
@@ -115,7 +115,7 @@ function WaitlistBar(){
 
         <div style={{marginBottom:16}}>
           <div style={{fontSize:10, color:C.muted, letterSpacing:"0.08em", marginBottom:6, textTransform:"uppercase"}}>Investment Range</div>
-          <select name="Description" style={selectStyle('amount')}>
+          <select name="investment_range" style={selectStyle('amount')}>
             <option value="">Select range</option>
             <option value="Under ₦100,000">Under ₦100,000</option>
             <option value="₦100,000 – ₦500,000">₦100,000 – ₦500,000</option>
