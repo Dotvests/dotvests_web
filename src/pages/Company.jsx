@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { C, FS } from "../constants";
 import { Tag } from "../components/shared";
 import Footer from "../components/Footer";
