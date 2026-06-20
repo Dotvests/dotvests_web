@@ -28,6 +28,7 @@ const SEARCH_INDEX = [
   {label:"Token Economics",    page:"token-economics", keywords:"token economics issuance dividend settlement ownership pgv chd"},
 
 
+  {label:"Legal Notice",      page:"legal",     keywords:"legal notice disclaimer pre-launch arip regulatory trademark liability"},
   {label:"Paystack",         page:"platform",  keywords:"paystack payment rails ngn"},
   {label:"Breet",            page:"platform",  keywords:"breet crypto on ramp"},
 ];

@@ -12,7 +12,7 @@ function Footer({go}){
   const cols=[
     {t:"Platform",links:[["Markets","markets"],["Tokenize","tokenize"],["Platform","platform"],["Join Waitlist","waitlist"]]},
     {t:"Company", links:[["About","company"],["Team","team"],["Roadmap","roadmap"],["Token Economics","token-economics"],["Compliance","compliance"],["Contact","company"]]},
-    {t:"Legal",   links:[["Privacy Policy","company"],["Risk Disclosure","company"],["Regulatory Info","compliance"]]},
+    {t:"Legal",   links:[["Legal Notice","legal"],["Privacy Policy","company"],["Risk Disclosure","company"],["Regulatory Info","compliance"]]},
   ];
   return <footer style={{background:C.bg1,borderTop:`0.5px solid ${C.brd}`,padding:"clamp(28px,4vw,56px) clamp(14px,4vw,48px) 28px"}}>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(130px,1fr))",gap:"clamp(16px,3vw,32px)",marginBottom:36}}>

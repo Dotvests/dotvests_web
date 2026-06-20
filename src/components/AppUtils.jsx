@@ -227,4 +227,40 @@ class ErrorBoundary extends React.Component {
 }
 
 
-export { CookieBanner, NotFound, DisclaimerBanner, useGoldCursor, ErrorBoundary };
+function PreLaunchBanner({ go }) {
+  const [show, setShow] = useState(() => {
+    try { return !localStorage.getItem("dv_prelaunch_dismissed"); } catch(e) { return true; }
+  });
+  if (!show) return null;
+  const dismiss = () => {
+    try { localStorage.setItem("dv_prelaunch_dismissed", "1"); } catch(e) {}
+    setShow(false);
+  };
+  return (
+    <div style={{
+      position: "relative", zIndex: 600,
+      background: "rgba(201,150,12,0.10)",
+      borderBottom: `1px solid ${C.goldBrd}`,
+      padding: "10px 48px",
+      display: "flex", alignItems: "center", justifyContent: "center",
+      gap: 12, flexWrap: "wrap",
+      fontFamily: "'Sora',sans-serif",
+    }}>
+      <span style={{ fontSize: 12.5, color: C.muted, textAlign: "center" }}>
+        Pre-launch — DotVests does not currently offer live investment services.{" "}
+        <button onClick={() => { go("legal"); dismiss(); }} style={{
+          background: "none", border: "none", color: C.gold,
+          fontFamily: "'Sora',sans-serif", fontSize: 12.5, fontWeight: 600,
+          cursor: "pointer", padding: 0, textDecoration: "none",
+        }}>Learn more →</button>
+      </span>
+      <button onClick={dismiss} aria-label="Dismiss" style={{
+        position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)",
+        background: "none", border: "none", color: C.muted,
+        fontSize: 18, cursor: "pointer", padding: "4px 8px", lineHeight: 1,
+      }}>×</button>
+    </div>
+  );
+}
+
+export { CookieBanner, NotFound, DisclaimerBanner, PreLaunchBanner, useGoldCursor, ErrorBoundary };
