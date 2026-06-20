@@ -13,7 +13,7 @@ function AdminLogin({ onLogin }) {
   };
   return (
     <div style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",background:C.bg}}>
-      <div style={{background:C.bg1,border:`0.5px solid ${err?C.red:C.goldBrd}`,borderRadius:8,padding:"52px 48px",width:380,textAlign:"center",transition:"border 0.3s"}}>
+      <div style={{background:C.bg1,border:`0.5px solid ${err?C.red:C.goldBrd}`,borderRadius:8,padding:"clamp(28px,5vw,52px) clamp(20px,4vw,48px)",width:"min(380px,90vw)",textAlign:"center",transition:"border 0.3s"}}>
         <DotVestsLogo height={44}/>
         <div style={{fontFamily:FS,fontSize:26,fontWeight:400,color:C.white,marginBottom:6}}>Admin Portal</div>
         <div style={{fontSize:12,color:C.muted,marginBottom:32}}>DotVests Technologies Limited</div>

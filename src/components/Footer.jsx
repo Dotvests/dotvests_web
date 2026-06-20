@@ -55,7 +55,7 @@ function Footer({go}){
         </div>
       </div>)}
     </div>
-    <div style={{borderTop:`0.5px solid ${C.brd}`,paddingTop:22,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+    <div style={{borderTop:`0.5px solid ${C.brd}`,paddingTop:22,display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:8}}>
       <span style={{fontSize:12,color:C.dim}}>© 2026 DotVests Technologies Limited. All rights reserved.</span>
       <span style={{fontSize:11,color:C.dim}}>Pre-launch · No investment services offered · Pending SEC Nigeria ARIP</span>
     </div>

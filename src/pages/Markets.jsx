@@ -9,8 +9,8 @@ function TableRow({asset,idx,prices}){
   const p=prices[asset.id]||{price:asset.price,chg:asset.chg};
   const up=p.chg>=0;
   return <div onMouseEnter={()=>set(true)} onMouseLeave={()=>set(false)}
-    style={{display:"grid",gridTemplateColumns:"clamp(30px,5vw,44px) 1fr clamp(80px,15vw,120px) clamp(70px,12vw,120px) clamp(60px,10vw,90px)",
-      padding:"16px 22px",background:h?C.bg2:"transparent",
+    style={{display:"grid",gridTemplateColumns:"clamp(30px,5vw,44px) 1fr clamp(80px,15vw,120px) clamp(70px,12vw,120px) clamp(60px,10vw,90px) clamp(44px,8vw,70px)",
+      padding:"16px 22px",background:h?C.bg2:"transparent",minWidth:480,
       borderBottom:idx<ASSETS.length-1?`0.5px solid ${C.brd}`:"none",
       transition:"background 0.18s",cursor:"pointer",alignItems:"center"}}>
     <span style={{fontSize:11.5,color:C.dim}}>{String(idx+1).padStart(2,"0")}</span>
@@ -176,11 +176,11 @@ function Markets({go,prices,siteAssets}){
   const filtered=filter==="all"?activeAssets:activeAssets.filter(a=>filter==="Stage 1"?a.stage===1:a.stage===3);
   return <div style={{padding:"clamp(32px,5vw,72px) clamp(16px,4vw,48px) 60px"}}>
     <Tag gold>Asset Marketplace</Tag>
-    <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:44}}>
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:44,flexWrap:"wrap",gap:16}}>
       <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em"}}>
         Tokenized<br/><em style={{color:C.goldLt}}>Nigerian Equity.</em>
       </h1>
-      <div style={{display:"flex",gap:8}}>
+      <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
         {["all","Stage 1","Stage 3"].map(s=><FilterBtn key={s} label={s==="all"?"All Assets":s} active={filter===s} onClick={()=>setFilter(s)}/>)}
       </div>
     </div>

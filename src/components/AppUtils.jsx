@@ -9,7 +9,7 @@ function CookieBanner(){
   return(
     <div style={{position:"fixed",bottom:0,left:0,right:0,zIndex:500,
       background:"rgba(10,10,10,0.98)",borderTop:`0.5px solid ${C.goldBrd}`,
-      backdropFilter:"blur(12px)",padding:"18px 48px",
+      backdropFilter:"blur(12px)",padding:"18px clamp(16px,4vw,48px)",
       display:"flex",alignItems:"center",justifyContent:"space-between",gap:24,flexWrap:"wrap"}}>
       <div style={{flex:1,minWidth:280}}>
         <div style={{fontSize:13.5,color:C.white,fontWeight:500,marginBottom:4}}>We use cookies</div>
@@ -241,7 +241,7 @@ function PreLaunchBanner({ go }) {
       position: "relative", zIndex: 600,
       background: "rgba(201,150,12,0.10)",
       borderBottom: `1px solid ${C.goldBrd}`,
-      padding: "10px 48px",
+      padding: "10px clamp(16px,4vw,48px)",
       display: "flex", alignItems: "center", justifyContent: "center",
       gap: 12, flexWrap: "wrap",
       fontFamily: "'Sora',sans-serif",

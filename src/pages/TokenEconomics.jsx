@@ -21,7 +21,7 @@ function TokenEconomics({go}){
     </p>
 
     {/* Core mechanics */}
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:1,background:C.brd,marginBottom:48}}>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:1,background:C.brd,marginBottom:48}}>
       {[
         {n:"01",t:"Issuance",icon:"◈",b:"Tokens are issued on Polymesh after a formal partnership agreement is executed with the underlying company, and all regulatory approvals are in place. Zero tokens exist before legal structure is confirmed."},
         {n:"02",t:"Ownership",icon:"◆",b:"Each token carries a fractional claim on the equity of the issuing company — identical economic rights to the underlying shares, including dividend entitlements and participation in liquidity events."},

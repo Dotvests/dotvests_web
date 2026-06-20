@@ -243,7 +243,7 @@ function Platform({ go }) {
       {/* TOKENIZATION SECTION */}
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:1,background:C.brd,marginBottom:52}}>
         {/* What is tokenization */}
-        <div style={{background:C.bg1,padding:"56px 48px"}}>
+        <div style={{background:C.bg1,padding:"clamp(28px,4vw,56px) clamp(16px,4vw,48px)"}}>
           <div style={{width:32,height:1,background:C.gold,marginBottom:24}}/>
           <h2 style={{fontFamily:FS,fontSize:34,fontWeight:400,color:C.white,marginBottom:18,lineHeight:1.2}}>
             What is<br/><em style={{color:C.goldLt}}>Tokenization?</em>
@@ -271,7 +271,7 @@ function Platform({ go }) {
         </div>
 
         {/* Why it matters for Africa */}
-        <div style={{background:C.bg2,padding:"56px 48px"}}>
+        <div style={{background:C.bg2,padding:"clamp(28px,4vw,56px) clamp(16px,4vw,48px)"}}>
           <div style={{width:32,height:1,background:C.gold,marginBottom:24}}/>
           <h2 style={{fontFamily:FS,fontSize:34,fontWeight:400,color:C.white,marginBottom:18,lineHeight:1.2}}>
             Why It Matters<br/><em style={{color:C.goldLt}}>For Africa.</em>
@@ -301,8 +301,8 @@ function Platform({ go }) {
 
       {/* POLYMESH CALLOUT */}
       <div style={{background:C.bg1,border:`0.5px solid ${C.goldBrd}`,borderRadius:6,
-        padding:"52px 52px",marginBottom:52,
-        display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:72}}>
+        padding:"clamp(28px,4vw,52px) clamp(16px,4vw,52px)",marginBottom:52,
+        display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:"clamp(24px,5vw,72px)"}}>
         <div>
           <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",marginBottom:16}}>BLOCKCHAIN INFRASTRUCTURE</div>
           <h2 style={{fontFamily:FS,fontSize:"clamp(22px,5vw,32px)",fontWeight:400,color:C.white,marginBottom:16,lineHeight:1.2}}>
@@ -331,7 +331,7 @@ function Platform({ go }) {
 
       {/* WAITLIST CTA */}
       <div style={{background:`linear-gradient(135deg,${C.bg2},rgba(201,150,12,0.05))`,
-        border:`0.5px solid ${C.goldBrd}`,borderRadius:6,padding:"60px 56px",textAlign:"center"}}>
+        border:`0.5px solid ${C.goldBrd}`,borderRadius:6,padding:"clamp(32px,5vw,60px) clamp(20px,4vw,56px)",textAlign:"center"}}>
         <Tag gold>Early Access</Tag>
         <h2 style={{fontFamily:FS,fontSize:"clamp(26px,6vw,40px)",fontWeight:400,color:C.white,
           letterSpacing:"-0.02em",marginBottom:16}}>Be Among the First.</h2>

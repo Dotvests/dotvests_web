@@ -248,8 +248,8 @@ function Nav({page,go}){
       </div>
 
       {/* Right — search + CTA */}
-      <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0}}>
-        <SearchBar go={go}/>
+      <div className="nav-right" style={{display:"flex",alignItems:"center",gap:8,flexShrink:0}}>
+        <div className="nav-search"><SearchBar go={go}/></div>
         <button onClick={()=>{
           setOpen(false);go("home");
           setTimeout(()=>{

@@ -10,8 +10,8 @@ function TableRow({asset,idx,prices}){
   const p=prices[asset.id]||{price:asset.price,chg:asset.chg};
   const up=p.chg>=0;
   return <div onMouseEnter={()=>set(true)} onMouseLeave={()=>set(false)}
-    style={{display:"grid",gridTemplateColumns:"clamp(30px,5vw,44px) 1fr clamp(80px,15vw,120px) clamp(70px,12vw,120px) clamp(60px,10vw,90px)",
-      padding:"16px 22px",background:h?C.bg2:"transparent",
+    style={{display:"grid",gridTemplateColumns:"clamp(30px,5vw,44px) 1fr clamp(80px,15vw,120px) clamp(70px,12vw,120px) clamp(60px,10vw,90px) clamp(44px,8vw,70px)",
+      padding:"16px 22px",background:h?C.bg2:"transparent",minWidth:480,
       borderBottom:idx<ASSETS.length-1?`0.5px solid ${C.brd}`:"none",
       transition:"background 0.18s",cursor:"pointer",alignItems:"center"}}>
     <span style={{fontSize:11.5,color:C.dim}}>{String(idx+1).padStart(2,"0")}</span>
@@ -68,7 +68,7 @@ function FilterBtn({label,active,onClick}){
 function PillarCard({n,icon,title,sub,body,badge,onClick}){
   const [h,set]=useState(false);
   return <div onClick={onClick} onMouseEnter={()=>set(true)} onMouseLeave={()=>set(false)}
-    style={{background:h?C.bg2:C.bg1,padding:"48px 40px",cursor:"pointer",transition:"background 0.25s",position:"relative",overflow:"hidden"}}>
+    style={{background:h?C.bg2:C.bg1,padding:"clamp(28px,4vw,48px) clamp(20px,4vw,40px)",cursor:"pointer",transition:"background 0.25s",position:"relative",overflow:"hidden"}}>
     <div style={{position:"absolute",top:0,left:0,right:0,height:2,
       background:`linear-gradient(90deg,transparent,${C.gold},transparent)`,opacity:h?1:0,transition:"opacity 0.3s"}}/>
     <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",marginBottom:22}}>{n}</div>
@@ -233,7 +233,7 @@ function PressSection(){
     "TechCabal","Nairametrics","Techpoint Africa","BusinessDay","Ventures Africa","The Cable"
   ];
   return(
-    <section style={{padding:"60px 48px",borderBottom:`0.5px solid ${C.brd}`,background:C.bg1}}>
+    <section style={{padding:"60px clamp(16px,4vw,48px)",borderBottom:`0.5px solid ${C.brd}`,background:C.bg1}}>
       <div style={{textAlign:"center",marginBottom:36}}>
         <div style={{fontSize:11,color:C.muted,letterSpacing:"0.12em",textTransform:"uppercase",marginBottom:4}}>As Seen In</div>
         <div style={{fontSize:12,color:C.dim}}>Coverage & Recognition — Coming Soon</div>
@@ -278,16 +278,16 @@ function Home({go,prices,siteAssets,setSiteAssets}){
           <Btn v="gold" onClick={()=>go("markets")}>Explore Assets →</Btn>
           <Btn v="ghost" onClick={()=>go("platform")}>Explore Platform →</Btn>
         </div>
-        <div style={{marginTop:48,display:"flex",gap:0,borderTop:`0.5px solid ${C.brd}`,animation:"fadeUp 0.9s 0.55s both"}}>
+        <div style={{marginTop:48,display:"flex",flexWrap:"wrap",gap:0,borderTop:`0.5px solid ${C.brd}`,animation:"fadeUp 0.9s 0.55s both"}}>
           {["CAC Registered","Polymesh Blockchain","SEC ARIP Sandbox","NDPC Compliant"].map((t,i)=>(
-            <div key={i} style={{padding:"12px 18px 0",borderRight:i<3?`0.5px solid ${C.brd}`:"none",display:"flex",alignItems:"center",gap:7,paddingLeft:i===0?0:18}}>
+            <div key={i} style={{padding:"12px clamp(8px,2vw,18px) 0",borderRight:i<3?`0.5px solid ${C.brd}`:"none",display:"flex",alignItems:"center",gap:7,paddingLeft:i===0?0:undefined}}>
               <div style={{width:4,height:4,borderRadius:"50%",background:C.gold,flexShrink:0}}/>
-              <span style={{fontSize:11,color:C.muted}}>{t}</span>
+              <span style={{fontSize:11,color:C.muted,whiteSpace:"nowrap"}}>{t}</span>
             </div>
           ))}
         </div>
       </div>
-      <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"flex-end",gap:14,position:"relative",zIndex:2,paddingLeft:36}}>
+      <div className="hero-cards" style={{flex:1,display:"flex",flexDirection:"column",alignItems:"flex-end",gap:14,position:"relative",zIndex:2,paddingLeft:36}}>
         <div style={{display:"flex",gap:14,justifyContent:"flex-end"}}>
           <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="PGV")||ASSETS[0]} prices={prices} delay={200} anim="floatA"/>
           <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="CBT")||ASSETS[3]} prices={prices} delay={500} anim="floatB"/>
@@ -299,13 +299,13 @@ function Home({go,prices,siteAssets,setSiteAssets}){
       </div>
     </section>
     {/* STATS */}
-    <section style={{background:C.bg1,borderBottom:`0.5px solid ${C.brd}`,padding:"56px 48px",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(200px,100%),1fr))",gap:1}}>
+    <section style={{background:C.bg1,borderBottom:`0.5px solid ${C.brd}`,padding:"56px clamp(16px,4vw,48px)",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(200px,100%),1fr))",gap:1}}>
       {[{v:160,s:"T+",p:"₦",l:"NGX Market Capitalisation"},{v:154,s:"+",p:"",l:"NGX Listed Companies"},{v:10,s:"M",p:"₦",l:"DotVests Share Capital"},{v:6,s:"M+",p:"",l:"PiggyVest Users — Stage 1"}].map((s,i)=>(
         <div key={i} style={{textAlign:"center",padding:"0 20px",borderRight:i<3?`0.5px solid ${C.brd}`:"none"}}><Stat value={s.v} suffix={s.s} prefix={s.p} label={s.l}/></div>
       ))}
     </section>
     {/* PILLARS */}
-    <section style={{padding:"90px 48px",borderBottom:`0.5px solid ${C.brd}`}}>
+    <section style={{padding:"clamp(40px,8vw,90px) clamp(16px,4vw,48px)",borderBottom:`0.5px solid ${C.brd}`}}>
       <div style={{textAlign:"center",marginBottom:56}}>
         <Tag>Platform Architecture</Tag>
         <h2 style={{fontFamily:FS,fontSize:"clamp(26px,6vw,40px)",fontWeight:400,color:C.white,letterSpacing:"-0.02em"}}>One Platform. Three Functions.</h2>
@@ -315,13 +315,13 @@ function Home({go,prices,siteAssets,setSiteAssets}){
       </div>
     </section>
     {/* LIVE TABLE */}
-    <section style={{padding:"90px 48px",borderBottom:`0.5px solid ${C.brd}`}}>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:32}}>
+    <section style={{padding:"clamp(40px,8vw,90px) clamp(16px,4vw,48px)",borderBottom:`0.5px solid ${C.brd}`}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:32,flexWrap:"wrap",gap:16}}>
         <div><Tag gold>Live Asset Feed</Tag><h2 style={{fontFamily:FS,fontSize:"clamp(24px,5vw,36px)",fontWeight:400,color:C.white,letterSpacing:"-0.02em"}}>Tokenized Asset Pipeline</h2></div>
         <Btn v="og" onClick={()=>go("markets")}>View All →</Btn>
       </div>
-      <div style={{border:`0.5px solid ${C.brd}`,borderRadius:6,overflow:"hidden"}}>
-        <div style={{display:"grid",gridTemplateColumns:"clamp(30px,5vw,44px) 1fr clamp(80px,15vw,120px) clamp(70px,12vw,120px) clamp(60px,10vw,90px)",padding:"10px 22px",background:C.bg2,borderBottom:`0.5px solid ${C.brd}`,fontSize:10.5,color:C.muted,letterSpacing:"0.1em",textTransform:"uppercase"}}>
+      <div style={{border:`0.5px solid ${C.brd}`,borderRadius:6,overflow:"hidden",overflowX:"auto",WebkitOverflowScrolling:"touch"}}>
+        <div style={{display:"grid",gridTemplateColumns:"clamp(30px,5vw,44px) 1fr clamp(80px,15vw,120px) clamp(70px,12vw,120px) clamp(60px,10vw,90px) clamp(44px,8vw,70px)",padding:"10px 22px",background:C.bg2,borderBottom:`0.5px solid ${C.brd}`,fontSize:10.5,color:C.muted,letterSpacing:"0.1em",textTransform:"uppercase",minWidth:480}}>
           <span>#</span><span>Asset</span><span>Sector</span><span style={{textAlign:"right"}}>Price</span><span style={{textAlign:"right"}}>24h</span><span style={{textAlign:"right"}}>Stage</span>
         </div>
         {(siteAssets||ASSETS).filter(a=>a.status!=="frozen").map((a,i)=><TableRow key={a.id} asset={a} idx={i} prices={prices}/>)}
@@ -329,8 +329,8 @@ function Home({go,prices,siteAssets,setSiteAssets}){
       <p style={{fontSize:11,color:C.dim,marginTop:8,textAlign:"right"}}>* Simulated prices. No investment services offered.</p>
     </section>
     {/* PLATFORM CTA */}
-    <section style={{padding:"0 48px 90px",borderBottom:`0.5px solid ${C.brd}`}}>
-      <div style={{background:`linear-gradient(135deg,${C.bg2},rgba(201,150,12,0.04))`,border:`0.5px solid ${C.goldBrd}`,borderRadius:8,padding:"64px 56px",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:60,position:"relative",overflow:"hidden"}}>
+    <section style={{padding:"0 clamp(16px,4vw,48px) clamp(40px,8vw,90px)",borderBottom:`0.5px solid ${C.brd}`}}>
+      <div style={{background:`linear-gradient(135deg,${C.bg2},rgba(201,150,12,0.04))`,border:`0.5px solid ${C.goldBrd}`,borderRadius:8,padding:"clamp(32px,5vw,64px) clamp(20px,4vw,56px)",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:60,position:"relative",overflow:"hidden"}}>
         <div style={{position:"absolute",top:0,right:0,width:520,height:200,background:`radial-gradient(circle at top right,${C.goldDim},transparent)`,pointerEvents:"none"}}/>
         <div>
           <Tag gold>New Feature</Tag>
@@ -353,7 +353,7 @@ function Home({go,prices,siteAssets,setSiteAssets}){
     <MobileAppSection/>
     <PressSection/>
     <FAQSection/>
-    <section id="waitlist-section" style={{padding:"90px 48px",borderBottom:`0.5px solid ${C.brd}`}}>
+    <section id="waitlist-section" style={{padding:"clamp(40px,8vw,90px) clamp(16px,4vw,48px)",borderBottom:`0.5px solid ${C.brd}`}}>
       <div style={{maxWidth:560,margin:"0 auto",textAlign:"center"}}>
         <Tag gold>Early Access</Tag>
         <h2 style={{fontFamily:FS,fontSize:"clamp(26px,6vw,40px)",fontWeight:400,color:C.white,letterSpacing:"-0.02em",marginBottom:14}}>Be First In Line.</h2>

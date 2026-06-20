@@ -34,7 +34,7 @@ function Team({go}){
 
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(280px,100%),1fr))",gap:2,background:C.brd,marginBottom:48}}>
       {members.map((m,i)=>(
-        <div key={i} style={{background:C.bg1,padding:"48px 44px"}}>
+        <div key={i} style={{background:C.bg1,padding:"clamp(24px,4vw,48px) clamp(16px,4vw,44px)"}}>
           <div style={{display:"flex",gap:"clamp(14px,3vw,28px)",alignItems:"flex-start",marginBottom:24,flexWrap:"wrap"}}>
             <div style={{width:96,height:96,borderRadius:"50%",overflow:"hidden",flexShrink:0,
               border:`2px solid ${C.goldBrd}`,boxShadow:`0 0 0 4px rgba(201,150,12,0.08)`}}>
@@ -60,7 +60,7 @@ function Team({go}){
       ))}
     </div>
 
-    <div style={{background:C.bg1,border:`0.5px solid ${C.brd}`,borderRadius:6,padding:"44px 48px",marginBottom:48}}>
+    <div style={{background:C.bg1,border:`0.5px solid ${C.brd}`,borderRadius:6,padding:"clamp(24px,4vw,44px) clamp(16px,4vw,48px)",marginBottom:48}}>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:"clamp(20px,4vw,52px)"}}>
         <div>
           <Tag>Join the Team</Tag>

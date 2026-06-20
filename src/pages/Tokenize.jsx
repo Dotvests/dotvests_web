@@ -141,7 +141,7 @@ function Tokenize({go}){
     </h1>
     <CoinsOnBlocks/>
     <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:40}}>Polymesh is purpose-built for regulated securities. Compliance isn't optional — it's enforced at the chain level before any token moves.</p>
-    <div style={{background:C.bg1,border:`0.5px solid ${C.goldBrd}`,borderRadius:6,padding:"48px 48px",marginBottom:52,display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:"clamp(20px,4vw,64px)"}}>
+    <div style={{background:C.bg1,border:`0.5px solid ${C.goldBrd}`,borderRadius:6,padding:"clamp(24px,4vw,48px) clamp(16px,4vw,48px)",marginBottom:52,display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:"clamp(20px,4vw,64px)"}}>
       <div>
         <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",marginBottom:14}}>THE BLOCKCHAIN LAYER</div>
         <h2 style={{fontFamily:FS,fontSize:"clamp(20px,4.5vw,30px)",fontWeight:400,color:C.white,marginBottom:14}}>Why Polymesh Wins for Securities</h2>

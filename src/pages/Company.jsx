@@ -157,7 +157,7 @@ function Company({go}){
         ))}
       </div>
     </div>
-    <div style={{background:C.bg1,border:`0.5px solid ${C.brd}`,borderRadius:6,padding:"44px 44px",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:"clamp(20px,4vw,52px)"}}>
+    <div style={{background:C.bg1,border:`0.5px solid ${C.brd}`,borderRadius:6,padding:"clamp(24px,4vw,44px) clamp(16px,4vw,44px)",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:"clamp(20px,4vw,52px)"}}>
       <div>
         <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",marginBottom:18}}>CONTACT</div>
         <h3 style={{fontFamily:FS,fontSize:"clamp(20px,4vw,28px)",fontWeight:400,color:C.white,marginBottom:14}}>Get in Touch</h3>
