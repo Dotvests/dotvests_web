@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 function Team({go}){
   const members = [
     {
-      name:"Precious Okon",
+      name:"Deemene Barieeba Precious",
       role:"Founder & CEO",
       photo:PHOTO_PRECIOUS,
       bio:"Banker turned blockchain founder. Background spanning Stanbic IBTC, Fidelity Bank, and Ecobank. Built DotVests to solve the access problem he witnessed firsthand — premium Nigerian equity locked away from ordinary investors.",
@@ -14,7 +14,7 @@ function Team({go}){
       linkedin:"https://www.linkedin.com/feed/update/urn:li:activity:7457715874360279040",
     },
     {
-      name:"Sherriff",
+      name:"Adeleke Sherifdeen Adeboye",
       role:"Co-Founder & CTO",
       photo:PHOTO_SHERRIFF,
       bio:"Full-stack engineer and blockchain developer. Architecting the Polymesh integration, backend infrastructure, and the tokenization engine that powers DotVests. Builds systems the SEC can audit.",
