@@ -11,10 +11,9 @@ function useLivePrices(siteAssets) {
   const [pData, set] = useState(() => Object.fromEntries(ASSETS.map(a=>[a.id,{price:a.price,chg:a.chg}])));
   useEffect(()=>{
     const fetchPrices = async () => {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('tokens')
         .select('ticker, current_price_kobo');
-      console.log('Supabase data:', data, 'error:', error);
       if(data && data.length > 0){
         set(prev=>{
           const next={...prev};

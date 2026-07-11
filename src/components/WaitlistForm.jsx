@@ -132,7 +132,7 @@ function WaitlistBar(){
             style={{marginTop:3, flexShrink:0, accentColor:C.gold, width:16, height:16}}/>
           <label htmlFor="privacyConsent" style={{fontSize:12, color:C.muted, lineHeight:1.7, cursor:"pointer"}}>
             I consent to DotVests collecting and using my information for research and product development purposes.
-            Data will not be sold or shared with third parties. Contact: <span style={{color:C.goldLt}}><a href="mailto:info@dotvests.com" style={{color:"#E8B121",textDecoration:"none"}}><a href="mailto:info@dotvests.com" style={{color:"#E8B121",textDecoration:"none"}}><a href="mailto:info@dotvests.com" style={{color:"#E8B121",textDecoration:"none"}}><a href="mailto:info@dotvests.com" style={{color:"#E8B121",textDecoration:"none"}}><a href="mailto:info@dotvests.com" style={{color:"#E8B121",textDecoration:"none"}}>info@dotvests.com</a></a></a></a></a></span>
+            Data will not be sold or shared with third parties. Contact: <a href="mailto:info@dotvests.com" style={{color:"#E8B121",textDecoration:"none"}}>info@dotvests.com</a>
           </label>
         </div>
         {errors.privacy && <div style={{fontSize:11,color:C.red,marginBottom:10}}>{errors.privacy}</div>}

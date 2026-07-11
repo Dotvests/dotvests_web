@@ -88,9 +88,6 @@ function SearchBar({go}){
             const val = e.target.value;
             setQ(val);
             setOpen(true);
-            if(val.trim().toLowerCase() === "dtv//admin"){
-              setQ(""); setOpen(false); go("admin");
-            }
           }}
           onFocus={()=>setOpen(true)}
           onKeyDown={onKey}
@@ -173,7 +170,7 @@ function Nav({page,go}){
   const pageLabel = {
     home:"Home",markets:"Markets",tokenize:"Tokenize",
     compliance:"Compliance",company:"Company",platform:"Platform",
-    team:"Team",roadmap:"Roadmap","token-economics":"Token Economics",admin:"Admin"
+    team:"Team",roadmap:"Roadmap","token-economics":"Token Economics"
   }[page]||"Menu";
 
   return(

@@ -119,7 +119,7 @@ export default function Legal({ go }) {
           flexWrap: "wrap", gap: 12,
         }}>
           <span style={{ fontSize: 12, color: C.dim }}>
-            © 2026 DotVests Technologies Limited · RC Number: [CAC Registration] · Uyo, Akwa Ibom State, Nigeria
+            © 2026 DotVests Technologies Limited · RC Number: 8609680 · Uyo, Akwa Ibom State, Nigeria
           </span>
           <span style={{ fontSize: 12, color: C.dim }}>
             Last updated: May 2026
