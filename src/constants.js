@@ -33,7 +33,6 @@ const GF = `
     .four-col{grid-template-columns:1fr 1fr !important;}
     .stats-strip{grid-template-columns:1fr 1fr !important;}
     .footer-grid{grid-template-columns:1fr 1fr !important;}
-    .admin-stats{grid-template-columns:1fr 1fr !important;}
     .page-section{padding:80px 20px 60px !important;}
     .nav-search{display:none !important;}
   }

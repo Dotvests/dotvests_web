@@ -9,7 +9,6 @@ import Tokenize from "./pages/Tokenize";
 import Compliance from "./pages/Compliance";
 import Company from "./pages/Company";
 import Platform from "./pages/Platform";
-import AdminPage from "./pages/Admin";
 import Team from "./pages/Team";
 import Roadmap from "./pages/Roadmap";
 import TokenEconomics from "./pages/TokenEconomics";
@@ -42,7 +41,7 @@ export default function App(){
       window.gtag('event','page_view',{page_title:p,page_location:window.location.href+'#'+p});
     }
   };
-  const pages={home:Home,markets:Markets,tokenize:Tokenize,compliance:Compliance,company:Company,platform:Platform,admin:AdminPage,team:Team,roadmap:Roadmap,"token-economics":TokenEconomics,legal:Legal};
+  const pages={home:Home,markets:Markets,tokenize:Tokenize,compliance:Compliance,company:Company,platform:Platform,team:Team,roadmap:Roadmap,"token-economics":TokenEconomics,legal:Legal};
   const Page=pages[page]||NotFound;
   return <ErrorBoundary>
     <style>{GF}</style>
