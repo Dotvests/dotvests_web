@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { C, FS, ASSETS } from "../constants";
 import { fmt, Tag, Btn, MiniChart, useCountUp } from "../components/shared";
-import WaitlistBar from "../components/WaitlistForm";
 import FAQSection from "../components/FAQSection";
 import Footer from "../components/Footer";
 
@@ -357,8 +356,20 @@ function Home({go,prices,siteAssets,setSiteAssets}){
       <div style={{maxWidth:560,margin:"0 auto",textAlign:"center"}}>
         <Tag gold>Early Access</Tag>
         <h2 style={{fontFamily:FS,fontSize:"clamp(26px,6vw,40px)",fontWeight:400,color:C.white,letterSpacing:"-0.02em",marginBottom:14}}>Be First In Line.</h2>
-        <p style={{fontSize:15,color:C.muted,lineHeight:1.8,marginBottom:36}}>Join the waitlist. Get priority access, insider updates, and be first to invest when we launch post-ARIP approval.</p>
-        <WaitlistBar/>
+        <p style={{fontSize:15,color:C.muted,lineHeight:1.8,marginBottom:18}}>Join the waitlist. Get priority access, insider updates, and be first to invest when we launch post-ARIP approval.</p>
+        <p style={{fontSize:13.5,color:C.muted,lineHeight:1.8,marginBottom:32}}>
+          You'll get a referral code as soon as you submit. Every person who joins with it moves you up the{" "}
+          <button onClick={()=>go("referral")} style={{background:"none",border:"none",color:C.goldLt,fontSize:13.5,padding:0,textDecoration:"underline",cursor:"pointer",fontFamily:"'Sora',sans-serif"}}>referral leaderboard</button>.
+        </p>
+        <div style={{display:"flex",gap:10,justifyContent:"center",flexWrap:"wrap"}}>
+          <button onClick={()=>go("waitlist")} style={{background:C.gold,border:"none",color:"#000",
+            fontFamily:"'Sora',sans-serif",fontSize:14,fontWeight:600,padding:"14px 30px",
+            borderRadius:3,cursor:"pointer",letterSpacing:"0.05em"}}>Join The Waitlist →</button>
+          <button onClick={()=>go("referral")} style={{background:"none",border:`0.5px solid ${C.goldBrd}`,color:C.goldLt,
+            fontFamily:"'Sora',sans-serif",fontSize:14,fontWeight:500,padding:"14px 26px",
+            borderRadius:3,cursor:"pointer"}}>View Leaderboard</button>
+        </div>
+        <div style={{fontSize:11.5,color:C.dim,marginTop:14}}>Takes under a minute. No spam, informational updates only.</div>
       </div>
     </section>
     <Footer go={go}/>
