@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import { C, FS } from "../constants";
+import { API_BASE, normaliseCode, refFromUrl } from "../lib/referral";
+import { ReferralPanel } from "./ReferralShare";
 
-function WaitlistBar(){
+function WaitlistBar({ go }){
   const [done, setDone] = useState(false);
+  const [result, setResult] = useState(null);
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
+
+  // Referral code: prefilled from ?ref= on the URL, editable by hand.
+  const [referral, setReferral] = useState(() => refFromUrl() || "");
+  const [fromLink, setFromLink] = useState(() => Boolean(refFromUrl()));
 
   const validate = (form) => {
     const errs = {};
@@ -18,32 +25,47 @@ function WaitlistBar(){
       const at = email.indexOf('@'), dot = email.lastIndexOf('.');
       if (at < 1 || dot < at+2 || dot+2 >= email.length) errs.email = 'Enter a valid email address.';
     }
+    if (referral.trim() && !normaliseCode(referral)) {
+      errs.referral = 'That code looks off. Codes look like DV-7K3Q9.';
+    }
     if (!privacy?.checked) errs.privacy = 'Please accept the privacy notice.';
     return errs;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const errs = validate(form);
-    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+  const submit = async (form, { withReferral }) => {
     setErrors({});
     setSubmitting(true);
     try {
-      const res = await fetch('https://dotvests-backend.onrender.com/api/waitlist', {
+      const payload = {
+        name: form['name'].value.trim(),
+        email: form['email'].value.trim(),
+        company: form['company'].value.trim(),
+        investor_type: form['investor_type'].value,
+        investment_range: form['investment_range'].value,
+        source: 'landing_page',
+      };
+
+      const code = withReferral ? normaliseCode(referral) : null;
+      if (code) payload.referral_code = code;
+
+      const res = await fetch(`${API_BASE}/api/waitlist`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: form['name'].value.trim(),
-          email: form['email'].value.trim(),
-          company: form['company'].value.trim(),
-          investor_type: form['investor_type'].value,
-          investment_range: form['investment_range'].value,
-          source: 'landing_page',
-        }),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
-      if (!res.ok || !data.success) throw new Error(data.message || 'Something went wrong. Please try again.');
+
+      if (!res.ok || !data.success) {
+        // A bad referral code should never cost someone their signup — offer
+        // a one-click path to join without it.
+        if (data.code === 'INVALID_REFERRAL_CODE' || data.code === 'SELF_REFERRAL') {
+          setErrors({ referral: data.message, canSkipReferral: true });
+          return;
+        }
+        throw new Error(data.message || 'Something went wrong. Please try again.');
+      }
+
+      setResult(data.data);
       setDone(true);
     } catch (err) {
       setErrors({ submit: err.message || 'Something went wrong. Please try again.' });
@@ -52,14 +74,41 @@ function WaitlistBar(){
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const errs = validate(form);
+    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    await submit(form, { withReferral: true });
+  };
+
+  const joinWithoutReferral = async () => {
+    const form = document.getElementById('waitlist-form');
+    if (!form) return;
+    setReferral("");
+    setFromLink(false);
+    await submit(form, { withReferral: false });
+  };
+
   if (done) return (
-    <div style={{textAlign:"center", padding:"36px 0", animation:"fadeUp 0.4s ease both"}}>
+    <div style={{textAlign:"center", padding:"28px 0 8px", animation:"fadeUp 0.4s ease both"}}>
       <div style={{fontSize:40, marginBottom:12}}>✓</div>
       <div style={{fontFamily:FS, fontSize:22, color:C.green, marginBottom:10}}>You're on the list.</div>
-      <div style={{fontSize:14, color:C.muted, lineHeight:1.8, maxWidth:420, margin:"0 auto"}}>
+      <div style={{fontSize:14, color:C.muted, lineHeight:1.8, maxWidth:420, margin:"0 auto 26px"}}>
         Welcome to the future of African investing. We'll be in touch before launch with everything you need to know.
-        <br/><br/>
-        <em style={{color:C.goldLt}}>DotVests — Redefining Access To African Wealth.</em>
+      </div>
+
+      {result?.referral_code && (
+        <ReferralPanel
+          code={result.referral_code}
+          heading="Your referral code"
+          blurb="Every person who joins the waitlist with your code moves you up the leaderboard. Your position is public — your identity is not."
+          onViewLeaderboard={go ? () => go("referral") : undefined}
+        />
+      )}
+
+      <div style={{fontSize:13, color:C.goldLt, marginTop:22, fontStyle:"italic"}}>
+        DotVests — Redefining Access To African Wealth.
       </div>
     </div>
   );
@@ -80,7 +129,7 @@ function WaitlistBar(){
 
   return (
     <div style={{maxWidth:560, margin:"0 auto"}}>
-      <form onSubmit={handleSubmit} noValidate>
+      <form id="waitlist-form" onSubmit={handleSubmit} noValidate>
 
         <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))", gap:12, marginBottom:12}}>
           <div>
@@ -113,7 +162,7 @@ function WaitlistBar(){
           </div>
         </div>
 
-        <div style={{marginBottom:16}}>
+        <div style={{marginBottom:12}}>
           <div style={{fontSize:10, color:C.muted, letterSpacing:"0.08em", marginBottom:6, textTransform:"uppercase"}}>Investment Range</div>
           <select name="investment_range" style={selectStyle('amount')}>
             <option value="">Select range</option>
@@ -123,6 +172,31 @@ function WaitlistBar(){
             <option value="₦2M–₦10M">₦2M – ₦10M</option>
             <option value="Over ₦10M">Over ₦10M</option>
           </select>
+        </div>
+
+        {/* Referral code */}
+        <div style={{marginBottom:16}}>
+          <div style={{fontSize:10, color:C.muted, letterSpacing:"0.08em", marginBottom:6, textTransform:"uppercase"}}>
+            Referral Code <span style={{textTransform:"none",letterSpacing:0,color:C.dim}}>(optional)</span>
+          </div>
+          <input
+            type="text" name="referral_code" maxLength={12} placeholder="DV-7K3Q9"
+            value={referral}
+            onChange={(e)=>{ setReferral(e.target.value.toUpperCase()); setFromLink(false); }}
+            style={{...inputStyle('referral'), letterSpacing:"0.08em"}}/>
+          {fromLink && !errors.referral && (
+            <div style={{fontSize:11,color:C.green,marginTop:5}}>
+              ✓ Referral code applied from your invite link.
+            </div>
+          )}
+          {errors.referral && <div style={{fontSize:11,color:C.red,marginTop:5}}>{errors.referral}</div>}
+          {errors.canSkipReferral && (
+            <button type="button" onClick={joinWithoutReferral} disabled={submitting}
+              style={{background:"none",border:"none",color:C.goldLt,fontSize:11.5,marginTop:6,
+                textDecoration:"underline",cursor:"pointer",fontFamily:"'Sora',sans-serif",padding:0}}>
+              Join without a referral code
+            </button>
+          )}
         </div>
 
         <div style={{display:"flex", gap:12, alignItems:"flex-start", marginBottom:16,

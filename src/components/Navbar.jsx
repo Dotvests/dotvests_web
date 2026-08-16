@@ -18,7 +18,9 @@ const SEARCH_INDEX = [
   {label:"Company",          page:"company",   keywords:"company about dotvests team mission contact"},
   {label:"Contact",          page:"company",   keywords:"contact email phone address"},
   {label:"Platform",         page:"platform",  keywords:"platform how it works sign up fund wallet"},
-  {label:"Join Waitlist",    page:"waitlist",  keywords:"waitlist early access join signup email name investor"},
+  {label:"Join Waitlist",    page:"waitlist",  keywords:"waitlist early access join signup form investor interest phone age occupation income state"},
+  {label:"Referral Leaderboard", page:"referral", keywords:"referral leaderboard invite code refer friends rank position share climb"},
+  {label:"My Referral Rank",     page:"referral", keywords:"my rank referral code check position standing dv code"},
   {label:"FAQ",               page:"home",      keywords:"faq questions legal regulated shares protected minimum"},
   {label:"Mobile App",        page:"home",      keywords:"mobile app ios android download"},
   {label:"Partner Pipeline",  page:"home",      keywords:"piggyvest chowdeck erisco carbon partners"},
@@ -54,17 +56,10 @@ function SearchBar({go}){
     return () => document.removeEventListener("mousedown", h);
   }, []);
 
+  // `go` handles the "waitlist" pseudo-page (home + scroll) itself.
   const choose = (page) => {
     setQ(""); setOpen(false);
-    if(page === "waitlist"){
-      go("home");
-      setTimeout(()=>{
-        const el=document.getElementById("waitlist-section");
-        if(el)el.scrollIntoView({behavior:"smooth",block:"start"});
-      },80);
-    } else {
-      go(page);
-    }
+    go(page);
   };
 
   const onKey = (e) => {
@@ -136,7 +131,8 @@ const DROP_ITEMS=[
   {l:"Company",        p:"company",   desc:"About DotVests Technologies"},
   {l:"Platform",       p:"platform",  desc:"How the platform works"},
   {l:"Explore Assets", p:"markets",        desc:"Start investing today"},
-  {l:"Join Waitlist",  p:"waitlist",        desc:"Sign up for early access"},
+  {l:"Join Waitlist",  p:"waitlist",        desc:"Investor interest form — 1 min"},
+  {l:"Referral Leaderboard", p:"referral",  desc:"Refer people, climb the list"},
   {l:"Team",           p:"team",            desc:"Meet the founders"},
   {l:"Roadmap",        p:"roadmap",         desc:"Our path to launch and beyond"},
   {l:"Token Economics",p:"token-economics", desc:"How DotVests tokens work"},
@@ -170,7 +166,8 @@ function Nav({page,go}){
   const pageLabel = {
     home:"Home",markets:"Markets",tokenize:"Tokenize",
     compliance:"Compliance",company:"Company",platform:"Platform",
-    team:"Team",roadmap:"Roadmap","token-economics":"Token Economics"
+    team:"Team",roadmap:"Roadmap","token-economics":"Token Economics",
+    legal:"Legal",referral:"Referrals",waitlist:"Join Waitlist"
   }[page]||"Menu";
 
   return(
@@ -247,13 +244,13 @@ function Nav({page,go}){
       {/* Right — search + CTA */}
       <div className="nav-right" style={{display:"flex",alignItems:"center",gap:8,flexShrink:0}}>
         <div className="nav-search"><SearchBar go={go}/></div>
-        <button onClick={()=>{
-          setOpen(false);go("home");
-          setTimeout(()=>{
-            const el=document.getElementById("waitlist-section");
-            if(el)el.scrollIntoView({behavior:"smooth",block:"start"});
-          },80);
-        }} style={{
+        <button onClick={()=>{setOpen(false);go("referral");}} className="hide-mobile" style={{
+          background:"none",border:`0.5px solid ${C.goldBrd}`,color:C.goldLt,
+          fontFamily:"'Sora',sans-serif",fontSize:12,fontWeight:500,
+          padding:"8px 12px",borderRadius:3,cursor:"pointer",
+          whiteSpace:"nowrap",flexShrink:0,
+        }}>Leaderboard</button>
+        <button onClick={()=>{setOpen(false);go("waitlist");}} style={{
           background:C.gold,border:"none",color:"#000",
           fontFamily:"'Sora',sans-serif",fontSize:12,fontWeight:600,
           padding:"8px 14px",borderRadius:3,cursor:"pointer",
