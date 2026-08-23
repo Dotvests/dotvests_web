@@ -145,8 +145,8 @@ export const SECTIONS = [
     id: "habits",
     title: "Your Investment Habits",
     fields: [
-      { key: "share_awareness", label: "Have you heard of shares of some companies like GTBank, Dangote Cement, MTN Nigeria, or Zenith Bank?", type: "radio", options: SHARE_AWARENESS },
-      { key: "invests_currently", label: "Do you currently invest?", hint: "Have you ever bought shares with any company, such as GTB, Dangote Cement, or MTN?", type: "radio", options: INVESTS_CURRENTLY },
+      { key: "share_awareness", label: "Have you heard of shares of some companies like TrustGuard Bank, Titan Cement, ConnectTel Nigeria, or Summit Bank?", type: "radio", options: SHARE_AWARENESS },
+      { key: "invests_currently", label: "Do you currently invest?", hint: "Have you ever bought shares with any company, such as TGB, Titan Cement, or ConnectTel?", type: "radio", options: INVESTS_CURRENTLY },
       { key: "invest_channels", label: "Where do you actively invest?", hint: "Select all that apply", type: "checkbox", options: INVEST_CHANNELS },
       { key: "invest_barriers", label: "What is the biggest barrier stopping you from investing more?", hint: "Select all that apply", type: "checkbox", options: INVEST_BARRIERS, allowOther: true },
     ],

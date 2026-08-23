@@ -113,11 +113,11 @@ function Stat({value,suffix,label,prefix=""}){
 
 function PartnerPipeline(){
   const partners=[
-    {name:"PiggyVest",    tag:"Priority · Stage 1", desc:"6M+ users · Pre-IPO",       icon:"🐷"},
-    {name:"Chowdeck",     tag:"Target · Stage 1",   desc:"Food delivery · Expansion",  icon:"🚀"},
-    {name:"Erisco Foods", tag:"Target · Stage 1",   desc:"FMCG · Market leader",       icon:"🏭"},
-    {name:"Carbon",       tag:"Target · Stage 1",   desc:"Digital banking · Credit",   icon:"⚡"},
-    {name:"Anchoria",     tag:"Custody Partner",     desc:"Licensed broker · NGX",      icon:"🏦"},
+    {name:"NestVest",     tag:"Priority · Stage 1", desc:"6M+ users · Pre-IPO",       icon:"🐷"},
+    {name:"SwiftDash",    tag:"Target · Stage 1",   desc:"Food delivery · Expansion",  icon:"🚀"},
+    {name:"Delta Foods",  tag:"Target · Stage 1",   desc:"FMCG · Market leader",       icon:"🏭"},
+    {name:"Voltage Finance", tag:"Target · Stage 1",desc:"Digital banking · Credit",   icon:"⚡"},
+    {name:"Meridian Capital", tag:"Custody Partner", desc:"Licensed broker · NGX",     icon:"🏦"},
     {name:"Pavestones",   tag:"Legal Counsel",       desc:"FinTech · ARIP track record",icon:"⚖️"},
   ];
   return(
@@ -162,8 +162,8 @@ function MobileAppSection(){
             The DotVests mobile app is in development alongside the platform. Native iOS and Android — built for the 40M+ smartphone users in Nigeria who deserve access to African equity markets.
           </p>
           <div style={{display:"flex",flexDirection:"column",gap:14,marginBottom:36}}>
-            {[["Real-time portfolio tracking","Watch your tokenized equity move with live Polymesh settlement"],
-              ["Naira in, naira out","Paystack deposits and withdrawals without leaving the app"],
+            {[["Real-time portfolio tracking","Watch your tokenized equity move with live ChainVault settlement"],
+              ["Naira in, naira out","PayLink deposits and withdrawals without leaving the app"],
               ["Biometric security","Face ID and fingerprint authentication on every session"],
               ["Push notifications","Price alerts, dividend payments, corporate action updates"]
             ].map(([t,b],i)=>(
@@ -209,7 +209,7 @@ function MobileAppSection(){
                   <div key={i} style={{flex:1,height:`${h}%`,background:`linear-gradient(to top,${C.gold},${C.goldLt})`,borderRadius:2,margin:"0 1px"}}/>
                 ))}
               </div>
-              {[{n:"PiggyVest",v:"₦124,000",c:"+2.3%",u:true},{n:"Chowdeck",v:"₦62,000",c:"-0.8%",u:false},{n:"Carbon",v:"₦62,500",c:"+3.5%",u:true}].map((a,i)=>(
+              {[{n:"NestVest",v:"₦124,000",c:"+2.3%",u:true},{n:"SwiftDash",v:"₦62,000",c:"-0.8%",u:false},{n:"Voltage Finance",v:"₦62,500",c:"+3.5%",u:true}].map((a,i)=>(
                 <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",
                   background:C.bg3,borderRadius:6,padding:"10px 12px"}}>
                   <div>
@@ -256,8 +256,8 @@ function PressSection(){
 
 function Home({go,prices,siteAssets,setSiteAssets}){
   const pillars=[
-    {n:"01",icon:"◈",title:"Tokenize",sub:"Nigerian equity → blockchain tokens",body:"Polymesh converts private company shares into compliance-native tokens. KYC/AML enforced at protocol level.",badge:"Polymesh Native",cta:"tokenize"},
-    {n:"02",icon:"◎",title:"Trade",sub:"Fractional ownership from ₦1,000",body:"Buy and sell tokenized equity 24/7. Naira-denominated. Paystack and Breet rails. Instant settlement.",badge:"Naira Denominated",cta:"markets"},
+    {n:"01",icon:"◈",title:"Tokenize",sub:"Nigerian equity → blockchain tokens",body:"ChainVault converts private company shares into compliance-native tokens. KYC/AML enforced at protocol level.",badge:"ChainVault Native",cta:"tokenize"},
+    {n:"02",icon:"◎",title:"Trade",sub:"Fractional ownership from ₦1,000",body:"Buy and sell tokenized equity 24/7. Naira-denominated. PayLink and CoinBridge rails. Instant settlement.",badge:"Naira Denominated",cta:"markets"},
     {n:"03",icon:"◇",title:"Comply",sub:"SEC Nigeria ARIP sandbox pathway",body:"Every architecture decision maps to a regulatory requirement. Building through compliance, not around it.",badge:"ARIP Active",cta:"compliance"},
   ];
   return <div>
@@ -278,7 +278,7 @@ function Home({go,prices,siteAssets,setSiteAssets}){
           <Btn v="ghost" onClick={()=>go("platform")}>Explore Platform →</Btn>
         </div>
         <div style={{marginTop:48,display:"flex",flexWrap:"wrap",gap:0,borderTop:`0.5px solid ${C.brd}`,animation:"fadeUp 0.9s 0.55s both"}}>
-          {["CAC Registered","Polymesh Blockchain","SEC ARIP Sandbox","NDPC Compliant"].map((t,i)=>(
+          {["CAC Registered","ChainVault Blockchain","SEC ARIP Sandbox","NDPC Compliant"].map((t,i)=>(
             <div key={i} style={{padding:"12px clamp(8px,2vw,18px) 0",borderRight:i<3?`0.5px solid ${C.brd}`:"none",display:"flex",alignItems:"center",gap:7,paddingLeft:i===0?0:undefined}}>
               <div style={{width:4,height:4,borderRadius:"50%",background:C.gold,flexShrink:0}}/>
               <span style={{fontSize:11,color:C.muted,whiteSpace:"nowrap"}}>{t}</span>
@@ -288,18 +288,18 @@ function Home({go,prices,siteAssets,setSiteAssets}){
       </div>
       <div className="hero-cards" style={{flex:1,display:"flex",flexDirection:"column",alignItems:"flex-end",gap:14,position:"relative",zIndex:2,paddingLeft:36}}>
         <div style={{display:"flex",gap:14,justifyContent:"flex-end"}}>
-          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="PGV")||ASSETS[0]} prices={prices} delay={200} anim="floatA"/>
-          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="CBT")||ASSETS[3]} prices={prices} delay={500} anim="floatB"/>
+          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="NVT")||ASSETS[0]} prices={prices} delay={200} anim="floatA"/>
+          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="VLT")||ASSETS[3]} prices={prices} delay={500} anim="floatB"/>
         </div>
         <div style={{display:"flex",gap:14,justifyContent:"flex-end",marginLeft:44}}>
-          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="CHD")||ASSETS[1]} prices={prices} delay={350} anim="floatB"/>
-          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="ERF")||ASSETS[2]} prices={prices} delay={650} anim="floatA"/>
+          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="SWD")||ASSETS[1]} prices={prices} delay={350} anim="floatB"/>
+          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="DFL")||ASSETS[2]} prices={prices} delay={650} anim="floatA"/>
         </div>
       </div>
     </section>
     {/* STATS */}
     <section style={{background:C.bg1,borderBottom:`0.5px solid ${C.brd}`,padding:"56px clamp(16px,4vw,48px)",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(200px,100%),1fr))",gap:1}}>
-      {[{v:160,s:"T+",p:"₦",l:"NGX Market Capitalisation"},{v:154,s:"+",p:"",l:"NGX Listed Companies"},{v:10,s:"M",p:"₦",l:"DotVests Share Capital"},{v:6,s:"M+",p:"",l:"PiggyVest Users — Stage 1"}].map((s,i)=>(
+      {[{v:160,s:"T+",p:"₦",l:"NGX Market Capitalisation"},{v:154,s:"+",p:"",l:"NGX Listed Companies"},{v:10,s:"M",p:"₦",l:"DotVests Share Capital"},{v:6,s:"M+",p:"",l:"NestVest Users — Stage 1"}].map((s,i)=>(
         <div key={i} style={{textAlign:"center",padding:"0 20px",borderRight:i<3?`0.5px solid ${C.brd}`:"none"}}><Stat value={s.v} suffix={s.s} prefix={s.p} label={s.l}/></div>
       ))}
     </section>
@@ -334,11 +334,11 @@ function Home({go,prices,siteAssets,setSiteAssets}){
         <div>
           <Tag gold>New Feature</Tag>
           <h2 style={{fontFamily:FS,fontSize:"clamp(24px,5vw,36px)",fontWeight:400,color:C.white,lineHeight:1.2,marginBottom:18}}>How the Platform<br/><em style={{color:C.goldLt}}>Works.</em></h2>
-          <p style={{fontSize:14,color:C.muted,lineHeight:1.9,marginBottom:28}}>A seamless, secure, and transparent way to invest in African stocks — built on compliance-native Polymesh blockchain infrastructure from day one.</p>
+          <p style={{fontSize:14,color:C.muted,lineHeight:1.9,marginBottom:28}}>A seamless, secure, and transparent way to invest in African stocks — built on compliance-native ChainVault blockchain infrastructure from day one.</p>
           <Btn v="gold" onClick={()=>go("platform")}>Launch Simulator →</Btn>
         </div>
         <div style={{display:"flex",flexDirection:"column",gap:0}}>
-          {[["Sign Up & Verify","Create account and complete KYC via Polymesh identity layer"],["Fund Your Wallet","Deposit via Paystack NGN or Breet crypto on-ramp"],["Browse & Buy","Fractional shares from ₦1,000 — no minimum lock-in"],["Trade 24/7","Atomic blockchain settlement. T+0. No T+2 delays."]].map(([k,v],i)=>(
+          {[["Sign Up & Verify","Create account and complete KYC via ChainVault identity layer"],["Fund Your Wallet","Deposit via PayLink NGN or CoinBridge crypto on-ramp"],["Browse & Buy","Fractional shares from ₦1,000 — no minimum lock-in"],["Trade 24/7","Atomic blockchain settlement. T+0. No T+2 delays."]].map(([k,v],i)=>(
             <div key={i} style={{display:"flex",gap:14,padding:"16px 0",borderBottom:`0.5px solid ${C.brd}`}}>
               <div style={{width:6,height:6,borderRadius:"50%",background:C.gold,flexShrink:0,marginTop:6}}/>
               <div><div style={{fontSize:13,fontWeight:500,color:C.white,marginBottom:3}}>{k}</div><div style={{fontSize:12.5,color:C.muted}}>{v}</div></div>

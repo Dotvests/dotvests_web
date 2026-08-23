@@ -17,8 +17,8 @@ function Team({go}){
       name:"Adeleke Sherifdeen Adeboye",
       role:"Co-Founder & CTO",
       photo:PHOTO_SHERRIFF,
-      bio:"Full-stack engineer and blockchain developer. Architecting the Polymesh integration, backend infrastructure, and the tokenization engine that powers DotVests. Builds systems the SEC can audit.",
-      tags:["Blockchain","Full-Stack","Polymesh"],
+      bio:"Full-stack engineer and blockchain developer. Architecting the ChainVault integration, backend infrastructure, and the tokenization engine that powers DotVests. Builds systems the SEC can audit.",
+      tags:["Blockchain","Full-Stack","ChainVault"],
       linkedin:"#",
     },
   ];
@@ -65,10 +65,10 @@ function Team({go}){
         <div>
           <Tag>Join the Team</Tag>
           <h2 style={{fontFamily:FS,fontSize:"clamp(22px,5vw,32px)",fontWeight:400,color:C.white,marginBottom:14}}>We're Building the<br/>Infrastructure Layer.</h2>
-          <p style={{fontSize:14,color:C.muted,lineHeight:1.85}}>DotVests is pre-launch and growing. If you're a Polymesh developer, securities lawyer, compliance specialist, or Nigerian fintech operator who believes in the mission — we want to hear from you.</p>
+          <p style={{fontSize:14,color:C.muted,lineHeight:1.85}}>DotVests is pre-launch and growing. If you're a ChainVault developer, securities lawyer, compliance specialist, or Nigerian fintech operator who believes in the mission — we want to hear from you.</p>
         </div>
         <div style={{display:"flex",flexDirection:"column",gap:16,justifyContent:"center"}}>
-          {[["Open Roles","Polymesh Smart Contract Developer · Legal Counsel (SEC/ARIP Track)"],["Location","Remote-first · Nigeria"],["Contact","info@dotvests.com"]].map(([k,v])=>(
+          {[["Open Roles","ChainVault Smart Contract Developer · Legal Counsel (SEC/ARIP Track)"],["Location","Remote-first · Nigeria"],["Contact","info@dotvests.com"]].map(([k,v])=>(
             <div key={k} style={{padding:"16px 0",borderBottom:`0.5px solid ${C.brd}`}}>
               <div style={{fontSize:10,color:C.muted,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:5}}>{k}</div>
               <div style={{fontSize:13,color:C.white}}>{v}</div>

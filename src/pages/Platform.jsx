@@ -79,7 +79,7 @@ function MobilePlatformDemo() {
       const chartX=sx+10,chartY=sy+66,chartW=sw-20,chartH=32;
       const pts=[0.5,0.45,0.55,0.48,0.62,0.58,0.72,0.68,0.78,0.82,0.75,0.88];
       cx.beginPath();cx.moveTo(chartX,chartY+chartH-(pts[0]*chartH));pts.forEach((v,i)=>cx.lineTo(chartX+(i/(pts.length-1))*chartW,chartY+chartH-v*chartH));cx.strokeStyle='rgba(34,197,94,0.6)';cx.lineWidth=1;cx.stroke();
-      const assets=[{n:'PiggyVest',v:'₦1,842',c:'+2.3%',up:true},{n:'Carbon',v:'₦983',c:'+3.5%',up:true},{n:'Chowdeck',v:'₦619',c:'-0.8%',up:false}];
+      const assets=[{n:'NestVest',v:'₦1,842',c:'+2.3%',up:true},{n:'Voltage Finance',v:'₦983',c:'+3.5%',up:true},{n:'SwiftDash',v:'₦619',c:'-0.8%',up:false}];
       assets.forEach((a,i)=>{
         const ay=sy+108+i*38;
         cx.beginPath();if(cx.roundRect)cx.roundRect(sx+8,ay,sw-16,30,3);else cx.rect(sx+8,ay,sw-16,30);cx.fillStyle='rgba(255,255,255,0.03)';cx.fill();cx.strokeStyle='rgba(201,150,12,0.12)';cx.lineWidth=0.5;cx.stroke();
@@ -92,7 +92,7 @@ function MobilePlatformDemo() {
     function drawMarket(sx,sy,sw,sh,p){
       cx.fillStyle='#090909';cx.fillRect(sx,sy,sw,sh);
       cx.fillStyle='rgba(201,150,12,0.8)';cx.font='bold 10px sans-serif';cx.textAlign='left';cx.fillText('Markets',sx+10,sy+24);
-      const assets=[{n:'PiggyVest',sec:'Fintech',v:'₦1,842',c:'+2.34%',up:true},{n:'Erisco Foods',sec:'Consumer',v:'₦312',c:'+1.12%',up:true},{n:'Chowdeck',sec:'Logistics',v:'₦619',c:'-0.87%',up:false},{n:'Carbon',sec:'Banking',v:'₦983',c:'+3.56%',up:true}];
+      const assets=[{n:'NestVest',sec:'Fintech',v:'₦1,842',c:'+2.34%',up:true},{n:'Delta Foods',sec:'Consumer',v:'₦312',c:'+1.12%',up:true},{n:'SwiftDash',sec:'Logistics',v:'₦619',c:'-0.87%',up:false},{n:'Voltage Finance',sec:'Banking',v:'₦983',c:'+3.56%',up:true}];
       const tapped=p>0.35;
       assets.forEach((a,i)=>{
         const ay=sy+36+i*46;const isSelected=i===0&&tapped;
@@ -106,23 +106,23 @@ function MobilePlatformDemo() {
 
     function drawBuy(sx,sy,sw,sh,p){
       cx.fillStyle='#090909';cx.fillRect(sx,sy,sw,sh);
-      cx.fillStyle='rgba(201,150,12,0.85)';cx.font='bold 11px sans-serif';cx.textAlign='center';cx.fillText('PiggyVest',sx+sw/2,sy+36);
-      cx.fillStyle='rgba(255,255,255,0.45)';cx.font='400 7px sans-serif';cx.fillText('PGV · Fintech · Stage 1',sx+sw/2,sy+48);
+      cx.fillStyle='rgba(201,150,12,0.85)';cx.font='bold 11px sans-serif';cx.textAlign='center';cx.fillText('NestVest',sx+sw/2,sy+36);
+      cx.fillStyle='rgba(255,255,255,0.45)';cx.font='400 7px sans-serif';cx.fillText('NVT · Fintech · Stage 1',sx+sw/2,sy+48);
       cx.fillStyle='rgba(255,255,255,0.9)';cx.font='bold 18px sans-serif';cx.fillText('₦1,842',sx+sw/2,sy+74);
       cx.fillStyle='rgba(34,197,94,0.75)';cx.font='400 8px sans-serif';cx.fillText('▲ +2.34% today',sx+sw/2,sy+88);
       cx.beginPath();if(cx.roundRect)cx.roundRect(sx+10,sy+100,sw-20,26,4);else cx.rect(sx+10,sy+100,sw-20,26);cx.fillStyle='rgba(255,255,255,0.04)';cx.fill();cx.strokeStyle='rgba(201,150,12,0.35)';cx.lineWidth=0.5;cx.stroke();
       cx.fillStyle='rgba(201,150,12,0.45)';cx.font='400 7px sans-serif';cx.textAlign='left';cx.fillText('Amount (₦)',sx+15,sy+112);cx.fillStyle='rgba(255,255,255,0.85)';cx.font='bold 9px sans-serif';cx.fillText('5,000',sx+15,sy+122);
       cx.fillStyle='rgba(255,255,255,0.35)';cx.font='400 7px sans-serif';cx.textAlign='left';cx.fillText('You receive:',sx+10,sy+140);
-      cx.fillStyle='rgba(232,177,33,0.85)';cx.font='bold 8px sans-serif';cx.fillText('2.716 PGV tokens',sx+10,sy+152);
+      cx.fillStyle='rgba(232,177,33,0.85)';cx.font='bold 8px sans-serif';cx.fillText('2.716 NVT tokens',sx+10,sy+152);
       ['₦1k','₦5k','₦10k'].forEach((amt,i)=>{const bx=sx+9+i*(sw-18)/3+1,bw=(sw-18)/3-2;cx.beginPath();if(cx.roundRect)cx.roundRect(bx,sy+160,bw,16,2);else cx.rect(bx,sy+160,bw,16);cx.fillStyle=i===1?'rgba(201,150,12,0.18)':'rgba(255,255,255,0.03)';cx.fill();cx.strokeStyle=i===1?'rgba(201,150,12,0.45)':'rgba(255,255,255,0.07)';cx.lineWidth=0.5;cx.stroke();cx.fillStyle=i===1?'#E8B121':'rgba(255,255,255,0.45)';cx.font=`${i===1?'500':'400'} 7px sans-serif`;cx.textAlign='center';cx.fillText(amt,bx+bw/2,sy+171);});
       const btnY=sy+sh-48,btnP=p>0.55?0.5+0.5*Math.sin((p-0.55)*30):0;
-      cx.beginPath();if(cx.roundRect)cx.roundRect(sx+12,btnY,sw-24,26,5);else cx.rect(sx+12,btnY,sw-24,26);cx.fillStyle=`rgba(201,150,12,${0.85+0.15*btnP})`;cx.fill();cx.fillStyle='#000';cx.font='bold 9px sans-serif';cx.textAlign='center';cx.fillText('Buy PGV Tokens',sx+sw/2,btnY+17);
+      cx.beginPath();if(cx.roundRect)cx.roundRect(sx+12,btnY,sw-24,26,5);else cx.rect(sx+12,btnY,sw-24,26);cx.fillStyle=`rgba(201,150,12,${0.85+0.15*btnP})`;cx.fill();cx.fillStyle='#000';cx.font='bold 9px sans-serif';cx.textAlign='center';cx.fillText('Buy NVT Tokens',sx+sw/2,btnY+17);
     }
 
     function drawConfirm(sx,sy,sw,sh,p){
       cx.fillStyle='#090909';cx.fillRect(sx,sy,sw,sh);
       cx.fillStyle='rgba(255,255,255,0.65)';cx.font='bold 9px sans-serif';cx.textAlign='center';cx.fillText('Confirm Purchase',sx+sw/2,sy+28);
-      const rows=[['Asset','PiggyVest (PGV)'],['Amount','₦5,000'],['Tokens','2.716 PGV'],['Network','Polymesh']];
+      const rows=[['Asset','NestVest (NVT)'],['Amount','₦5,000'],['Tokens','2.716 NVT'],['Network','ChainVault']];
       rows.forEach(([k,v],i)=>{const ry=sy+46+i*26;cx.fillStyle='rgba(255,255,255,0.3)';cx.font='400 7px sans-serif';cx.textAlign='left';cx.fillText(k,sx+12,ry);cx.fillStyle=k==='Network'?'rgba(201,150,12,0.8)':k==='Amount'?'rgba(255,255,255,0.9)':'rgba(255,255,255,0.75)';cx.font=`${k==='Amount'?'bold':'400'} 7px sans-serif`;cx.textAlign='right';cx.fillText(v,sx+sw-12,ry);cx.beginPath();cx.moveTo(sx+10,ry+5);cx.lineTo(sx+sw-10,ry+5);cx.strokeStyle='rgba(255,255,255,0.04)';cx.lineWidth=0.5;cx.stroke();});
       cx.beginPath();if(cx.roundRect)cx.roundRect(sx+12,sy+sh-44,sw-24,28,5);else cx.rect(sx+12,sy+sh-44,sw-24,28);cx.fillStyle='rgba(34,197,94,0.82)';cx.fill();cx.fillStyle='#000';cx.font='bold 8.5px sans-serif';cx.textAlign='center';cx.fillText('✓ Confirm & Buy',sx+sw/2,sy+sh-27);
     }
@@ -133,8 +133,8 @@ function MobilePlatformDemo() {
       cx.beginPath();cx.arc(sx+sw/2,cy2,22,0,Math.PI*2);cx.fillStyle=`rgba(34,197,94,${0.12*fi})`;cx.fill();cx.strokeStyle=`rgba(34,197,94,${0.75*fi})`;cx.lineWidth=1.2;cx.stroke();
       cx.fillStyle=`rgba(34,197,94,${fi})`;cx.font='bold 18px sans-serif';cx.textAlign='center';cx.fillText('✓',sx+sw/2,cy2+7);
       cx.fillStyle=`rgba(255,255,255,${0.88*fi})`;cx.font='bold 9px sans-serif';cx.fillText('Purchase Complete!',sx+sw/2,sy+sh*0.56);
-      cx.fillStyle=`rgba(201,150,12,${0.85*fi})`;cx.font='bold 12px sans-serif';cx.fillText('2.716 PGV',sx+sw/2,sy+sh*0.66);
-      cx.fillStyle=`rgba(255,255,255,${0.35*fi})`;cx.font='400 7px sans-serif';cx.fillText('Settled on Polymesh · T+0',sx+sw/2,sy+sh*0.76);
+      cx.fillStyle=`rgba(201,150,12,${0.85*fi})`;cx.font='bold 12px sans-serif';cx.fillText('2.716 NVT',sx+sw/2,sy+sh*0.66);
+      cx.fillStyle=`rgba(255,255,255,${0.35*fi})`;cx.font='400 7px sans-serif';cx.fillText('Settled on ChainVault · T+0',sx+sw/2,sy+sh*0.76);
     }
 
     function drawFinger(){
@@ -179,9 +179,9 @@ function MobilePlatformDemo() {
 function Platform({ go }) {
   const steps = [
     { n:"01", title:"Sign Up & Verify",
-      body:"Create your DotVests account and complete KYC verification through Polymesh's identity layer. Your identity is verified once — and recognised across every tokenized asset on the network." },
+      body:"Create your DotVests account and complete KYC verification through ChainVault's identity layer. Your identity is verified once — and recognised across every tokenized asset on the network." },
     { n:"02", title:"Fund Your Wallet",
-      body:"Deposit funds securely via Paystack (NGN bank transfer, card) or Breet (crypto on-ramp). Your balance sits in a segregated wallet tied to your verified Polymesh identity." },
+      body:"Deposit funds securely via PayLink (NGN bank transfer, card) or CoinBridge (crypto on-ramp). Your balance sits in a segregated wallet tied to your verified ChainVault identity." },
     { n:"03", title:"Browse & Buy",
       body:"Browse the tokenized asset marketplace. Buy fractional shares of Nigerian companies from ₦1,000. Each token represents a verified, on-chain claim on the underlying equity." },
     { n:"04", title:"Trade 24/7",
@@ -190,7 +190,7 @@ function Platform({ go }) {
 
   const tokenBenefits = [
     ["Fractional Ownership",   "Own a portion of high-value Nigerian companies from ₦1,000. No minimum lock-in."],
-    ["Instant Settlement",     "Trades settle in seconds on Polymesh. No T+2 clearing. No counterparty risk."],
+    ["Instant Settlement",     "Trades settle in seconds on ChainVault. No T+2 clearing. No counterparty risk."],
     ["Immutable Transparency", "Every transaction recorded on-chain. Fully auditable. No hidden ledgers."],
     ["Lower Cost",             "Fewer intermediaries means lower fees. Blockchain rails cut out the middlemen."],
   ];
@@ -299,17 +299,17 @@ function Platform({ go }) {
         </div>
       </div>
 
-      {/* POLYMESH CALLOUT */}
+      {/* CHAINVAULT CALLOUT */}
       <div style={{background:C.bg1,border:`0.5px solid ${C.goldBrd}`,borderRadius:6,
         padding:"clamp(28px,4vw,52px) clamp(16px,4vw,52px)",marginBottom:52,
         display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:"clamp(24px,5vw,72px)"}}>
         <div>
           <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",marginBottom:16}}>BLOCKCHAIN INFRASTRUCTURE</div>
           <h2 style={{fontFamily:FS,fontSize:"clamp(22px,5vw,32px)",fontWeight:400,color:C.white,marginBottom:16,lineHeight:1.2}}>
-            Built on Polymesh —<br/><em style={{color:C.goldLt}}>Not an Afterthought.</em>
+            Built on ChainVault —<br/><em style={{color:C.goldLt}}>Not an Afterthought.</em>
           </h2>
           <p style={{fontSize:14,color:C.muted,lineHeight:1.9}}>
-            Every other blockchain bolt-on compliance after the fact. Polymesh is purpose-built for
+            Every other blockchain bolt-on compliance after the fact. ChainVault is purpose-built for
             regulated securities — KYC/AML at the protocol level, transfer restrictions enforced natively,
             and identity baked into every transaction.
           </p>

@@ -5,15 +5,15 @@ import Footer from "../components/Footer";
 
 function Roadmap({go}){
   const milestones = [
-    {q:"Q1 2025",label:"Foundation",done:true,items:["DotVests Technologies Limited incorporated (CAC)","Polymesh selected as blockchain layer","Legal framework research initiated","Core team assembled"]},
-    {q:"Q2 2025",label:"Architecture",done:true,items:["Backend deployed on Render (Node.js/Express)","Paystack payment rails integrated","Breet crypto on/off ramp integrated","Polymesh testnet onboarding initiated"]},
+    {q:"Q1 2025",label:"Foundation",done:true,items:["DotVests Technologies Limited incorporated (CAC)","ChainVault selected as blockchain layer","Legal framework research initiated","Core team assembled"]},
+    {q:"Q2 2025",label:"Architecture",done:true,items:["Backend deployed on Render (Node.js/Express)","PayLink payment rails integrated","CoinBridge crypto on/off ramp integrated","ChainVault testnet onboarding initiated"]},
     {q:"Q3 2025",label:"Product Build",done:true,items:["MVP frontend completed","Admin dashboard with asset controls","Zoho CRM waitlist integration","QA Testing Manual produced for SEC"]},
     {q:"Q4 2025 – Q1 2026",label:"Regulatory Preparation",done:true,items:["OES Grant (₦10M) awarded — first external validation","Legal Instruction Brief produced (Ref: DTV/LIB-2026/001)","ARIP pre-application initiated","Mid-tier legal counsel engaged (Pavestones Legal)"]},
-    {q:"Q2 2026",label:"Active — ARIP Submission",done:false,active:true,items:["SEC Nigeria ARIP formal application","Anchoria Investment — broker/custody partnership","Stage 1 asset partner outreach (PiggyVest, Chowdeck, Erisco, Carbon)","Visa Africa FinTech Accelerator Cohort 6"]},
-    {q:"Q3 2026",label:"Sandbox Launch",done:false,items:["SEC ARIP sandbox approval (target)","Closed beta — verified investors only","First tokenized asset issued on Polymesh","Real-time portfolio tracking live"]},
-    {q:"Q4 2026 – Q1 2027",label:"Stage 1 Public",done:false,items:["Full public launch post-ARIP","Stage 1 assets: PiggyVest, Chowdeck, Carbon, Erisco Foods","Naira fractional investing from ₦1,000","Dividend automation via Polymesh smart contracts"]},
+    {q:"Q2 2026",label:"Active — ARIP Submission",done:false,active:true,items:["SEC Nigeria ARIP formal application","Meridian Capital — broker/custody partnership","Stage 1 asset partner outreach (NestVest, SwiftDash, Delta Foods, Voltage Finance)","Africa FinTech Accelerator Program"]},
+    {q:"Q3 2026",label:"Sandbox Launch",done:false,items:["SEC ARIP sandbox approval (target)","Closed beta — verified investors only","First tokenized asset issued on ChainVault","Real-time portfolio tracking live"]},
+    {q:"Q4 2026 – Q1 2027",label:"Stage 1 Public",done:false,items:["Full public launch post-ARIP","Stage 1 assets: NestVest, SwiftDash, Voltage Finance, Delta Foods","Naira fractional investing from ₦1,000","Dividend automation via ChainVault smart contracts"]},
     {q:"2027",label:"Stage 2 — NASD DSP",done:false,items:["NASD Dealing and Settlement Platform membership","OTC market integration","Unlisted securities trading enabled","Institutional investor onboarding"]},
-    {q:"2028+",label:"Stage 3–4 — NGX & Pan-African",done:false,items:["Licensed NGX broker-custodian partnership","GTBank, MTN Nigeria, Dangote Cement, Zenith tokenization","Multi-jurisdiction expansion: Ghana, Kenya, Egypt","Proprietary chain migration — DotVests as continental infrastructure"]},
+    {q:"2028+",label:"Stage 3–4 — NGX & Pan-African",done:false,items:["Licensed NGX broker-custodian partnership","TrustGuard Bank, ConnectTel Nigeria, Titan Cement, Summit Bank tokenization","Multi-jurisdiction expansion: Ghana, Kenya, Egypt","Proprietary chain migration — DotVests as continental infrastructure"]},
   ];
 
   return <div style={{padding:"clamp(32px,5vw,72px) clamp(16px,4vw,48px) 60px"}}>

@@ -124,7 +124,7 @@ function DisclaimerBanner(){
             <div>
               <div style={{fontSize:11,color:"#C9960C",letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:10}}>Third-Party Names, Brands & Trademarks</div>
               <p style={{fontSize:12,color:"#7A7870",lineHeight:1.85,marginBottom:16}}>
-                This website references the names, brands, logos, and trademarks of third-party companies including but not limited to <strong style={{color:"#F2F0E8"}}>MTN Nigeria Communications Plc, Guaranty Trust Holding Company Plc (GTCO), PiggyVest, Chowdeck, Erisco Foods Limited, Carbon (One Finance), Dangote Cement Plc, and Zenith Bank Plc</strong>.
+                This website references the names, brands, logos, and trademarks of third-party companies including but not limited to <strong style={{color:"#F2F0E8"}}>ConnectTel Nigeria, TrustGuard Bank (TGB), NestVest, SwiftDash, Delta Foods Limited, Voltage Finance, Titan Cement Plc, and Summit Bank Plc</strong>.
               </p>
               <p style={{fontSize:12,color:"#7A7870",lineHeight:1.85,marginBottom:16}}>
                 All such references are made solely for the purpose of <strong style={{color:"#F2F0E8"}}>illustrating DotVests' intended business model and tokenization pipeline</strong>. The mention of any company name does not imply, represent, or constitute: (a) any existing partnership, commercial agreement, or endorsement with or by that company; (b) any authority or licence to tokenize, sell, or distribute securities of that company; or (c) any affiliation, association, or approval by that company or its affiliates.

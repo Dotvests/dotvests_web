@@ -72,7 +72,7 @@ function LiveMarketChart() {
     const cx = cv.getContext('2d');
     cv.width = cv.offsetWidth; cv.height = cv.offsetHeight;
     const W=cv.width,H=cv.height;
-    const AS=[{id:'PGV',color:'#22C55E'},{id:'CHD',color:'#EF4444'},{id:'ERF',color:'#60A5FA'},{id:'CBT',color:'#A78BFA'},{id:'GTB',color:'#E8B121'},{id:'MTN',color:'#F97316'}];
+    const AS=[{id:'NVT',color:'#22C55E'},{id:'SWD',color:'#EF4444'},{id:'DFL',color:'#60A5FA'},{id:'VLT',color:'#A78BFA'},{id:'TGB',color:'#E8B121'},{id:'CTN',color:'#F97316'}];
     const POINTS=60,PAD={l:44,r:14,t:40,b:26};
     const CW=W-PAD.l-PAD.r,CH=H-PAD.t-PAD.b;
     const histories=AS.map(()=>{const arr=[];let v=0.5;for(let i=0;i<POINTS;i++){v+=(Math.random()-0.49)*0.06;v=Math.max(0.05,Math.min(0.95,v));arr.push(v);}return{arr,vel:(Math.random()-0.5)*0.04};});
