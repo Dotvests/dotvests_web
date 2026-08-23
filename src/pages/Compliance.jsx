@@ -59,18 +59,18 @@ function RegulatoryPipeline() {
 
 function Compliance({go}){
   const roadmap=[
-    {s:"Stage 1 · Active",t:"SEC Nigeria ARIP Sandbox",active:true,b:"ARIP pre-application in progress. Legal counsel engaged. Polymesh selected for compliance-native KYC/AML. Target: tokenize private Nigerian company equity within sandbox.",items:["ARIP Initial Assessment Form Submitted","Legal Counsel: Pavestones Legal / Banwo & Ighodalo","Polymesh Testnet Deployment","QA Testing Manual for SEC Submission"]},
+    {s:"Stage 1 · Active",t:"SEC Nigeria ARIP Sandbox",active:true,b:"ARIP pre-application in progress. Legal counsel engaged. ChainVault selected for compliance-native KYC/AML. Target: tokenize private Nigerian company equity within sandbox.",items:["ARIP Initial Assessment Form Submitted","Legal Counsel: Pavestones Legal / Banwo & Ighodalo","ChainVault Testnet Deployment","QA Testing Manual for SEC Submission"]},
     {s:"Stage 2",t:"NASD DSP Membership",active:false,b:"Post-ARIP graduation. NASD Dealing and Settlement Platform membership enables OTC and unlisted securities trading.",items:[]},
-    {s:"Stage 3",t:"NGX Blue-Chip Tokenization",active:false,b:"Licensed NGX broker-custodian partnership. GTBank, Dangote Cement, MTN Nigeria, Zenith Bank. Exchange-grade infrastructure required.",items:[]},
+    {s:"Stage 3",t:"NGX Blue-Chip Tokenization",active:false,b:"Licensed NGX broker-custodian partnership. TrustGuard Bank, Titan Cement, ConnectTel Nigeria, Summit Bank. Exchange-grade infrastructure required.",items:[]},
     {s:"Stage 4",t:"Pan-African Expansion",active:false,b:"Proprietary chain deployment. Multi-jurisdiction regulatory coverage. DotVests as the continental infrastructure layer.",items:[]},
   ];
   const regs=[
     {reg:"SEC Nigeria",role:"Primary securities regulator",note:"ARIP sandbox is the direct entry pathway. Pre-application active."},
-    {reg:"CBN",role:"Central Bank of Nigeria",note:"Naira payment rails via Paystack. Breet for crypto on/off ramp."},
+    {reg:"CBN",role:"Central Bank of Nigeria",note:"Naira payment rails via PayLink. CoinBridge for crypto on/off ramp."},
     {reg:"NDPC",role:"Data Protection Commission",note:"All investor PII handled under Nigeria Data Protection Act 2023."},
     {reg:"NASD",role:"OTC Market Operator",note:"Stage 2 target. DSP membership enables unlisted company trading."},
     {reg:"NGX",role:"Nigerian Exchange Group",note:"Stage 3 target. Requires licensed broker-custodian partnership."},
-    {reg:"Polymesh",role:"Blockchain Protocol",note:"Purpose-built for regulated securities. Compliance at the chain level."},
+    {reg:"ChainVault",role:"Blockchain Protocol",note:"Purpose-built for regulated securities. Compliance at the chain level."},
   ];
   return <div style={{padding:"clamp(32px,5vw,72px) clamp(16px,4vw,48px) 60px"}}>
     <Tag gold>Regulatory Architecture</Tag>

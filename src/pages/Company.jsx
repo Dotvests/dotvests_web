@@ -123,7 +123,7 @@ function CoinsOnBlocks() {
       floats.forEach(f=>{cx.save();cx.globalAlpha=f.op;cx.fillStyle='#E8B121';cx.font='500 9px sans-serif';cx.textAlign='center';cx.fillText(f.label,f.x,f.y);cx.restore();});
       coins.filter(c=>c.landed||c.settled).forEach(drawCoin);
       coins.filter(c=>!c.landed&&!c.settled).forEach(drawCoin);
-      cx.fillStyle='rgba(201,150,12,0.22)';cx.font='400 10px sans-serif';cx.textAlign='center';cx.fillText('Polymesh Blockchain · Compliance-Native Tokenization',W/2,H-10);
+      cx.fillStyle='rgba(201,150,12,0.22)';cx.font='400 10px sans-serif';cx.textAlign='center';cx.fillText('ChainVault Blockchain · Compliance-Native Tokenization',W/2,H-10);
     }
     let raf;function loop(){update();render();raf=requestAnimationFrame(loop);}loop();
     return()=>cancelAnimationFrame(raf);
@@ -150,7 +150,7 @@ function Company({go}){
       <div>
         <div style={{width:32,height:1,background:C.gold,marginBottom:22}}/>
         <h2 style={{fontFamily:FS,fontSize:"clamp(20px,4vw,28px)",fontWeight:400,color:C.white,marginBottom:18}}>Fundamentals</h2>
-        {[["Incorporated","2024"],["Registration","CAC — DotVests Technologies Limited"],["Share Capital","₦10,000,000"],["Headquarters","Uyo, Akwa Ibom State, Nigeria"],["Blockchain","Polymesh (Substrate — TypeScript SDK)"],["Payment Rails","Paystack (NGN) · Breet (Crypto)"],["Reg. Path","SEC Nigeria ARIP Sandbox"]].map(([k,v])=>(
+        {[["Incorporated","2024"],["Registration","CAC — DotVests Technologies Limited"],["Share Capital","₦10,000,000"],["Headquarters","Uyo, Akwa Ibom State, Nigeria"],["Blockchain","ChainVault (Substrate — TypeScript SDK)"],["Payment Rails","PayLink (NGN) · CoinBridge (Crypto)"],["Reg. Path","SEC Nigeria ARIP Sandbox"]].map(([k,v])=>(
           <div key={k} style={{display:"flex",justifyContent:"space-between",padding:"12px 0",borderBottom:`0.5px solid ${C.brd}`}}>
             <span style={{fontSize:13,color:C.muted}}>{k}</span><span style={{fontSize:13,color:C.white}}>{v}</span>
           </div>

@@ -123,7 +123,7 @@ function CoinsOnBlocks() {
       floats.forEach(f=>{cx.save();cx.globalAlpha=f.op;cx.fillStyle='#E8B121';cx.font='500 9px sans-serif';cx.textAlign='center';cx.fillText(f.label,f.x,f.y);cx.restore();});
       coins.filter(c=>c.landed||c.settled).forEach(drawCoin);
       coins.filter(c=>!c.landed&&!c.settled).forEach(drawCoin);
-      cx.fillStyle='rgba(201,150,12,0.22)';cx.font='400 10px sans-serif';cx.textAlign='center';cx.fillText('Polymesh Blockchain · Compliance-Native Tokenization',W/2,H-10);
+      cx.fillStyle='rgba(201,150,12,0.22)';cx.font='400 10px sans-serif';cx.textAlign='center';cx.fillText('ChainVault Blockchain · Compliance-Native Tokenization',W/2,H-10);
     }
     let raf;function loop(){update();render();raf=requestAnimationFrame(loop);}loop();
     return()=>cancelAnimationFrame(raf);
@@ -137,15 +137,15 @@ function Tokenize({go}){
   return <div style={{padding:"clamp(32px,5vw,72px) clamp(16px,4vw,48px) 60px"}}>
     <Tag>How Tokenization Works</Tag>
     <h1 style={{fontFamily:FS,fontSize:"clamp(28px,9vw,66px)",fontWeight:400,color:C.white,lineHeight:1.1,letterSpacing:"-0.025em",marginBottom:18,maxWidth:680}}>
-      Every Share,<br/><em style={{color:C.goldLt}}>On Polymesh.</em>
+      Every Share,<br/><em style={{color:C.goldLt}}>On ChainVault.</em>
     </h1>
     <CoinsOnBlocks/>
-    <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:40}}>Polymesh is purpose-built for regulated securities. Compliance isn't optional — it's enforced at the chain level before any token moves.</p>
+    <p style={{fontSize:"clamp(14px,3.5vw,16px)",color:C.muted,fontWeight:300,maxWidth:"min(520px,100%)",lineHeight:1.85,marginBottom:40}}>ChainVault is purpose-built for regulated securities. Compliance isn't optional — it's enforced at the chain level before any token moves.</p>
     <div style={{background:C.bg1,border:`0.5px solid ${C.goldBrd}`,borderRadius:6,padding:"clamp(24px,4vw,48px) clamp(16px,4vw,48px)",marginBottom:52,display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:"clamp(20px,4vw,64px)"}}>
       <div>
         <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",marginBottom:14}}>THE BLOCKCHAIN LAYER</div>
-        <h2 style={{fontFamily:FS,fontSize:"clamp(20px,4.5vw,30px)",fontWeight:400,color:C.white,marginBottom:14}}>Why Polymesh Wins for Securities</h2>
-        <p style={{fontSize:14,color:C.muted,lineHeight:1.9}}>General-purpose blockchains allow anonymous wallets and free token transfers — a securities law violation by default. Polymesh enforces identity, transfer restrictions, and compliance natively before any transaction executes.</p>
+        <h2 style={{fontFamily:FS,fontSize:"clamp(20px,4.5vw,30px)",fontWeight:400,color:C.white,marginBottom:14}}>Why ChainVault Wins for Securities</h2>
+        <p style={{fontSize:14,color:C.muted,lineHeight:1.9}}>General-purpose blockchains allow anonymous wallets and free token transfers — a securities law violation by default. ChainVault enforces identity, transfer restrictions, and compliance natively before any transaction executes.</p>
       </div>
       <div style={{display:"flex",flexDirection:"column",gap:20}}>
         {[["Identity Layer","Every wallet tied to a verified identity. No anonymous transfers."],["Compliance Module","Transfer rules and jurisdiction controls enforced by the protocol."],["Dividend Automation","Corporate actions via smart contracts. No intermediaries, no delays."],["Atomic Settlement","T+0 finality. No counterparty risk. No clearing house required."]].map(([t,b],i)=>(
@@ -157,7 +157,7 @@ function Tokenize({go}){
       </div>
     </div>
     <div style={{fontSize:11,color:C.muted,letterSpacing:"0.08em",marginBottom:24,textTransform:"uppercase"}}>Tokenization Process</div>
-    {[["01","Company Onboarding","Stage 1 targets: PiggyVest, Chowdeck, Erisco Foods, Carbon. Pre-IPO private companies with strong fundamentals and broad name recognition."],["02","Legal Structuring","Share capital, investor rights, dividend entitlements, and transfer restrictions formally structured through SEC-aligned legal framework before any token is issued."],["03","Polymesh Issuance","Tokens issued on Polymesh. Every holder is KYC-verified at the protocol level. Corporate actions enforced natively by smart contracts."],["04","Investor Access","Verified investors access fractional equity via DotVests. Naira-denominated pricing. Paystack (NGN) and Breet (crypto) rails. Real-time settlement."]].map(([n,t,b],i)=>(
+    {[["01","Company Onboarding","Stage 1 targets: NestVest, SwiftDash, Delta Foods, Voltage Finance. Pre-IPO private companies with strong fundamentals and broad name recognition."],["02","Legal Structuring","Share capital, investor rights, dividend entitlements, and transfer restrictions formally structured through SEC-aligned legal framework before any token is issued."],["03","ChainVault Issuance","Tokens issued on ChainVault. Every holder is KYC-verified at the protocol level. Corporate actions enforced natively by smart contracts."],["04","Investor Access","Verified investors access fractional equity via DotVests. Naira-denominated pricing. PayLink (NGN) and CoinBridge (crypto) rails. Real-time settlement."]].map(([n,t,b],i)=>(
       <div key={i} style={{display:"grid",gridTemplateColumns:"clamp(36px,8vw,64px) 1fr",gap:"clamp(12px,3vw,36px)",padding:"28px 0",borderTop:`0.5px solid ${C.brd}`}}>
         <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",paddingTop:3}}>{n}</div>
         <div><h3 style={{fontFamily:FS,fontSize:22,fontWeight:400,color:C.white,marginBottom:10}}>{t}</h3><p style={{fontSize:13.5,color:C.muted,lineHeight:1.85,maxWidth:560}}>{b}</p></div>

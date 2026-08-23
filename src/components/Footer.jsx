@@ -18,7 +18,7 @@ function Footer({go}){
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(130px,1fr))",gap:"clamp(16px,3vw,32px)",marginBottom:36}}>
       <div>
         <div style={{marginBottom:14}}><DotVestsLogo height={36}/></div>
-        <p style={{fontSize:13,color:C.muted,lineHeight:1.8,maxWidth:220}}>Redefining Access To African Wealth. Tokenized Nigerian equity on Polymesh.</p>
+        <p style={{fontSize:13,color:C.muted,lineHeight:1.8,maxWidth:220}}>Redefining Access To African Wealth. Tokenized Nigerian equity on ChainVault.</p>
         <p style={{fontSize:11.5,color:C.dim,marginTop:14,lineHeight:1.7}}>DotVests Technologies Limited<br/>CAC Registered · Nigeria · 2026</p>
         {/* Social Links */}
         <div style={{display:"flex",gap:10,marginTop:16}}>

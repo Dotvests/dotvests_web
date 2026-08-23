@@ -5,10 +5,10 @@ import Footer from "../components/Footer";
 
 function TokenEconomics({go}){
   const tokens = [
-    {id:"PGV",name:"PiggyVest",type:"Equity Token",supply:"Variable",stage:"Stage 1",color:C.green,
-     fields:[["Underlying Asset","Ordinary shares of PiggyVest Limited"],["Token Standard","Polymesh Security Token (ERC-1400 compliant)"],["Minimum Holding","₦1,000 (fractional)"],["Dividend Entitlement","Pro-rata to token holdings"],["Transfer Restrictions","KYC-verified wallets only"],["Settlement","Atomic — T+0 on Polymesh"]]},
-    {id:"CHD",name:"Chowdeck",type:"Equity Token",supply:"Variable",stage:"Stage 1",color:"#60A5FA",
-     fields:[["Underlying Asset","Ordinary shares of Chowdeck Technologies"],["Token Standard","Polymesh Security Token"],["Minimum Holding","₦1,000 (fractional)"],["Dividend Entitlement","Pro-rata to token holdings"],["Transfer Restrictions","KYC-verified wallets only"],["Settlement","Atomic — T+0 on Polymesh"]]},
+    {id:"NVT",name:"NestVest",type:"Equity Token",supply:"Variable",stage:"Stage 1",color:C.green,
+     fields:[["Underlying Asset","Ordinary shares of NestVest Limited"],["Token Standard","ChainVault Security Token (ERC-1400 compliant)"],["Minimum Holding","₦1,000 (fractional)"],["Dividend Entitlement","Pro-rata to token holdings"],["Transfer Restrictions","KYC-verified wallets only"],["Settlement","Atomic — T+0 on ChainVault"]]},
+    {id:"SWD",name:"SwiftDash",type:"Equity Token",supply:"Variable",stage:"Stage 1",color:"#60A5FA",
+     fields:[["Underlying Asset","Ordinary shares of SwiftDash Technologies"],["Token Standard","ChainVault Security Token"],["Minimum Holding","₦1,000 (fractional)"],["Dividend Entitlement","Pro-rata to token holdings"],["Transfer Restrictions","KYC-verified wallets only"],["Settlement","Atomic — T+0 on ChainVault"]]},
   ];
 
   return <div style={{padding:"clamp(32px,5vw,72px) clamp(16px,4vw,48px) 60px"}}>
@@ -23,12 +23,12 @@ function TokenEconomics({go}){
     {/* Core mechanics */}
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(260px,100%),1fr))",gap:1,background:C.brd,marginBottom:48}}>
       {[
-        {n:"01",t:"Issuance",icon:"◈",b:"Tokens are issued on Polymesh after a formal partnership agreement is executed with the underlying company, and all regulatory approvals are in place. Zero tokens exist before legal structure is confirmed."},
+        {n:"01",t:"Issuance",icon:"◈",b:"Tokens are issued on ChainVault after a formal partnership agreement is executed with the underlying company, and all regulatory approvals are in place. Zero tokens exist before legal structure is confirmed."},
         {n:"02",t:"Ownership",icon:"◆",b:"Each token carries a fractional claim on the equity of the issuing company — identical economic rights to the underlying shares, including dividend entitlements and participation in liquidity events."},
-        {n:"03",t:"Compliance",icon:"⬡",b:"Polymesh enforces KYC/AML at the protocol level. Every wallet is tied to a verified identity. Transfer restrictions are embedded in the token contract — not bolted on afterwards."},
-        {n:"04",t:"Settlement",icon:"⟳",b:"Trades settle atomically on Polymesh. T+0. No clearing house, no counterparty risk, no T+2 delays. Every transaction is immutable and permanently auditable on-chain."},
-        {n:"05",t:"Dividends",icon:"₦",b:"Corporate actions — including dividend distributions — are automated via Polymesh smart contracts. When the underlying company declares a dividend, token holders receive their pro-rata share automatically."},
-        {n:"06",t:"Exit",icon:"→",b:"Token holders can exit positions peer-to-peer via the DotVests marketplace, or via Breet crypto off-ramp. Naira-denominated settlement to your bank account. No lock-in periods."},
+        {n:"03",t:"Compliance",icon:"⬡",b:"ChainVault enforces KYC/AML at the protocol level. Every wallet is tied to a verified identity. Transfer restrictions are embedded in the token contract — not bolted on afterwards."},
+        {n:"04",t:"Settlement",icon:"⟳",b:"Trades settle atomically on ChainVault. T+0. No clearing house, no counterparty risk, no T+2 delays. Every transaction is immutable and permanently auditable on-chain."},
+        {n:"05",t:"Dividends",icon:"₦",b:"Corporate actions — including dividend distributions — are automated via ChainVault smart contracts. When the underlying company declares a dividend, token holders receive their pro-rata share automatically."},
+        {n:"06",t:"Exit",icon:"→",b:"Token holders can exit positions peer-to-peer via the DotVests marketplace, or via CoinBridge crypto off-ramp. Naira-denominated settlement to your bank account. No lock-in periods."},
       ].map((f,i)=>(
         <div key={i} style={{background:C.bg1,padding:"clamp(18px,3vw,36px) clamp(14px,2.5vw,32px)"}}>
           <div style={{fontSize:11,color:C.gold,letterSpacing:"0.1em",marginBottom:12}}>{f.n}</div>

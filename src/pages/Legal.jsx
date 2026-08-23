@@ -72,9 +72,9 @@ export default function Legal({ go }) {
               This website references the names, brands, logos, and trademarks of third-party
               companies including but not limited to{" "}
               <strong style={{ color: C.white }}>
-                MTN Nigeria Communications Plc, Guaranty Trust Holding Company Plc (GTCO),
-                PiggyVest, Chowdeck, Erisco Foods Limited, Carbon (One Finance), Dangote Cement Plc,
-                and Zenith Bank Plc
+                ConnectTel Nigeria, TrustGuard Bank (TGB),
+                NestVest, SwiftDash, Delta Foods Limited, Voltage Finance, Titan Cement Plc,
+                and Summit Bank Plc
               </strong>
               .
             </p>
