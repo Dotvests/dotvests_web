@@ -5,10 +5,10 @@ import { DotVestsLogo } from "./shared";
 const SEARCH_INDEX = [
   {label:"Home",             page:"home",      keywords:"home overview hero landing"},
   {label:"Markets",          page:"markets",   keywords:"markets assets trade buy sell equity"},
-  {label:"NestVest",         page:"markets",   keywords:"nestvest fintech savings nvt"},
+  {label:"Thriftmint",         page:"markets",   keywords:"nestvest fintech savings nvt"},
   {label:"SwiftDash",        page:"markets",   keywords:"swiftdash food delivery logistics swd"},
   {label:"Delta Foods",      page:"markets",   keywords:"delta foods consumer goods dfl"},
-  {label:"Voltage Finance",  page:"markets",   keywords:"voltage finance digital banking vlt"},
+  {label:"Ledgerly Finance",  page:"markets",   keywords:"voltage finance digital banking vlt"},
   {label:"TrustGuard Bank",  page:"markets",   keywords:"trustguard bank tgb banking stage 3"},
   {label:"ConnectTel Nigeria", page:"markets", keywords:"connecttel nigeria telecom stage 3"},
   {label:"Tokenize",         page:"tokenize",  keywords:"tokenize blockchain chainvault how it works"},

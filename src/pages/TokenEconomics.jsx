@@ -5,8 +5,8 @@ import Footer from "../components/Footer";
 
 function TokenEconomics({go}){
   const tokens = [
-    {id:"NVT",name:"NestVest",type:"Equity Token",supply:"Variable",stage:"Stage 1",color:C.green,
-     fields:[["Underlying Asset","Ordinary shares of NestVest Limited"],["Token Standard","ChainVault Security Token (ERC-1400 compliant)"],["Minimum Holding","₦1,000 (fractional)"],["Dividend Entitlement","Pro-rata to token holdings"],["Transfer Restrictions","KYC-verified wallets only"],["Settlement","Atomic — T+0 on ChainVault"]]},
+    {id:"TMT",name:"Thriftmint",type:"Equity Token",supply:"Variable",stage:"Stage 1",color:C.green,
+     fields:[["Underlying Asset","Ordinary shares of Thriftmint Limited"],["Token Standard","ChainVault Security Token (ERC-1400 compliant)"],["Minimum Holding","₦1,000 (fractional)"],["Dividend Entitlement","Pro-rata to token holdings"],["Transfer Restrictions","KYC-verified wallets only"],["Settlement","Atomic — T+0 on ChainVault"]]},
     {id:"SWD",name:"SwiftDash",type:"Equity Token",supply:"Variable",stage:"Stage 1",color:"#60A5FA",
      fields:[["Underlying Asset","Ordinary shares of SwiftDash Technologies"],["Token Standard","ChainVault Security Token"],["Minimum Holding","₦1,000 (fractional)"],["Dividend Entitlement","Pro-rata to token holdings"],["Transfer Restrictions","KYC-verified wallets only"],["Settlement","Atomic — T+0 on ChainVault"]]},
   ];

@@ -113,12 +113,12 @@ function Stat({value,suffix,label,prefix=""}){
 
 function PartnerPipeline(){
   const partners=[
-    {name:"NestVest",     tag:"Priority · Stage 1", desc:"6M+ users · Pre-IPO",       icon:"🐷"},
+    {name:"Thriftmint",     tag:"Priority · Stage 1", desc:"6M+ users · Pre-IPO",       icon:"🐷"},
     {name:"SwiftDash",    tag:"Target · Stage 1",   desc:"Food delivery · Expansion",  icon:"🚀"},
     {name:"Delta Foods",  tag:"Target · Stage 1",   desc:"FMCG · Market leader",       icon:"🏭"},
-    {name:"Voltage Finance", tag:"Target · Stage 1",desc:"Digital banking · Credit",   icon:"⚡"},
-    {name:"Meridian Capital", tag:"Custody Partner", desc:"Licensed broker · NGX",     icon:"🏦"},
-    {name:"Pavestones",   tag:"Legal Counsel",       desc:"FinTech · ARIP track record",icon:"⚖️"},
+    {name:"Ledgerly Finance", tag:"Target · Stage 1",desc:"Digital banking · Credit",   icon:"⚡"},
+    {name:"Northgate Capital", tag:"Custody Partner", desc:"Licensed broker · NGX",     icon:"🏦"},
+    {name:"Ashcombe Legal",   tag:"Legal Counsel",       desc:"FinTech · ARIP track record",icon:"⚖️"},
   ];
   return(
     <section style={{padding:"clamp(32px,5vw,80px) clamp(14px,4vw,48px)",borderBottom:`0.5px solid ${C.brd}`,background:C.bg1}}>
@@ -209,7 +209,7 @@ function MobileAppSection(){
                   <div key={i} style={{flex:1,height:`${h}%`,background:`linear-gradient(to top,${C.gold},${C.goldLt})`,borderRadius:2,margin:"0 1px"}}/>
                 ))}
               </div>
-              {[{n:"NestVest",v:"₦124,000",c:"+2.3%",u:true},{n:"SwiftDash",v:"₦62,000",c:"-0.8%",u:false},{n:"Voltage Finance",v:"₦62,500",c:"+3.5%",u:true}].map((a,i)=>(
+              {[{n:"Thriftmint",v:"₦124,000",c:"+2.3%",u:true},{n:"SwiftDash",v:"₦62,000",c:"-0.8%",u:false},{n:"Ledgerly Finance",v:"₦62,500",c:"+3.5%",u:true}].map((a,i)=>(
                 <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",
                   background:C.bg3,borderRadius:6,padding:"10px 12px"}}>
                   <div>
@@ -288,8 +288,8 @@ function Home({go,prices,siteAssets,setSiteAssets}){
       </div>
       <div className="hero-cards" style={{flex:1,display:"flex",flexDirection:"column",alignItems:"flex-end",gap:14,position:"relative",zIndex:2,paddingLeft:36}}>
         <div style={{display:"flex",gap:14,justifyContent:"flex-end"}}>
-          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="NVT")||ASSETS[0]} prices={prices} delay={200} anim="floatA"/>
-          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="VLT")||ASSETS[3]} prices={prices} delay={500} anim="floatB"/>
+          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="TMT")||ASSETS[0]} prices={prices} delay={200} anim="floatA"/>
+          <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="LDG")||ASSETS[3]} prices={prices} delay={500} anim="floatB"/>
         </div>
         <div style={{display:"flex",gap:14,justifyContent:"flex-end",marginLeft:44}}>
           <AssetCard asset={(siteAssets||ASSETS).find(a=>a.id==="SWD")||ASSETS[1]} prices={prices} delay={350} anim="floatB"/>
@@ -299,7 +299,7 @@ function Home({go,prices,siteAssets,setSiteAssets}){
     </section>
     {/* STATS */}
     <section style={{background:C.bg1,borderBottom:`0.5px solid ${C.brd}`,padding:"56px clamp(16px,4vw,48px)",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(200px,100%),1fr))",gap:1}}>
-      {[{v:160,s:"T+",p:"₦",l:"NGX Market Capitalisation"},{v:154,s:"+",p:"",l:"NGX Listed Companies"},{v:10,s:"M",p:"₦",l:"DotVests Share Capital"},{v:6,s:"M+",p:"",l:"NestVest Users — Stage 1"}].map((s,i)=>(
+      {[{v:160,s:"T+",p:"₦",l:"NGX Market Capitalisation"},{v:154,s:"+",p:"",l:"NGX Listed Companies"},{v:10,s:"M",p:"₦",l:"DotVests Share Capital"},{v:6,s:"M+",p:"",l:"Thriftmint Users — Stage 1"}].map((s,i)=>(
         <div key={i} style={{textAlign:"center",padding:"0 20px",borderRight:i<3?`0.5px solid ${C.brd}`:"none"}}><Stat value={s.v} suffix={s.s} prefix={s.p} label={s.l}/></div>
       ))}
     </section>

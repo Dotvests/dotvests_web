@@ -58,10 +58,10 @@ const REAL_LOGO = "data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1B
 
 // â”€â”€ ASSETS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const ASSETS = [
-  {id:"NVT",name:"NestVest",     sector:"Fintech",          price:1840,chg:+2.34,stage:1},
+  {id:"TMT",name:"Thriftmint",     sector:"Fintech",          price:1840,chg:+2.34,stage:1},
   {id:"SWD",name:"SwiftDash",    sector:"Food & Logistics", price:620, chg:-0.87,stage:1},
   {id:"DFL",name:"Delta Foods",  sector:"Consumer Goods",   price:310, chg:+1.12,stage:1},
-  {id:"VLT",name:"Voltage Finance", sector:"Digital Banking",  price:980, chg:+3.56,stage:1},
+  {id:"LDG",name:"Ledgerly Finance", sector:"Digital Banking",  price:980, chg:+3.56,stage:1},
 ];
 
 

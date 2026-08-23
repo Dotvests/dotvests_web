@@ -16,7 +16,7 @@ const FAQS = [
   {q:"When will the platform launch?",
    a:"DotVests is currently in pre-launch phase pending SEC Nigeria ARIP sandbox approval. Join the waitlist to receive priority access and updates. We are actively pursuing all regulatory milestones required for a compliant launch."},
   {q:"Which companies will be available at launch?",
-   a:"Stage 1 targets are high-growth private Nigerian companies — beginning with NestVest, SwiftDash, Delta Foods, and Voltage Finance. These are pre-IPO companies with strong fundamentals and wide name recognition, chosen specifically because they are not NGX-listed, making them appropriate for the ARIP sandbox stage."},
+   a:"Stage 1 targets are high-growth private Nigerian companies — beginning with Thriftmint, SwiftDash, Delta Foods, and Ledgerly Finance. These are pre-IPO companies with strong fundamentals and wide name recognition, chosen specifically because they are not NGX-listed, making them appropriate for the ARIP sandbox stage."},
   {q:"How do I receive dividends or returns?",
    a:"Dividend entitlements are embedded in the token structure at the point of issuance. Corporate actions — including dividend distributions — are automated via ChainVault smart contracts and settled directly to your verified wallet in naira or the agreed denomination."},
 ];

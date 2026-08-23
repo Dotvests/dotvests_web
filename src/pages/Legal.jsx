@@ -73,7 +73,7 @@ export default function Legal({ go }) {
               companies including but not limited to{" "}
               <strong style={{ color: C.white }}>
                 ConnectTel Nigeria, TrustGuard Bank (TGB),
-                NestVest, SwiftDash, Delta Foods Limited, Voltage Finance, Titan Cement Plc,
+                Thriftmint, SwiftDash, Delta Foods Limited, Ledgerly Finance, Titan Cement Plc,
                 and Summit Bank Plc
               </strong>
               .
