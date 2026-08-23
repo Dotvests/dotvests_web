@@ -59,7 +59,7 @@ function RegulatoryPipeline() {
 
 function Compliance({go}){
   const roadmap=[
-    {s:"Stage 1 · Active",t:"SEC Nigeria ARIP Sandbox",active:true,b:"ARIP pre-application in progress. Legal counsel engaged. ChainVault selected for compliance-native KYC/AML. Target: tokenize private Nigerian company equity within sandbox.",items:["ARIP Initial Assessment Form Submitted","Legal Counsel: Pavestones Legal / Banwo & Ighodalo","ChainVault Testnet Deployment","QA Testing Manual for SEC Submission"]},
+    {s:"Stage 1 · Active",t:"SEC Nigeria ARIP Sandbox",active:true,b:"ARIP pre-application in progress. Legal counsel engaged. ChainVault selected for compliance-native KYC/AML. Target: tokenize private Nigerian company equity within sandbox.",items:["ARIP Initial Assessment Form Submitted","Legal Counsel: Ashcombe Legal / Halsted & Rowe","ChainVault Testnet Deployment","QA Testing Manual for SEC Submission"]},
     {s:"Stage 2",t:"NASD DSP Membership",active:false,b:"Post-ARIP graduation. NASD Dealing and Settlement Platform membership enables OTC and unlisted securities trading.",items:[]},
     {s:"Stage 3",t:"NGX Blue-Chip Tokenization",active:false,b:"Licensed NGX broker-custodian partnership. TrustGuard Bank, Titan Cement, ConnectTel Nigeria, Summit Bank. Exchange-grade infrastructure required.",items:[]},
     {s:"Stage 4",t:"Pan-African Expansion",active:false,b:"Proprietary chain deployment. Multi-jurisdiction regulatory coverage. DotVests as the continental infrastructure layer.",items:[]},
